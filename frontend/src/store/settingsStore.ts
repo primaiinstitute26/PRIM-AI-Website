@@ -40,7 +40,7 @@ const DEFAULTS: SiteSettings = {
   heroHeadingWhite: 'You',
   heroHeadingOrange: 'Ready?',
   heroSubtext:
-    'Join PRIM AI Institute — where school students, professionals & entrepreneurs learn to harness the power of Artificial Intelligence and lead the next decade.',
+    'Join PRIM AI Institute - where school students, professionals & entrepreneurs learn to harness the power of Artificial Intelligence and lead the next decade.',
   heroCta1Text: 'Book Your Free Demo Class',
   heroCta2Text: 'Explore Courses',
   heroStudentsCount: '5000+',
@@ -51,7 +51,7 @@ const DEFAULTS: SiteSettings = {
   heroYearsLabel: 'Years',
   heroIsoShow: true,
   newBatchBanner: true,
-  newBatchText: 'New Batch Starting Soon — Limited Seats!',
+  newBatchText: 'New Batch Starting Soon - Limited Seats!',
 };
 
 interface SettingsState {

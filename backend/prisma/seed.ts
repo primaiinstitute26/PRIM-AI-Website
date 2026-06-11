@@ -32,7 +32,7 @@ async function main() {
     { key: 'hero_heading_cyan', value: 'Are' },
     { key: 'hero_heading_white', value: 'You' },
     { key: 'hero_heading_orange', value: 'Ready?' },
-    { key: 'hero_subtext', value: "Join PRIM AI Institute — where school students, professionals & entrepreneurs learn to harness the power of Artificial Intelligence and lead the next decade." },
+    { key: 'hero_subtext', value: "Join PRIM AI Institute - where school students, professionals & entrepreneurs learn to harness the power of Artificial Intelligence and lead the next decade." },
     { key: 'hero_cta1_text', value: 'Book Your Free Demo Class' },
     { key: 'hero_cta2_text', value: 'Explore Courses' },
     // Hero stats
@@ -45,7 +45,7 @@ async function main() {
     { key: 'hero_iso_show', value: 'true' },
     // Batch banner
     { key: 'new_batch_banner', value: 'true' },
-    { key: 'new_batch_text', value: 'New Batch Starting Soon — Limited Seats!' },
+    { key: 'new_batch_text', value: 'New Batch Starting Soon - Limited Seats!' },
     // Admin contact
     { key: 'admin_whatsapp', value: '917573055191' },
     { key: 'admin_email', value: 'info@stadsolution.com' },

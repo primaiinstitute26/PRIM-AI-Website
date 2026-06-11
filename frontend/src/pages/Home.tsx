@@ -20,17 +20,17 @@ const TOOL_CATS = [
 
 const DIFF_POINTS = [
   { icon: '🎯', title: 'Placement-First Curriculum', desc: 'We start with what employers need and build courses backwards from there.' },
-  { icon: '⚡', title: 'Real Industry DNA', desc: 'Founded by IT company veterans — not just educators. Real experience, real results.' },
-  { icon: '🚀', title: 'Startup-Ready Training', desc: 'Beyond jobs — we train you to launch your own AI-powered business or freelance career.' },
-  { icon: '✅', title: 'ISO 9001:2015 Certified', desc: 'International quality standards — every course, every center, every student.' },
+  { icon: '⚡', title: 'Real Industry DNA', desc: 'Founded by IT company veterans - not just educators. Real experience, real results.' },
+  { icon: '🚀', title: 'Startup-Ready Training', desc: 'Beyond jobs - we train you to launch your own AI-powered business or freelance career.' },
+  { icon: '✅', title: 'ISO 9001:2015 Certified', desc: 'International quality standards - every course, every center, every student.' },
 ];
 
 const WHO_CARDS = [
   { emoji: '🎓', title: 'School Students', desc: 'Class 6–12 students who want to be ahead of their generation. Learn AI before it becomes mandatory.' },
   { emoji: '📚', title: 'College Students', desc: 'Freshers and graduates who want to stand out. AI skills are the fastest way to get hired and grow faster.' },
-  { emoji: '💼', title: 'Working Professionals', desc: 'Admin, HR, operations — use AI to do your work 3× faster and become the most valuable person in your team.' },
+  { emoji: '💼', title: 'Working Professionals', desc: 'Admin, HR, operations - use AI to do your work 3× faster and become the most valuable person in your team.' },
   { emoji: '🚀', title: 'Entrepreneurs', desc: 'Want to start your own AI-powered business or freelance career? Learn the tools. Build the future.' },
-  { emoji: '🤖', title: 'Anyone Curious', desc: 'No background needed. If you\'re curious about AI and want to use it in your life — start here.' },
+  { emoji: '🤖', title: 'Anyone Curious', desc: 'No background needed. If you\'re curious about AI and want to use it in your life - start here.' },
 ];
 
 const STARTUP_OUTCOMES = [
@@ -39,11 +39,11 @@ const STARTUP_OUTCOMES = [
 ];
 
 const TESTIMONIALS = [
-  { initials: 'RS', grad: 'linear-gradient(135deg,var(--electric),#0077aa)', name: 'Riya Sharma', meta: 'Class 10 · Ahmedabad', badge: '🎓 Student', badgeCls: 'rgba(0,212,255,.1)', badgeColor: 'var(--electric)', quote: '"Maine AI se apna science project banaya — teacher ne best project award diya. Puri class shock thi!"', before: 'Struggling student', after: 'School topper' },
-  { initials: 'AP', grad: 'linear-gradient(135deg,#a78bfa,#6d52e8)', name: 'Arjun Patel', meta: 'B.Tech Final Year · Surat', badge: '📚 College', badgeCls: 'rgba(167,139,250,.1)', badgeColor: '#a78bfa', quote: '"Resume mein AI skills add ki — 3 companies ne same week mein interview call diya. Placed in 2 months."', before: 'No job offers', after: 'Placed at IT company' },
-  { initials: 'NM', grad: 'linear-gradient(135deg,var(--orange),var(--orange2))', name: 'Neha Modi', meta: 'HR Manager · Vadodara', badge: '💼 Professional', badgeCls: 'rgba(255,107,43,.1)', badgeColor: 'var(--orange)', quote: '"Jo kaam 3 ghante leta tha — ab 20 minute mein hota hai. Boss ne promotion di sirf 4 months mein."', before: 'Overworked, no growth', after: 'Promoted in 4 months' },
+  { initials: 'RS', grad: 'linear-gradient(135deg,var(--electric),#0077aa)', name: 'Riya Sharma', meta: 'Class 10 · Ahmedabad', badge: '🎓 Student', badgeCls: 'rgba(0,212,255,.1)', badgeColor: 'var(--electric)', quote: '"Maine AI se apna science project banaya - teacher ne best project award diya. Puri class shock thi!"', before: 'Struggling student', after: 'School topper' },
+  { initials: 'AP', grad: 'linear-gradient(135deg,#a78bfa,#6d52e8)', name: 'Arjun Patel', meta: 'B.Tech Final Year · Surat', badge: '📚 College', badgeCls: 'rgba(167,139,250,.1)', badgeColor: '#a78bfa', quote: '"Resume mein AI skills add ki - 3 companies ne same week mein interview call diya. Placed in 2 months."', before: 'No job offers', after: 'Placed at IT company' },
+  { initials: 'NM', grad: 'linear-gradient(135deg,var(--orange),var(--orange2))', name: 'Neha Modi', meta: 'HR Manager · Vadodara', badge: '💼 Professional', badgeCls: 'rgba(255,107,43,.1)', badgeColor: 'var(--orange)', quote: '"Jo kaam 3 ghante leta tha - ab 20 minute mein hota hai. Boss ne promotion di sirf 4 months mein."', before: 'Overworked, no growth', after: 'Promoted in 4 months' },
   { initials: 'KS', grad: 'linear-gradient(135deg,#f43f5e,#e11d48)', name: 'Karan Shah', meta: 'Freelancer · Rajkot', badge: '🚀 Entrepreneur', badgeCls: 'rgba(244,63,94,.1)', badgeColor: '#f43f5e', quote: '"Course ke baad AI content agency shuru ki. Pehle hi month mein 2 clients. Ab 6 figure monthly."', before: '9-to-5 job', after: 'Own AI agency' },
-  { initials: 'PD', grad: 'linear-gradient(135deg,#10b981,#059669)', name: 'Priya Desai', meta: 'Homemaker · Anand', badge: '🤖 Anyone', badgeCls: 'rgba(16,185,129,.1)', badgeColor: '#10b981', quote: '"Mujhe lagta tha AI sirf engineers ke liye hai. Yahan seekha — ab main freelance graphic work karti hoon."', before: 'Zero tech background', after: 'Earning from home' },
+  { initials: 'PD', grad: 'linear-gradient(135deg,#10b981,#059669)', name: 'Priya Desai', meta: 'Homemaker · Anand', badge: '🤖 Anyone', badgeCls: 'rgba(16,185,129,.1)', badgeColor: '#10b981', quote: '"Mujhe lagta tha AI sirf engineers ke liye hai. Yahan seekha - ab main freelance graphic work karti hoon."', before: 'Zero tech background', after: 'Earning from home' },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────
@@ -242,7 +242,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {[
             { num: '82%', label: 'Companies Struggling to Hire', desc: 'Employers across India report difficulty finding candidates with the right AI and digital skills.' },
-            { num: '47M', label: 'Skilled Worker Deficit by 2027', desc: 'India will be short 47 million skilled workers — AI skills are the fastest path to stand out.' },
+            { num: '47M', label: 'Skilled Worker Deficit by 2027', desc: 'India will be short 47 million skilled workers - AI skills are the fastest path to stand out.' },
             { num: '42.6%', label: 'Graduates Are Job-Ready', desc: 'Less than half of India\'s graduates are considered employable. AI skills change that equation.' },
           ].map((c) => (
             <div key={c.num} className="reveal glass-card p-8 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1" style={{ borderColor: 'var(--border)' }}>
@@ -336,7 +336,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Floating visual box — hidden on mobile */}
+          {/* Floating visual box - hidden on mobile */}
           <div className="relative hidden md:block" style={{ height: '420px' }}>
             <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full flex items-center justify-center text-center orb-pulse"
@@ -384,7 +384,7 @@ export default function Home() {
           <h2 className="text-center font-bold mb-3" style={{ fontFamily: 'var(--font-head)', fontSize: 'clamp(1.9rem, 4vw, 3.2rem)', letterSpacing: '-1px', color: 'var(--white)' }}>
             50+ AI Tools Across 6 Categories
           </h2>
-          <p className="text-center mb-12" style={{ color: 'var(--muted)' }}>From writing to coding, design to automation — master the tools the industry runs on.</p>
+          <p className="text-center mb-12" style={{ color: 'var(--muted)' }}>From writing to coding, design to automation - master the tools the industry runs on.</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {TOOL_CATS.map((cat) => (
@@ -418,7 +418,7 @@ export default function Home() {
               style={{ background: 'rgba(0,212,255,.06)', border: '1px solid rgba(0,212,255,.2)' }}
             >
               <span className="font-bold" style={{ fontFamily: 'var(--font-head)', fontSize: '2rem', color: 'var(--electric)', letterSpacing: '-1px' }}>50+</span>
-              <span className="text-sm" style={{ color: 'var(--muted)' }}>Industry AI Tools — All Covered in Our Programs</span>
+              <span className="text-sm" style={{ color: 'var(--muted)' }}>Industry AI Tools - All Covered in Our Programs</span>
             </div>
           </div>
         </div>
@@ -430,7 +430,7 @@ export default function Home() {
         <h2 className="text-center font-bold mb-3" style={{ fontFamily: 'var(--font-head)', fontSize: 'clamp(1.9rem, 4vw, 3.2rem)', letterSpacing: '-1px', color: 'var(--white)' }}>
           Your AI Learning Pathway
         </h2>
-        <p className="text-center mb-12" style={{ color: 'var(--muted)' }}>Start from the foundation or jump straight to your track — every program is built for real outcomes.</p>
+        <p className="text-center mb-12" style={{ color: 'var(--muted)' }}>Start from the foundation or jump straight to your track - every program is built for real outcomes.</p>
 
         <div className="flex flex-col items-center">
           {/* Level 1 */}
@@ -440,9 +440,9 @@ export default function Home() {
             onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(0,212,255,.28)')}
             onMouseLeave={(e) => { e.currentTarget.style.borderTopColor = 'var(--electric)'; e.currentTarget.style.borderColor = ''; e.currentTarget.style.borderTopColor = 'var(--electric)'; }}
           >
-            <span className="inline-block text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full mb-3" style={{ background: 'rgba(0,212,255,.1)', color: 'var(--electric)' }}>Level 1 — Entry Point for All</span>
+            <span className="inline-block text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full mb-3" style={{ background: 'rgba(0,212,255,.1)', color: 'var(--electric)' }}>Level 1 - Entry Point for All</span>
             <h3 className="font-bold mb-1" style={{ fontFamily: 'var(--font-head)', fontSize: '1.5rem', color: 'var(--white)' }}>AI Foundation Program</h3>
-            <p className="text-sm italic mb-4" style={{ color: 'var(--muted)' }}>"Your first step into the world of Artificial Intelligence — for everyone"</p>
+            <p className="text-sm italic mb-4" style={{ color: 'var(--muted)' }}>"Your first step into the world of Artificial Intelligence - for everyone"</p>
             <div className="flex flex-wrap gap-4 mb-4 text-xs" style={{ color: 'var(--muted)' }}>
               <span>📅 6–8 Weeks</span><span>👥 Students, Freshers & Anyone</span><span>🏫 Offline | Hands-on</span>
             </div>
@@ -472,7 +472,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-4xl">
             {[
               {
-                levelLabel: 'Level 2A — Non-Tech Track', borderColor: 'var(--orange)',
+                levelLabel: 'Level 2A - Non-Tech Track', borderColor: 'var(--orange)',
                 badgeBg: 'rgba(255,107,43,.1)', badgeColor: 'var(--orange)',
                 title: 'AI Generalist Program', tagline: '"Master AI tools. Work smarter. Live better."',
                 meta: ['6–8 Weeks', 'Professionals & Freshers'],
@@ -480,7 +480,7 @@ export default function Home() {
                 outcomes: ['Draft emails in minutes', 'Create social media content', 'Generate images & videos', 'Automate office tasks', 'Build presentations instantly', '3× more productive at work'],
               },
               {
-                levelLabel: 'Level 2B — Tech Track', borderColor: '#a78bfa',
+                levelLabel: 'Level 2B - Tech Track', borderColor: '#a78bfa',
                 badgeBg: 'rgba(167,139,250,.1)', badgeColor: '#a78bfa',
                 title: 'AI Developer Program', tagline: '"Code smarter. Build faster. Develop with AI."',
                 meta: ['8–10 Weeks', 'IT & Engineering Students'],
@@ -567,7 +567,7 @@ export default function Home() {
             </span>
           </h2>
           <p className="mb-8 leading-relaxed max-w-xl mx-auto" style={{ color: 'var(--muted)' }}>
-            After completing our programs, students don't just get placed — they build things. Freelance agencies, AI content studios, automation consultancies. The tools you learn here are the tools the future runs on.
+            After completing our programs, students don't just get placed - they build things. Freelance agencies, AI content studios, automation consultancies. The tools you learn here are the tools the future runs on.
           </p>
           <div className="flex flex-wrap gap-3 justify-center mb-10">
             {STARTUP_OUTCOMES.map((o) => (
@@ -581,7 +581,7 @@ export default function Home() {
             ))}
           </div>
           <button onClick={openModal} className="btn-primary text-base px-8 py-3">
-            Start Your AI Journey — Free Demo →
+            Start Your AI Journey - Free Demo →
           </button>
         </div>
       </section>
@@ -630,7 +630,7 @@ export default function Home() {
         >
           AI's future is<br />being written today.
         </h2>
-        <p className="mb-10" style={{ color: 'var(--muted)' }}>The question is — are you writing it, or watching others write it?</p>
+        <p className="mb-10" style={{ color: 'var(--muted)' }}>The question is - are you writing it, or watching others write it?</p>
         <button onClick={openModal} className="btn-primary text-base px-10 py-4">
           Book Your Free Demo Class →
         </button>
