@@ -1,4 +1,4 @@
-// Home page — hero placeholder (Day 2 will have full content)
+// Home page - hero placeholder (Day 2 will have full content)
 
 import { useModal } from '@/hooks/useModal';
 import { DemoModal } from '@/components/shared/DemoModal';
@@ -24,8 +24,8 @@ export default function Home() {
           className="text-lg md:text-xl max-w-2xl mb-10"
           style={{ color: 'var(--muted)' }}
         >
-          From foundation to advanced — courses built for students, professionals,
-          and business owners who want to harness AI today.
+        Your first step into the world of Artificial Intelligence. No prior knowledge required - just
+          curiosity and the willingness to learn.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <button onClick={modal.open} className="btn-primary text-base px-8 py-3">

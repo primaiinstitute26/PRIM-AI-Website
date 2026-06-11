@@ -1,4 +1,4 @@
-// Settings controller — public read for hero stats, guarded write/read-all
+// Settings controller - public read for hero stats, guarded write/read-all
 
 import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';

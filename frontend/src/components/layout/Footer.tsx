@@ -15,7 +15,7 @@ export function Footer() {
       >
         PRIM AI Institute
       </div>
-      <p>Powered by STAD Solution, Ahmedabad, India</p>
+      <p>Learn AI. Use AI. Lead with AI.</p>
       <p className="mt-1">
         © {new Date().getFullYear()} PRIM AI Institute. All rights reserved.
       </p>

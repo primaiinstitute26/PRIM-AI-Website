@@ -1,4 +1,4 @@
-// Axios instance — adds auth header and handles 401 redirect
+// Axios instance - adds auth header and handles 401 redirect
 
 import axios from 'axios';
 
@@ -16,7 +16,7 @@ api.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${token}`;
       }
     } catch {
-      // corrupted storage — ignore
+      // corrupted storage - ignore
     }
   }
   return config;

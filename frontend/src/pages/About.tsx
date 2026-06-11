@@ -12,7 +12,7 @@ export default function About() {
       >
         About PRIM AI
       </h1>
-      <p style={{ color: 'var(--muted)' }}>Coming soon — Day 3</p>
+      <p style={{ color: 'var(--muted)' }}>Coming soon - Day 3</p>
     </main>
   );
 }

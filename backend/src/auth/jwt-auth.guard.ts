@@ -1,4 +1,4 @@
-// JWT auth guard — protects routes requiring admin authentication
+// JWT auth guard - protects routes requiring admin authentication
 
 import { Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';

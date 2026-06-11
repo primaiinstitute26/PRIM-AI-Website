@@ -1,4 +1,4 @@
-// JWT strategy — extracts and validates bearer token on protected routes
+// JWT strategy - extracts and validates bearer token on protected routes
 
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';

@@ -1,4 +1,4 @@
-// Tailwind v4 config — content paths for JIT
+// Tailwind v4 config - content paths for JIT
 
 import type { Config } from 'tailwindcss';
 

@@ -1,4 +1,4 @@
-// App router — public routes with Navbar/Footer, admin routes with sidebar layout
+// App router - public routes with Navbar/Footer, admin routes with sidebar layout
 
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';

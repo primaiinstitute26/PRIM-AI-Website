@@ -1,4 +1,4 @@
-// Auth service — login with bcrypt verification and JWT signing
+// Auth service - login with bcrypt verification and JWT signing
 
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';

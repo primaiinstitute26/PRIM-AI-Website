@@ -1,4 +1,4 @@
-// Seed script — creates default admin account and site settings
+// Seed script - creates default admin account and site settings
 
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -23,7 +23,7 @@ async function main() {
     { key: 'hero_companies_count', value: '350+' },
     { key: 'hero_years_count', value: '10+' },
     { key: 'new_batch_banner', value: 'true' },
-    { key: 'new_batch_text', value: 'New Batch Starting Soon — Limited Seats!' },
+    { key: 'new_batch_text', value: 'New Batch Starting Soon - Limited Seats!' },
     { key: 'admin_whatsapp', value: '917573055191' },
     { key: 'admin_email', value: 'info@stadsolution.com' },
   ];
@@ -36,7 +36,7 @@ async function main() {
     });
   }
 
-  console.log('✅ Seed complete — admin and settings created');
+  console.log('✅ Seed complete - admin and settings created');
 }
 
 main()

@@ -1,4 +1,4 @@
-// Enquiries service — CRUD, pagination, search, CSV export, status updates
+// Enquiries service - CRUD, pagination, search, CSV export, status updates
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { LeadStatus } from '@prisma/client';

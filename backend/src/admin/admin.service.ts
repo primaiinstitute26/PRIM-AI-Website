@@ -1,4 +1,4 @@
-// Admin service — aggregated dashboard stats and recent leads from both tables
+// Admin service - aggregated dashboard stats and recent leads from both tables
 
 import { Injectable } from '@nestjs/common';
 import { LeadStatus } from '@prisma/client';

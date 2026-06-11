@@ -1,4 +1,4 @@
-// Root application module — imports all feature modules
+// Root application module - imports all feature modules
 
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';

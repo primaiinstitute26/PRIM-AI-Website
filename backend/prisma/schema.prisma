@@ -1,4 +1,4 @@
-// Prisma schema for PRIM AI Institute — defines all DB models and enums
+// Prisma schema for PRIM AI Institute - defines all DB models and enums
 
 generator client {
   provider = "prisma-client-js"

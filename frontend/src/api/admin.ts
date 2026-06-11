@@ -1,4 +1,4 @@
-// Admin API calls — auth, stats, bookings/enquiries CRUD, settings
+// Admin API calls - auth, stats, bookings/enquiries CRUD, settings
 
 import api from './axios';
 import type { LoginDto, LeadStatus } from '@/types';

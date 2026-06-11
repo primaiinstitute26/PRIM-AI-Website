@@ -31,7 +31,7 @@ export function Navbar() {
           className="text-lg font-bold gradient-text"
           style={{ fontFamily: 'var(--font-head)' }}
         >
-          PRIM AI
+          PRIM AI Institute
         </NavLink>
 
         <div className="hidden md:flex items-center gap-8">

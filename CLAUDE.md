@@ -1,7 +1,7 @@
-# PRIM AI Institute — Claude Code Context
+# PRIM AI Institute - Claude Code Context
 
 ## Who & What
-- **Project:** PRIM AI Institute — lead generation website + admin dashboard
+- **Project:** PRIM AI Institute - lead generation website + admin dashboard
 - **Client:** STAD Solution, Ahmedabad, India
 - **Developer:** Mouryrajsinh Jadeja
 - **Goal:** Phase 1 = marketing site + demo booking + enquiry form + admin dashboard
@@ -9,7 +9,7 @@
 
 ---
 
-## Tech Stack — LOCKED, DO NOT CHANGE
+## Tech Stack - LOCKED, DO NOT CHANGE
 
 ### Frontend (`/frontend`)
 | Tool | Version |
@@ -236,11 +236,11 @@ Auth is controlled by `PrivateRoute` in `App.tsx` reading from Zustand `authStor
 
 ---
 
-## Design System — NEVER BREAK
+## Design System - NEVER BREAK
 
 ### CSS Variables (defined in `globals.css`)
 ```css
---navy:     #020818   /* page background — always */
+--navy:     #020818   /* page background - always */
 --electric: #00D4FF   /* cyan accent, focus borders, section tags */
 --orange:   #FF6B2B   /* primary CTA gradient start */
 --orange2:  #FF9500   /* primary CTA gradient end */
@@ -264,13 +264,13 @@ Auth is controlled by `PrivateRoute` in `App.tsx` reading from Zustand `authStor
 | `.gradient-text` | Cyan→orange gradient text |
 
 ### Rules
-1. Background is **always** `var(--navy)` — never white, never light grey
-2. All cards use `.glass-card` — no solid dark boxes
-3. CTAs use `.btn-primary` (orange) — never plain coloured divs
+1. Background is **always** `var(--navy)` - never white, never light grey
+2. All cards use `.glass-card` - no solid dark boxes
+3. CTAs use `.btn-primary` (orange) - never plain coloured divs
 4. All inputs: dark bg + cyan focus via `globals.css` styles
-5. Tailwind CSS only — no inline styles except `style={{ color: 'var(--xyz)' }}`
-6. No UI libraries — no shadcn, no MUI, no Radix, no Headless UI
-7. TypeScript strict — no `any` types
+5. Tailwind CSS only - no inline styles except `style={{ color: 'var(--xyz)' }}`
+6. No UI libraries - no shadcn, no MUI, no Radix, no Headless UI
+7. TypeScript strict - no `any` types
 8. Mobile-first responsive always
 9. Min touch target 44×44px on all buttons
 
@@ -300,7 +300,7 @@ Course:  must be Course enum value
 
 ## Environment Variables
 
-### Backend `.env` (dev — already written)
+### Backend `.env` (dev - already written)
 ```
 DATABASE_URL="postgresql://jadeja@localhost:5432/primai_db"
 JWT_SECRET="primai-dev-secret-change-in-production-use-long-random-string"
@@ -342,8 +342,8 @@ npm run prisma:studio   # open Prisma Studio GUI
 ---
 
 ## Key Conventions
-- All backend route controllers use `@Controller()` with no base prefix except `/auth` and `/settings` — admin sub-routes are registered as `admin/bookings` directly
+- All backend route controllers use `@Controller()` with no base prefix except `/auth` and `/settings` - admin sub-routes are registered as `admin/bookings` directly
 - Zustand auth store persisted under localStorage key `primai_admin_auth`
 - Axios interceptor reads token from `primai_admin_auth.state.token`
 - CSV export routes must come before `/:id` routes to avoid NestJS route shadowing
-- `PrismaModule` is `@Global()` — never import it individually in other modules
+- `PrismaModule` is `@Global()` - never import it individually in other modules

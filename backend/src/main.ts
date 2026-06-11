@@ -1,4 +1,4 @@
-// NestJS application entry point — bootstrap with CORS, validation, and Swagger
+// NestJS application entry point - bootstrap with CORS, validation, and Swagger
 
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';

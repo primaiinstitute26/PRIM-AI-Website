@@ -1,4 +1,4 @@
-// Auth module — wires JWT configuration and Passport strategy
+// Auth module - wires JWT configuration and Passport strategy
 
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';

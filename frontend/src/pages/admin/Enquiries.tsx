@@ -1,4 +1,4 @@
-// Admin enquiries page — list, filter, status update, CSV export, delete
+// Admin enquiries page - list, filter, status update, CSV export, delete
 
 import { useEffect, useState } from 'react';
 import { LeadsTable } from '@/components/admin/LeadsTable';

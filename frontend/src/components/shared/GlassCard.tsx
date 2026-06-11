@@ -1,4 +1,4 @@
-// Glassmorphism card — base container used throughout the site
+// Glassmorphism card - base container used throughout the site
 
 interface GlassCardProps {
   children: React.ReactNode;

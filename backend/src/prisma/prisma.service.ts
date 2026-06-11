@@ -1,4 +1,4 @@
-// Prisma service — wraps PrismaClient and connects on module init
+// Prisma service - wraps PrismaClient and connects on module init
 
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';

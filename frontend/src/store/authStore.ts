@@ -1,4 +1,4 @@
-// Zustand auth store — persisted to localStorage for session continuity
+// Zustand auth store - persisted to localStorage for session continuity
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';

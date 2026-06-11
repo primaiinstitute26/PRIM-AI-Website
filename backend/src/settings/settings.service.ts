@@ -1,4 +1,4 @@
-// Settings service — key-value site settings with public subset for frontend
+// Settings service - key-value site settings with public subset for frontend
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';

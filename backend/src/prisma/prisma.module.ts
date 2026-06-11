@@ -1,4 +1,4 @@
-// Global Prisma module — exports PrismaService for all modules
+// Global Prisma module - exports PrismaService for all modules
 
 import { Global, Module } from '@nestjs/common';
 import { PrismaService } from './prisma.service';

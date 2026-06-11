@@ -1,4 +1,4 @@
-# SKILL.md — PRIM AI Institute Dev Skills
+# SKILL.md - PRIM AI Institute Dev Skills
 
 ## Design System
 - Background: #020818 (--navy) always
@@ -9,7 +9,7 @@
 - No white backgrounds, no UI libraries
 
 ## Validation (Indian context)
-- Phone: /^[6-9]\d{9}$/ — 10-digit Indian mobile
+- Phone: /^[6-9]\d{9}$/ - 10-digit Indian mobile
 - Name: 2–50 chars
 - Message: 10–500 chars
 

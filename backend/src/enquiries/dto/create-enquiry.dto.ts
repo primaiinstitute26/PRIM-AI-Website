@@ -1,4 +1,4 @@
-// DTO for creating an enquiry — extends booking fields with email and message
+// DTO for creating an enquiry - extends booking fields with email and message
 
 import {
   IsEmail,

@@ -1,4 +1,4 @@
-// DTO for creating a demo booking — validates Indian mobile and enum fields
+// DTO for creating a demo booking - validates Indian mobile and enum fields
 
 import {
   IsEnum,

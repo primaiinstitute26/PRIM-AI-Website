@@ -1,4 +1,4 @@
-// Bookings controller — public POST for lead capture, guarded admin routes
+// Bookings controller - public POST for lead capture, guarded admin routes
 
 import {
   Body,

@@ -1,4 +1,4 @@
-// Admin controller — dashboard stats and recent leads (all protected by JWT)
+// Admin controller - dashboard stats and recent leads (all protected by JWT)
 
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';

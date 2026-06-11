@@ -1,4 +1,4 @@
-# PRIM AI Institute — Project Reference
+# PRIM AI Institute - Project Reference
 
 ## Client
 STAD Solution, Ahmedabad, India  

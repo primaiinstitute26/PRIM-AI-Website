@@ -1,4 +1,4 @@
-// Admin dashboard — shows aggregated stats and recent leads
+// Admin dashboard - shows aggregated stats and recent leads
 
 import { useEffect, useState } from 'react';
 import { StatCard } from '@/components/admin/StatCard';

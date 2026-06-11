@@ -1,4 +1,4 @@
-// Auth controller — handles admin login and returns JWT token
+// Auth controller - handles admin login and returns JWT token
 
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';

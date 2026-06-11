@@ -1,4 +1,4 @@
-// Admin dashboard stat card — shows icon, big number, label, optional trend
+// Admin dashboard stat card - shows icon, big number, label, optional trend
 
 interface StatCardProps {
   label: string;

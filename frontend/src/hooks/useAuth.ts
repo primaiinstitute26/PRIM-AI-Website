@@ -1,4 +1,4 @@
-// Auth hook — reads from authStore and provides typed access with redirect helper
+// Auth hook - reads from authStore and provides typed access with redirect helper
 
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';

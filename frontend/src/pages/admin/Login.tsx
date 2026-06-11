@@ -1,4 +1,4 @@
-// Admin login page — authenticates with JWT and stores token in Zustand
+// Admin login page - authenticates with JWT and stores token in Zustand
 
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';

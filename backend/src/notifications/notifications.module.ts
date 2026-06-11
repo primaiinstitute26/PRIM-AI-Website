@@ -1,4 +1,4 @@
-// Notifications module — exported so other modules can inject the service
+// Notifications module - exported so other modules can inject the service
 
 import { Module } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';

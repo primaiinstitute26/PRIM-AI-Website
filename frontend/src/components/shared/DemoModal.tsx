@@ -1,4 +1,4 @@
-// Demo booking modal — rendered at app root via portal, usable from any page
+// Demo booking modal - rendered at app root via portal, usable from any page
 
 import { createPortal } from 'react-dom';
 import { useForm } from 'react-hook-form';
@@ -82,7 +82,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
               Book a Free Demo
             </h2>
             <p className="mb-6 text-sm" style={{ color: 'var(--muted)' }}>
-              Experience PRIM AI firsthand — no commitment.
+              Experience PRIM AI firsthand - no commitment.
             </p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -137,9 +137,9 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
               <div>
                 <select {...register('courseInterest', { required: 'Please select a course' })}>
                   <option value="">Interested in...</option>
-                  <option value="LEVEL_1_FOUNDATION">Level 1 — Foundation</option>
-                  <option value="LEVEL_2A_GENERALIST">Level 2A — AI Generalist</option>
-                  <option value="LEVEL_2B_DEVELOPER">Level 2B — AI Developer</option>
+                  <option value="LEVEL_1_FOUNDATION">Level 1 - Foundation</option>
+                  <option value="LEVEL_2A_GENERALIST">Level 2A - AI Generalist</option>
+                  <option value="LEVEL_2B_DEVELOPER">Level 2B - AI Developer</option>
                   <option value="NOT_SURE">Not Sure Yet</option>
                 </select>
                 {errors.courseInterest && (

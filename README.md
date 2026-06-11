@@ -9,7 +9,7 @@ Lead generation website + admin dashboard for PRIM AI Institute, Ahmedabad.
 cd backend
 npm install
 cp .env.example .env
-# Edit .env — set DATABASE_URL to your Neon PostgreSQL URL
+# Edit .env - set DATABASE_URL to your Neon PostgreSQL URL
 npx prisma migrate dev --name init
 npx prisma db seed
 npm run start:dev

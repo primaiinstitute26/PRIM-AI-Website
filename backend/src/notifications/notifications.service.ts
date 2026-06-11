@@ -1,4 +1,4 @@
-// Notifications service — sends WhatsApp alerts via MSG91 with console fallback
+// Notifications service - sends WhatsApp alerts via MSG91 with console fallback
 
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

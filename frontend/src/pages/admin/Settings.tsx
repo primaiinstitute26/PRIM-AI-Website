@@ -1,4 +1,4 @@
-// Admin settings page — edit site-wide key/value settings
+// Admin settings page - edit site-wide key/value settings
 
 import { useEffect, useState } from 'react';
 import { GlassCard } from '@/components/shared/GlassCard';
