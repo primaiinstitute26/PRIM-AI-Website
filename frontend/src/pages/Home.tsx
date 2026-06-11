@@ -441,7 +441,7 @@ export default function Home() {
             onMouseLeave={(e) => { e.currentTarget.style.borderTopColor = 'var(--electric)'; e.currentTarget.style.borderColor = ''; e.currentTarget.style.borderTopColor = 'var(--electric)'; }}
           >
             <span className="inline-block text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full mb-3" style={{ background: 'rgba(0,212,255,.1)', color: 'var(--electric)' }}>Level 1 - Entry Point for All</span>
-            <h3 className="font-bold mb-1" style={{ fontFamily: 'var(--font-head)', fontSize: '1.5rem', color: 'var(--white)' }}>AI Foundation Program</h3>
+            <h3 className="font-bold mb-1" style={{ fontFamily: 'var(--font-head)', fontSize: '1.5rem', color: 'var(--white)' }}>AI Introduction Program</h3>
             <p className="text-sm italic mb-4" style={{ color: 'var(--muted)' }}>"Your first step into the world of Artificial Intelligence - for everyone"</p>
             <div className="flex flex-wrap gap-4 mb-4 text-xs" style={{ color: 'var(--muted)' }}>
               <span>📅 6–8 Weeks</span><span>👥 Students, Freshers & Anyone</span><span>🏫 Offline | Hands-on</span>
