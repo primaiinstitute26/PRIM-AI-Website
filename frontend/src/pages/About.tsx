@@ -159,7 +159,7 @@ export default function About() {
         <section className="max-w-6xl mx-auto px-6 py-20 reveal">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {diffs.map((d, i) => (
-              <div key={i} className="glass-card glass-card-hover p-6 rounded-2xl">
+              <div key={i} className="glass-card diff-card p-6 rounded-2xl">
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center text-xl mb-4"
                   style={{ background: 'rgba(0,212,255,.1)' }}
