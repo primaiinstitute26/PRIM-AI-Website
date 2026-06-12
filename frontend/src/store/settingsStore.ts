@@ -121,7 +121,7 @@ const DEFAULTS: SiteSettings = {
   aboutShowIso: true,
   // About quote
   aboutShowQuote: true,
-  aboutQuoteMain: 'We believe AI education should be accessible to every Indian —',
+  aboutQuoteMain: 'We believe AI education should be accessible to every Indian -',
   aboutQuoteAccent: 'from Class 6 to CEO.',
   // About differentiators
   aboutShowDiff: true,

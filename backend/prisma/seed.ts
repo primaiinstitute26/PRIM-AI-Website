@@ -63,7 +63,7 @@ async function main() {
     { key: 'about_show_iso', value: 'true' },
     // About quote
     { key: 'about_show_quote', value: 'true' },
-    { key: 'about_quote_main', value: 'We believe AI education should be accessible to every Indian —' },
+    { key: 'about_quote_main', value: 'We believe AI education should be accessible to every Indian -' },
     { key: 'about_quote_accent', value: 'from Class 6 to CEO.' },
     // About differentiators
     { key: 'about_show_diff', value: 'true' },

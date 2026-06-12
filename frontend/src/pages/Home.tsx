@@ -26,7 +26,7 @@ const DIFF_POINTS = [
 ];
 
 const WHO_CARDS = [
-  { emoji: '🎓', title: 'School Students', desc: 'Class 6–12 students who want to be ahead of their generation. Learn AI before it becomes mandatory.' },
+  { emoji: '🎓', title: 'School Students', desc: 'Class 6-12 students who want to be ahead of their generation. Learn AI before it becomes mandatory.' },
   { emoji: '📚', title: 'College Students', desc: 'Freshers and graduates who want to stand out. AI skills are the fastest way to get hired and grow faster.' },
   { emoji: '💼', title: 'Working Professionals', desc: 'Admin, HR, operations - use AI to do your work 3× faster and become the most valuable person in your team.' },
   { emoji: '🚀', title: 'Entrepreneurs', desc: 'Want to start your own AI-powered business or freelance career? Learn the tools. Build the future.' },
@@ -176,11 +176,7 @@ export default function Home() {
         >
           {s.heroHeadingLine1}
           <span className="block">
-            <span style={{ color: 'var(--electric)' }}>{s.heroHeadingCyan}</span>
-            {' '}
-            <span style={{ color: 'var(--white)' }}>{s.heroHeadingWhite}</span>
-            {' '}
-            <span style={{ color: 'var(--orange)' }}>{s.heroHeadingOrange}</span>
+            <span className="gradient-text">{s.heroHeadingCyan} {s.heroHeadingWhite} {s.heroHeadingOrange}</span>
           </span>
         </h1>
 
@@ -444,7 +440,7 @@ export default function Home() {
             <h3 className="font-bold mb-1" style={{ fontFamily: 'var(--font-head)', fontSize: '1.5rem', color: 'var(--white)' }}>AI Introduction Program</h3>
             <p className="text-sm italic mb-4" style={{ color: 'var(--muted)' }}>"Your first step into the world of Artificial Intelligence - for everyone"</p>
             <div className="flex flex-wrap gap-4 mb-4 text-xs" style={{ color: 'var(--muted)' }}>
-              <span>📅 6–8 Weeks</span><span>👥 Students, Freshers & Anyone</span><span>🏫 Offline | Hands-on</span>
+              <span>📅 6-8 Weeks</span><span>👥 Students, Freshers & Anyone</span><span>🏫 Offline | Hands-on</span>
             </div>
             <div className="flex flex-wrap gap-1.5 mb-4">
               {['ChatGPT', 'Google Gemini', 'Canva AI', 'DALL-E', 'Microsoft Copilot', 'Quillbot', 'Gamma.app'].map((t) => (
@@ -475,7 +471,7 @@ export default function Home() {
                 levelLabel: 'Level 2A - Non-Tech Track', borderColor: 'var(--orange)',
                 badgeBg: 'rgba(255,107,43,.1)', badgeColor: 'var(--orange)',
                 title: 'AI Generalist Program', tagline: '"Master AI tools. Work smarter. Live better."',
-                meta: ['6–8 Weeks', 'Professionals & Freshers'],
+                meta: ['6-8 Weeks', 'Professionals & Freshers'],
                 tools: ['ChatGPT', 'Claude', 'Canva AI', 'Midjourney', 'Runway ML', 'InVideo AI', 'Zapier', 'Notion AI'],
                 outcomes: ['Draft emails in minutes', 'Create social media content', 'Generate images & videos', 'Automate office tasks', 'Build presentations instantly', '3× more productive at work'],
               },
@@ -483,7 +479,7 @@ export default function Home() {
                 levelLabel: 'Level 2B - Tech Track', borderColor: '#a78bfa',
                 badgeBg: 'rgba(167,139,250,.1)', badgeColor: '#a78bfa',
                 title: 'AI Developer Program', tagline: '"Code smarter. Build faster. Develop with AI."',
-                meta: ['8–10 Weeks', 'IT & Engineering Students'],
+                meta: ['8-10 Weeks', 'IT & Engineering Students'],
                 tools: ['GitHub Copilot', 'Cursor AI', 'ChatGPT', 'OpenAI API', 'LangChain', 'Replit', 'Bolt.new', 'Zapier'],
                 outcomes: ['Code 2× faster with AI', 'Debug errors instantly', 'Add AI to any app', 'Build AI-powered chatbots', 'Automate testing with AI', 'Take AI freelance projects'],
               },

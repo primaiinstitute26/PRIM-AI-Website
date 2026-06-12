@@ -10,8 +10,8 @@
 
 ## Validation (Indian context)
 - Phone: /^[6-9]\d{9}$/ - 10-digit Indian mobile
-- Name: 2–50 chars
-- Message: 10–500 chars
+- Name: 2-50 chars
+- Message: 10-500 chars
 
 ## API Conventions
 - All routes prefixed /api
