@@ -362,7 +362,7 @@ const CONTACT_SECTIONS: SectionDef[] = [
   {
     id: 'contact_info',
     icon: '📍',
-    title: 'Contact — Hero & Info',
+    title: 'Contact - Hero & Info',
     accentColor: '#34d399',
     fields: [
       { key: 'contact_badge', label: 'Badge Text', hint: 'Small pill above heading (e.g. GET IN TOUCH)' },
@@ -378,7 +378,7 @@ const CONTACT_SECTIONS: SectionDef[] = [
   {
     id: 'contact_whatsapp_map',
     icon: '💬',
-    title: 'Contact — WhatsApp & Map',
+    title: 'Contact - WhatsApp & Map',
     accentColor: '#25d366',
     fields: [
       { key: 'contact_show_whatsapp', label: 'Show WhatsApp Button', type: 'toggle' },
@@ -392,7 +392,7 @@ const CONTACT_SECTIONS: SectionDef[] = [
   {
     id: 'contact_faq_settings',
     icon: '❓',
-    title: 'Contact — FAQ Settings',
+    title: 'Contact - FAQ Settings',
     accentColor: '#a78bfa',
     fields: [
       { key: 'contact_show_faq', label: 'Show FAQ Section', type: 'toggle' },
@@ -675,7 +675,7 @@ export default function Settings() {
             <div className="flex items-center gap-3">
               <span className="text-xl">📋</span>
               <h2 className="font-bold text-sm" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}>
-                Contact — FAQ Items
+                Contact - FAQ Items
               </h2>
             </div>
             <div
