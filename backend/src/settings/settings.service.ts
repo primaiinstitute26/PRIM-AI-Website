@@ -4,8 +4,10 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 const PUBLIC_KEYS = new Set([
+  // Navigation
   'nav_logo_text', 'nav_cta_text',
   'nav_link_home', 'nav_link_about', 'nav_link_courses', 'nav_link_contact',
+  // Home hero
   'hero_badge_text',
   'hero_heading_line1', 'hero_heading_cyan', 'hero_heading_white', 'hero_heading_orange',
   'hero_subtext', 'hero_cta1_text', 'hero_cta2_text',
@@ -13,6 +15,28 @@ const PUBLIC_KEYS = new Set([
   'hero_companies_count', 'hero_companies_label',
   'hero_years_count', 'hero_years_label', 'hero_iso_show',
   'new_batch_banner', 'new_batch_text',
+  // About hero
+  'about_badge_text', 'about_hero_h1', 'about_hero_h1_accent', 'about_hero_subtext',
+  'about_stat1_count', 'about_stat1_label',
+  'about_stat2_count', 'about_stat2_label',
+  'about_stat3_count', 'about_stat3_label',
+  'about_show_iso',
+  // About quote
+  'about_show_quote', 'about_quote_main', 'about_quote_accent',
+  // About differentiators
+  'about_show_diff',
+  'about_diff1_icon', 'about_diff1_title', 'about_diff1_body',
+  'about_diff2_icon', 'about_diff2_title', 'about_diff2_body',
+  'about_diff3_icon', 'about_diff3_title', 'about_diff3_body',
+  'about_diff4_icon', 'about_diff4_title', 'about_diff4_body',
+  // About trainers
+  'about_show_trainers',
+  'about_trainer1_name', 'about_trainer1_role', 'about_trainer1_exp', 'about_trainer1_img',
+  'about_trainer2_name', 'about_trainer2_role', 'about_trainer2_exp', 'about_trainer2_img',
+  'about_trainer3_name', 'about_trainer3_role', 'about_trainer3_exp', 'about_trainer3_img',
+  // About CTA
+  'about_show_cta', 'about_cta_heading', 'about_cta_subtext',
+  'about_cta_btn1_text', 'about_cta_btn2_text',
 ]);
 
 @Injectable()
