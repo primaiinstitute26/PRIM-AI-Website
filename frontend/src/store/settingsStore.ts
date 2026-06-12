@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { getPublicSettings } from '@/api/settings';
+import type { ContactFAQ } from '@/data/contactPageData';
+import { DEFAULT_FAQS } from '@/data/contactPageData';
 
 export interface SiteSettings {
   // Navigation
@@ -77,6 +79,26 @@ export interface SiteSettings {
   aboutCtaSubtext: string;
   aboutCtaBtn1Text: string;
   aboutCtaBtn2Text: string;
+  // Contact hero & info
+  contactBadge: string;
+  contactHeading: string;
+  contactSubtext: string;
+  contactAddress: string;
+  contactPhone: string;
+  contactEmail: string;
+  contactHours: string;
+  contactFormTitle: string;
+  // Contact WhatsApp & Map
+  contactShowWhatsapp: boolean;
+  contactWhatsappNumber: string;
+  contactWhatsappMessage: string;
+  contactShowMap: boolean;
+  contactMapEmbedUrl: string;
+  contactMapLinkUrl: string;
+  // Contact FAQ
+  contactShowFaq: boolean;
+  contactFaqTitle: string;
+  contactFaqs: ContactFAQ[];
 }
 
 const DEFAULTS: SiteSettings = {
@@ -158,12 +180,46 @@ const DEFAULTS: SiteSettings = {
     'Join thousands of professionals who have accelerated their careers through our industry-aligned AI programs.',
   aboutCtaBtn1Text: 'Explore Courses',
   aboutCtaBtn2Text: 'Contact Admissions',
+  // Contact hero & info
+  contactBadge: 'GET IN TOUCH',
+  contactHeading: 'Start Your AI Journey Today',
+  contactSubtext:
+    'Connect with our admissions team to explore course details, campus visits, or bespoke AI training solutions for your team.',
+  contactAddress:
+    '1016, 10th Floor, Ganesh Glory, Off S.G. Highway, Jagatpur Road, Gota, Ahmedabad – 382470',
+  contactPhone: '+91 88490 31797',
+  contactEmail: 'primeai.dev@gmail.com',
+  contactHours: 'Mon – Sat: 9 AM – 6 PM IST',
+  contactFormTitle: 'Send an Enquiry',
+  // Contact WhatsApp & Map
+  contactShowWhatsapp: true,
+  contactWhatsappNumber: '917573055191',
+  contactWhatsappMessage:
+    "Hi! I'm interested in PRIM AI Institute courses. Please share more details.",
+  contactShowMap: true,
+  contactMapEmbedUrl:
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.5482349281685!2d72.54098!3d23.08501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84c0b68a4e6f%3A0x4d1d5b2b36e2c92f!2sGanesh%20Glory%2C%20Gota%2C%20Ahmedabad%2C%20Gujarat%20382481!5e0!3m2!1sen!2sin!4v1720000000000!5m2!1sen!2sin',
+  contactMapLinkUrl:
+    'https://maps.google.com/?q=Ganesh+Glory+Gota+Ahmedabad+Gujarat+382470',
+  // Contact FAQ
+  contactShowFaq: true,
+  contactFaqTitle: 'Frequently Asked Questions',
+  contactFaqs: DEFAULT_FAQS,
 };
 
 interface SettingsState {
   s: SiteSettings;
   loaded: boolean;
   fetch: () => Promise<void>;
+}
+
+function parseFaqs(raw: string | undefined): ContactFAQ[] {
+  if (!raw) return DEFAULT_FAQS;
+  try {
+    return JSON.parse(raw) as ContactFAQ[];
+  } catch {
+    return DEFAULT_FAQS;
+  }
 }
 
 export const useSettingsStore = create<SettingsState>()((set) => ({
@@ -245,6 +301,24 @@ export const useSettingsStore = create<SettingsState>()((set) => ({
           aboutCtaSubtext: r.about_cta_subtext ?? DEFAULTS.aboutCtaSubtext,
           aboutCtaBtn1Text: r.about_cta_btn1_text ?? DEFAULTS.aboutCtaBtn1Text,
           aboutCtaBtn2Text: r.about_cta_btn2_text ?? DEFAULTS.aboutCtaBtn2Text,
+          // Contact
+          contactBadge: r.contact_badge ?? DEFAULTS.contactBadge,
+          contactHeading: r.contact_heading ?? DEFAULTS.contactHeading,
+          contactSubtext: r.contact_subtext ?? DEFAULTS.contactSubtext,
+          contactAddress: r.contact_address ?? DEFAULTS.contactAddress,
+          contactPhone: r.contact_phone ?? DEFAULTS.contactPhone,
+          contactEmail: r.contact_email ?? DEFAULTS.contactEmail,
+          contactHours: r.contact_hours ?? DEFAULTS.contactHours,
+          contactFormTitle: r.contact_form_title ?? DEFAULTS.contactFormTitle,
+          contactShowWhatsapp: r.contact_show_whatsapp !== 'false',
+          contactWhatsappNumber: r.contact_whatsapp_number ?? DEFAULTS.contactWhatsappNumber,
+          contactWhatsappMessage: r.contact_whatsapp_message ?? DEFAULTS.contactWhatsappMessage,
+          contactShowMap: r.contact_show_map !== 'false',
+          contactMapEmbedUrl: r.contact_map_embed_url ?? DEFAULTS.contactMapEmbedUrl,
+          contactMapLinkUrl: r.contact_map_link_url ?? DEFAULTS.contactMapLinkUrl,
+          contactShowFaq: r.contact_show_faq !== 'false',
+          contactFaqTitle: r.contact_faq_title ?? DEFAULTS.contactFaqTitle,
+          contactFaqs: parseFaqs(r.contact_faqs),
         },
       });
     } catch {

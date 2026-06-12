@@ -1,11 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { getSettings, updateSetting } from '@/api/admin';
 import { useSettingsStore } from '@/store/settingsStore';
-import {
-  getContactData,
-  saveContactData,
-} from '@/data/contactPageData';
-import type { ContactPageData, ContactFAQ } from '@/data/contactPageData';
+import type { ContactFAQ } from '@/data/contactPageData';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -87,6 +83,25 @@ interface FormValues {
   about_cta_subtext: string;
   about_cta_btn1_text: string;
   about_cta_btn2_text: string;
+  // Contact hero & info
+  contact_badge: string;
+  contact_heading: string;
+  contact_subtext: string;
+  contact_address: string;
+  contact_phone: string;
+  contact_email: string;
+  contact_hours: string;
+  contact_form_title: string;
+  // Contact WhatsApp & Map
+  contact_show_whatsapp: string;
+  contact_whatsapp_number: string;
+  contact_whatsapp_message: string;
+  contact_show_map: string;
+  contact_map_embed_url: string;
+  contact_map_link_url: string;
+  // Contact FAQ
+  contact_show_faq: string;
+  contact_faq_title: string;
 }
 
 type FormKey = keyof FormValues;
@@ -161,6 +176,23 @@ const DEFAULTS: FormValues = {
   about_cta_subtext: 'Join thousands of professionals who have accelerated their careers through our industry-aligned AI programs.',
   about_cta_btn1_text: 'Explore Courses',
   about_cta_btn2_text: 'Contact Admissions',
+  // Contact
+  contact_badge: 'GET IN TOUCH',
+  contact_heading: 'Start Your AI Journey Today',
+  contact_subtext: 'Connect with our admissions team to explore course details, campus visits, or bespoke AI training solutions for your team.',
+  contact_address: '1016, 10th Floor, Ganesh Glory, Off S.G. Highway, Jagatpur Road, Gota, Ahmedabad – 382470',
+  contact_phone: '+91 88490 31797',
+  contact_email: 'primeai.dev@gmail.com',
+  contact_hours: 'Mon – Sat: 9 AM – 6 PM IST',
+  contact_form_title: 'Send an Enquiry',
+  contact_show_whatsapp: 'true',
+  contact_whatsapp_number: '917573055191',
+  contact_whatsapp_message: "Hi! I'm interested in PRIM AI Institute courses. Please share more details.",
+  contact_show_map: 'true',
+  contact_map_embed_url: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.5482349281685!2d72.54098!3d23.08501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84c0b68a4e6f%3A0x4d1d5b2b36e2c92f!2sGanesh%20Glory%2C%20Gota%2C%20Ahmedabad%2C%20Gujarat%20382481!5e0!3m2!1sen!2sin!4v1720000000000!5m2!1sen!2sin',
+  contact_map_link_url: 'https://maps.google.com/?q=Ganesh+Glory+Gota+Ahmedabad+Gujarat+382470',
+  contact_show_faq: 'true',
+  contact_faq_title: 'Frequently Asked Questions',
 };
 
 // ─── Section definitions ──────────────────────────────────────────
@@ -326,6 +358,49 @@ const ABOUT_SECTIONS: SectionDef[] = [
   },
 ];
 
+const CONTACT_SECTIONS: SectionDef[] = [
+  {
+    id: 'contact_info',
+    icon: '📍',
+    title: 'Contact — Hero & Info',
+    accentColor: '#34d399',
+    fields: [
+      { key: 'contact_badge', label: 'Badge Text', hint: 'Small pill above heading (e.g. GET IN TOUCH)' },
+      { key: 'contact_heading', label: 'Page Heading' },
+      { key: 'contact_subtext', label: 'Subtext Paragraph', type: 'textarea' },
+      { key: 'contact_address', label: 'Office Address', type: 'textarea' },
+      { key: 'contact_phone', label: 'Phone Number' },
+      { key: 'contact_email', label: 'Email Address' },
+      { key: 'contact_hours', label: 'Office Hours', hint: 'e.g. Mon – Sat: 9 AM – 6 PM IST' },
+      { key: 'contact_form_title', label: 'Enquiry Form Title' },
+    ],
+  },
+  {
+    id: 'contact_whatsapp_map',
+    icon: '💬',
+    title: 'Contact — WhatsApp & Map',
+    accentColor: '#25d366',
+    fields: [
+      { key: 'contact_show_whatsapp', label: 'Show WhatsApp Button', type: 'toggle' },
+      { key: 'contact_whatsapp_number', label: 'WhatsApp Number', hint: 'Digits only with country code. e.g. 917573055191' },
+      { key: 'contact_whatsapp_message', label: 'Pre-filled WhatsApp Message', type: 'textarea' },
+      { key: 'contact_show_map', label: 'Show Map Section', type: 'toggle' },
+      { key: 'contact_map_embed_url', label: 'Google Maps Embed URL', hint: 'Google Maps → Share → Embed a map → copy the src="" value from the iframe code', type: 'textarea' },
+      { key: 'contact_map_link_url', label: 'Map Direct Link', hint: 'Opens in Google Maps when user clicks the map' },
+    ],
+  },
+  {
+    id: 'contact_faq_settings',
+    icon: '❓',
+    title: 'Contact — FAQ Settings',
+    accentColor: '#a78bfa',
+    fields: [
+      { key: 'contact_show_faq', label: 'Show FAQ Section', type: 'toggle' },
+      { key: 'contact_faq_title', label: 'FAQ Section Title' },
+    ],
+  },
+];
+
 // ─── Component ────────────────────────────────────────────────────
 
 export default function Settings() {
@@ -335,42 +410,44 @@ export default function Settings() {
   const [sectionSaved, setSectionSaved] = useState<string | null>(null);
   const refreshPublic = useSettingsStore((state) => state.fetch);
 
-  // ── Contact page state (localStorage) ────────────────────────
-  const [contact, setContact] = useState<ContactPageData>(() => getContactData());
-  const [contactSaved, setContactSaved] = useState(false);
+  // ── FAQ state (contact_faqs stored as JSON in DB) ─────────────
+  const [faqs, setFaqs] = useState<ContactFAQ[]>([]);
+  const [faqSaving, setFaqSaving] = useState(false);
+  const [faqSaved, setFaqSaved] = useState(false);
   const [editingFaqId, setEditingFaqId] = useState<string | null>(null);
-
-  const setContactField = <K extends keyof ContactPageData>(key: K, value: ContactPageData[K]) =>
-    setContact((prev) => ({ ...prev, [key]: value }));
 
   const addFaq = () => {
     const newFaq: ContactFAQ = { id: Date.now().toString(), question: '', answer: '' };
-    setContact((prev) => ({ ...prev, faqs: [...prev.faqs, newFaq] }));
+    setFaqs((prev) => [...prev, newFaq]);
     setEditingFaqId(newFaq.id);
   };
 
   const updateFaq = (id: string, field: 'question' | 'answer', value: string) =>
-    setContact((prev) => ({
-      ...prev,
-      faqs: prev.faqs.map((f) => (f.id === id ? { ...f, [field]: value } : f)),
-    }));
+    setFaqs((prev) => prev.map((f) => (f.id === id ? { ...f, [field]: value } : f)));
 
   const deleteFaq = (id: string) =>
-    setContact((prev) => ({ ...prev, faqs: prev.faqs.filter((f) => f.id !== id) }));
+    setFaqs((prev) => prev.filter((f) => f.id !== id));
 
-  const moveFaq = (index: number, dir: -1 | 1) =>
-    setContact((prev) => {
-      const faqs = [...prev.faqs];
-      const target = index + dir;
-      if (target < 0 || target >= faqs.length) return prev;
-      [faqs[index], faqs[target]] = [faqs[target], faqs[index]];
-      return { ...prev, faqs };
-    });
+  const moveFaq = (index: number, dir: -1 | 1) => {
+    const target = index + dir;
+    if (target < 0 || target >= faqs.length) return;
+    const next = [...faqs];
+    [next[index], next[target]] = [next[target], next[index]];
+    setFaqs(next);
+  };
 
-  const handleSaveContact = () => {
-    saveContactData(contact);
-    setContactSaved(true);
-    setTimeout(() => setContactSaved(false), 2500);
+  const saveFaqs = async () => {
+    setFaqSaving(true);
+    try {
+      await updateSetting('contact_faqs', JSON.stringify(faqs));
+      await refreshPublic();
+      setFaqSaved(true);
+      setTimeout(() => setFaqSaved(false), 2500);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setFaqSaving(false);
+    }
   };
 
   useEffect(() => {
@@ -384,6 +461,9 @@ export default function Settings() {
           });
           return next;
         });
+        if (raw.contact_faqs) {
+          try { setFaqs(JSON.parse(raw.contact_faqs) as ContactFAQ[]); } catch {}
+        }
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -575,7 +655,7 @@ export default function Settings() {
         {ABOUT_SECTIONS.map(renderSection)}
       </div>
 
-      {/* ── Contact Page sections (localStorage) ─────────────── */}
+      {/* ── Contact Page sections ──────────────────────────── */}
       <div className="flex items-center gap-4 mt-12 mb-6">
         <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
         <span className="text-xs font-bold tracking-widest uppercase px-3" style={{ color: '#34d399' }}>
@@ -583,143 +663,30 @@ export default function Settings() {
         </span>
         <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
       </div>
+      <div className="flex flex-col gap-8">
+        {CONTACT_SECTIONS.map(renderSection)}
 
-      <div className="flex flex-col gap-6">
-
-        {/* ── Contact Info ─────────────────────────────────────── */}
+        {/* ── FAQ Items Manager ─────────────────────────────── */}
         <div className="glass-card rounded-2xl overflow-hidden">
-          <div className="px-6 py-4 flex items-center gap-3" style={{ borderBottom: '1px solid var(--border)', background: 'rgba(255,255,255,.02)' }}>
-            <span className="text-xl">📍</span>
-            <h2 className="font-bold text-sm" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}>Contact — Hero &amp; Info</h2>
-          </div>
-          <div className="px-6 py-5 flex flex-col gap-5">
-            {(
-              [
-                { key: 'badge' as const, label: 'Badge Text', hint: 'Small pill above heading (e.g. GET IN TOUCH)' },
-                { key: 'heading' as const, label: 'Page Heading' },
-                { key: 'subtext' as const, label: 'Subtext', type: 'textarea' as const },
-                { key: 'address' as const, label: 'Address', type: 'textarea' as const },
-                { key: 'phone' as const, label: 'Phone Number' },
-                { key: 'email' as const, label: 'Email Address' },
-                { key: 'hours' as const, label: 'Office Hours', hint: 'e.g. Mon–Sat: 9AM – 6PM IST' },
-                { key: 'formTitle' as const, label: 'Form Card Title' },
-              ] as Array<{ key: keyof ContactPageData; label: string; type?: 'textarea'; hint?: string }>
-            ).map((f) => (
-              <div key={f.key}>
-                <label className="block text-xs font-semibold mb-1.5" style={{ color: '#34d399' }}>{f.label}</label>
-                {f.hint && <p className="text-xs mb-2" style={{ color: 'var(--muted)' }}>{f.hint}</p>}
-                {f.type === 'textarea' ? (
-                  <textarea
-                    rows={2}
-                    value={contact[f.key] as string}
-                    onChange={(e) => setContactField(f.key, e.target.value)}
-                    style={{ resize: 'vertical' }}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    value={contact[f.key] as string}
-                    onChange={(e) => setContactField(f.key, e.target.value)}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── WhatsApp & Map ────────────────────────────────────── */}
-        <div className="glass-card rounded-2xl overflow-hidden">
-          <div className="px-6 py-4 flex items-center gap-3" style={{ borderBottom: '1px solid var(--border)', background: 'rgba(255,255,255,.02)' }}>
-            <span className="text-xl">💬</span>
-            <h2 className="font-bold text-sm" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}>WhatsApp &amp; Map</h2>
-          </div>
-          <div className="px-6 py-5 flex flex-col gap-5">
-            <div>
-              <label className="block text-xs font-semibold mb-1.5" style={{ color: '#34d399' }}>Show WhatsApp Button</label>
-              <button
-                type="button"
-                onClick={() => setContactField('showWhatsapp', !contact.showWhatsapp)}
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
-                style={{
-                  background: contact.showWhatsapp ? 'rgba(37,211,102,.12)' : 'rgba(255,255,255,.04)',
-                  border: `1px solid ${contact.showWhatsapp ? 'rgba(37,211,102,.3)' : 'var(--border)'}`,
-                  color: contact.showWhatsapp ? '#25D366' : 'var(--muted)',
-                }}
-              >
-                <span className="w-8 h-4 rounded-full relative flex-shrink-0" style={{ background: contact.showWhatsapp ? '#25D366' : 'rgba(255,255,255,.15)' }}>
-                  <span className="absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all" style={{ left: contact.showWhatsapp ? '18px' : '2px' }} />
-                </span>
-                {contact.showWhatsapp ? 'Enabled' : 'Disabled'}
-              </button>
-            </div>
-            <div>
-              <label className="block text-xs font-semibold mb-1.5" style={{ color: '#34d399' }}>WhatsApp Number</label>
-              <p className="text-xs mb-2" style={{ color: 'var(--muted)' }}>Digits only, with country code. e.g. 917573055191</p>
-              <input type="text" value={contact.whatsappNumber} onChange={(e) => setContactField('whatsappNumber', e.target.value)} />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold mb-1.5" style={{ color: '#34d399' }}>WhatsApp Pre-filled Message</label>
-              <textarea rows={2} value={contact.whatsappMessage} onChange={(e) => setContactField('whatsappMessage', e.target.value)} style={{ resize: 'vertical' }} />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold mb-1.5" style={{ color: '#34d399' }}>Show Map Section</label>
-              <button
-                type="button"
-                onClick={() => setContactField('showMap', !contact.showMap)}
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
-                style={{
-                  background: contact.showMap ? 'rgba(0,212,255,.12)' : 'rgba(255,255,255,.04)',
-                  border: `1px solid ${contact.showMap ? 'rgba(0,212,255,.3)' : 'var(--border)'}`,
-                  color: contact.showMap ? 'var(--electric)' : 'var(--muted)',
-                }}
-              >
-                <span className="w-8 h-4 rounded-full relative flex-shrink-0" style={{ background: contact.showMap ? 'var(--electric)' : 'rgba(255,255,255,.15)' }}>
-                  <span className="absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all" style={{ left: contact.showMap ? '18px' : '2px' }} />
-                </span>
-                {contact.showMap ? 'Enabled' : 'Disabled'}
-              </button>
-            </div>
-            <div>
-              <label className="block text-xs font-semibold mb-1.5" style={{ color: '#34d399' }}>Google Maps Embed URL</label>
-              <p className="text-xs mb-2" style={{ color: 'var(--muted)' }}>Google Maps → Share → Embed a map → copy the src="" value from the iframe code</p>
-              <textarea rows={3} value={contact.mapEmbedUrl} onChange={(e) => setContactField('mapEmbedUrl', e.target.value)} style={{ resize: 'vertical', fontFamily: 'monospace', fontSize: '11px' }} />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold mb-1.5" style={{ color: '#34d399' }}>Map Direct Link (opens in Google Maps)</label>
-              <input type="text" value={contact.mapLinkUrl} onChange={(e) => setContactField('mapLinkUrl', e.target.value)} />
-            </div>
-          </div>
-        </div>
-
-        {/* ── FAQ Manager ───────────────────────────────────────── */}
-        <div className="glass-card rounded-2xl overflow-hidden">
-          <div className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid var(--border)', background: 'rgba(255,255,255,.02)' }}>
+          <div
+            className="px-6 py-4 flex items-center justify-between"
+            style={{ borderBottom: '1px solid var(--border)', background: 'rgba(255,255,255,.02)' }}
+          >
             <div className="flex items-center gap-3">
-              <span className="text-xl">❓</span>
-              <h2 className="font-bold text-sm" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}>FAQ Manager</h2>
+              <span className="text-xl">📋</span>
+              <h2 className="font-bold text-sm" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}>
+                Contact — FAQ Items
+              </h2>
             </div>
-            <button
-              type="button"
-              onClick={() => setContactField('showFaq', !contact.showFaq)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium transition-all"
-              style={{
-                background: contact.showFaq ? 'rgba(0,212,255,.12)' : 'rgba(255,255,255,.04)',
-                border: `1px solid ${contact.showFaq ? 'rgba(0,212,255,.3)' : 'var(--border)'}`,
-                color: contact.showFaq ? 'var(--electric)' : 'var(--muted)',
-              }}
-            >
-              {contact.showFaq ? 'Visible' : 'Hidden'}
-            </button>
+            <div
+              className="w-2 h-2 rounded-full"
+              style={{ background: '#a78bfa', boxShadow: '0 0 6px #a78bfa' }}
+            />
           </div>
-          <div className="px-6 py-5 flex flex-col gap-4">
-            <div>
-              <label className="block text-xs font-semibold mb-1.5" style={{ color: '#a78bfa' }}>Section Title</label>
-              <input type="text" value={contact.faqSectionTitle} onChange={(e) => setContactField('faqSectionTitle', e.target.value)} />
-            </div>
 
-            {/* FAQ list */}
-            <div className="flex flex-col gap-3 mt-2">
-              {contact.faqs.map((faq, index) => (
+          <div className="px-6 py-5 flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
+              {faqs.map((faq, index) => (
                 <div
                   key={faq.id}
                   className="rounded-xl p-4 flex flex-col gap-3"
@@ -738,7 +705,7 @@ export default function Settings() {
                       <button
                         type="button"
                         onClick={() => moveFaq(index, 1)}
-                        disabled={index === contact.faqs.length - 1}
+                        disabled={index === faqs.length - 1}
                         className="w-7 h-7 rounded-lg text-xs font-bold transition-all disabled:opacity-30"
                         style={{ background: 'rgba(255,255,255,.06)', color: 'var(--muted)' }}
                       >↓</button>
@@ -776,7 +743,9 @@ export default function Settings() {
                       </button>
                     </>
                   ) : (
-                    <p className="text-sm" style={{ color: 'var(--white)' }}>{faq.question || <em style={{ color: 'var(--muted)' }}>No question set</em>}</p>
+                    <p className="text-sm" style={{ color: 'var(--white)' }}>
+                      {faq.question || <em style={{ color: 'var(--muted)' }}>No question set</em>}
+                    </p>
                   )}
                 </div>
               ))}
@@ -789,25 +758,25 @@ export default function Settings() {
             >
               + Add FAQ
             </button>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={saveFaqs}
+                disabled={faqSaving}
+                className="btn-primary text-sm px-6 py-2"
+                style={{ minWidth: '130px' }}
+              >
+                {faqSaving ? 'Saving…' : faqSaved ? '✓ Saved!' : 'Save FAQ Items'}
+              </button>
+              {faqSaved && (
+                <span className="text-xs" style={{ color: 'var(--electric)' }}>
+                  Live site updated
+                </span>
+              )}
+            </div>
           </div>
         </div>
-
-        {/* ── Save Contact Page ─────────────────────────────────── */}
-        <div className="flex items-center gap-4 pt-2">
-          <button
-            type="button"
-            onClick={handleSaveContact}
-            className="btn-primary px-8 py-3"
-          >
-            {contactSaved ? '✓ Contact Page Saved!' : 'Save Contact Page'}
-          </button>
-          {contactSaved && (
-            <span className="text-sm" style={{ color: '#34d399' }}>
-              Saved to local storage — contact page updated live
-            </span>
-          )}
-        </div>
-
       </div>
     </div>
   );

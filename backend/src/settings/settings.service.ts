@@ -37,6 +37,15 @@ const PUBLIC_KEYS = new Set([
   // About CTA
   'about_show_cta', 'about_cta_heading', 'about_cta_subtext',
   'about_cta_btn1_text', 'about_cta_btn2_text',
+  // Contact hero & info
+  'contact_badge', 'contact_heading', 'contact_subtext',
+  'contact_address', 'contact_phone', 'contact_email', 'contact_hours',
+  'contact_form_title',
+  // Contact WhatsApp & Map
+  'contact_show_whatsapp', 'contact_whatsapp_number', 'contact_whatsapp_message',
+  'contact_show_map', 'contact_map_embed_url', 'contact_map_link_url',
+  // Contact FAQ
+  'contact_show_faq', 'contact_faq_title', 'contact_faqs',
 ]);
 
 @Injectable()

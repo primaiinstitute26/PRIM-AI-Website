@@ -2,23 +2,19 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { createEnquiry } from '@/api/enquiries';
 import type { CreateEnquiryDto } from '@/types';
-import { getContactData } from '@/data/contactPageData';
-import type { ContactPageData } from '@/data/contactPageData';
+import { useSettingsStore } from '@/store/settingsStore';
 
 export default function Contact() {
-  const [data, setData] = useState<ContactPageData>(() => getContactData());
+  const s = useSettingsStore((state) => state.s);
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState('');
-  const [openFaqId, setOpenFaqId] = useState<string | null>(
-    () => getContactData().faqs[0]?.id ?? null
-  );
+  const [openFaqId, setOpenFaqId] = useState<string | null>(null);
 
-  // Re-read when window gains focus so admin edits show immediately
   useEffect(() => {
-    const sync = () => setData(getContactData());
-    window.addEventListener('focus', sync);
-    return () => window.removeEventListener('focus', sync);
-  }, []);
+    if (!openFaqId && s.contactFaqs.length > 0) {
+      setOpenFaqId(s.contactFaqs[0].id);
+    }
+  }, [s.contactFaqs, openFaqId]);
 
   // Scroll reveal
   useEffect(() => {
@@ -45,7 +41,7 @@ export default function Contact() {
     }
   };
 
-  const waUrl = `https://wa.me/${data.whatsappNumber}?text=${encodeURIComponent(data.whatsappMessage)}`;
+  const waUrl = `https://wa.me/${s.contactWhatsappNumber}?text=${encodeURIComponent(s.contactWhatsappMessage)}`;
 
   return (
     <>
@@ -57,16 +53,16 @@ export default function Contact() {
             className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-5"
             style={{ background: 'rgba(0,212,255,.1)', border: '1px solid rgba(0,212,255,.2)', color: 'var(--electric)' }}
           >
-            {data.badge}
+            {s.contactBadge}
           </div>
           <h1
             className="text-4xl md:text-6xl font-bold mb-5"
             style={{ fontFamily: 'var(--font-head)', letterSpacing: '-1.5px', color: 'var(--white)' }}
           >
-            {data.heading}
+            {s.contactHeading}
           </h1>
           <p className="text-lg leading-relaxed max-w-2xl mx-auto" style={{ color: 'var(--muted)' }}>
-            {data.subtext}
+            {s.contactSubtext}
           </p>
         </section>
 
@@ -78,7 +74,7 @@ export default function Contact() {
 
             {/* Address card */}
             <a
-              href={data.mapLinkUrl}
+              href={s.contactMapLinkUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="glass-card glass-card-hover p-6 rounded-2xl flex gap-4 items-start group no-underline"
@@ -94,7 +90,7 @@ export default function Contact() {
                   Global Headquarters
                 </h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
-                  {data.address}
+                  {s.contactAddress}
                 </p>
                 <span
                   className="inline-block mt-3 text-xs font-semibold"
@@ -109,7 +105,7 @@ export default function Contact() {
             <div className="grid grid-cols-2 gap-4">
               {/* Phone */}
               <a
-                href={`tel:${data.phone.replace(/\s/g, '')}`}
+                href={`tel:${s.contactPhone.replace(/\s/g, '')}`}
                 className="glass-card glass-card-hover p-5 rounded-2xl flex items-start gap-3 no-underline"
               >
                 <div
@@ -122,13 +118,13 @@ export default function Contact() {
                   <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--muted)' }}>
                     Admissions
                   </p>
-                  <p className="text-sm font-semibold" style={{ color: 'var(--white)' }}>{data.phone}</p>
+                  <p className="text-sm font-semibold" style={{ color: 'var(--white)' }}>{s.contactPhone}</p>
                 </div>
               </a>
 
               {/* Email */}
               <a
-                href={`mailto:${data.email}`}
+                href={`mailto:${s.contactEmail}`}
                 className="glass-card glass-card-hover p-5 rounded-2xl flex items-start gap-3 no-underline"
               >
                 <div
@@ -141,7 +137,7 @@ export default function Contact() {
                   <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--muted)' }}>
                     Email
                   </p>
-                  <p className="text-sm font-semibold break-all" style={{ color: 'var(--white)' }}>{data.email}</p>
+                  <p className="text-sm font-semibold break-all" style={{ color: 'var(--white)' }}>{s.contactEmail}</p>
                 </div>
               </a>
 
@@ -179,7 +175,7 @@ export default function Contact() {
                   <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--muted)' }}>
                     Hours
                   </p>
-                  <p className="text-sm font-semibold" style={{ color: 'var(--white)' }}>{data.hours}</p>
+                  <p className="text-sm font-semibold" style={{ color: 'var(--white)' }}>{s.contactHours}</p>
                 </div>
               </div>
             </div>
@@ -214,7 +210,7 @@ export default function Contact() {
                   className="relative text-xl font-bold mb-6"
                   style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}
                 >
-                  {data.formTitle}
+                  {s.contactFormTitle}
                 </h2>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="relative flex flex-col gap-4">
@@ -331,16 +327,16 @@ export default function Contact() {
         </section>
 
         {/* ── FAQ ────────────────────────────────────────────── */}
-        {data.showFaq && data.faqs.length > 0 && (
+        {s.contactShowFaq && s.contactFaqs.length > 0 && (
           <section className="max-w-3xl mx-auto px-6 pb-20 reveal">
             <h2
               className="text-3xl md:text-4xl font-bold text-center mb-10"
               style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}
             >
-              {data.faqSectionTitle}
+              {s.contactFaqTitle}
             </h2>
             <div className="flex flex-col gap-3">
-              {data.faqs.map((faq) => {
+              {s.contactFaqs.map((faq) => {
                 const isOpen = openFaqId === faq.id;
                 return (
                   <div key={faq.id} className="glass-card rounded-2xl overflow-hidden">
@@ -383,15 +379,15 @@ export default function Contact() {
         )}
 
         {/* ── Map ────────────────────────────────────────────── */}
-        {data.showMap && (
+        {s.contactShowMap && (
           <section className="reveal" style={{ borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
             <div
               className="relative w-full cursor-pointer group"
               style={{ height: '400px' }}
-              onClick={() => window.open(data.mapLinkUrl, '_blank')}
+              onClick={() => window.open(s.contactMapLinkUrl, '_blank')}
             >
               <iframe
-                src={data.mapEmbedUrl}
+                src={s.contactMapEmbedUrl}
                 width="100%"
                 height="100%"
                 style={{ border: 0, filter: 'grayscale(30%) invert(92%) hue-rotate(180deg)' }}
@@ -400,12 +396,10 @@ export default function Contact() {
                 referrerPolicy="no-referrer-when-downgrade"
                 title="PRIM AI Institute Location"
               />
-              {/* Dark overlay so it matches the theme */}
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{ background: 'rgba(2,8,24,.35)', mixBlendMode: 'multiply' }}
               />
-              {/* Center marker */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div
                   className="flex flex-col items-center gap-2 px-5 py-3 rounded-2xl"
@@ -427,7 +421,7 @@ export default function Contact() {
       </main>
 
       {/* ── WhatsApp FAB ─────────────────────────────────────── */}
-      {data.showWhatsapp && (
+      {s.contactShowWhatsapp && (
         <a
           href={waUrl}
           target="_blank"

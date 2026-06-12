@@ -99,6 +99,31 @@ async function main() {
     { key: 'about_cta_subtext', value: 'Join thousands of professionals who have accelerated their careers through our industry-aligned AI programs.' },
     { key: 'about_cta_btn1_text', value: 'Explore Courses' },
     { key: 'about_cta_btn2_text', value: 'Contact Admissions' },
+    // Contact hero & info
+    { key: 'contact_badge', value: 'GET IN TOUCH' },
+    { key: 'contact_heading', value: 'Start Your AI Journey Today' },
+    { key: 'contact_subtext', value: 'Connect with our admissions team to explore course details, campus visits, or bespoke AI training solutions for your team.' },
+    { key: 'contact_address', value: '1016, 10th Floor, Ganesh Glory, Off S.G. Highway, Jagatpur Road, Gota, Ahmedabad – 382470' },
+    { key: 'contact_phone', value: '+91 88490 31797' },
+    { key: 'contact_email', value: 'primeai.dev@gmail.com' },
+    { key: 'contact_hours', value: 'Mon – Sat: 9 AM – 6 PM IST' },
+    { key: 'contact_form_title', value: 'Send an Enquiry' },
+    // Contact WhatsApp & Map
+    { key: 'contact_show_whatsapp', value: 'true' },
+    { key: 'contact_whatsapp_number', value: '917573055191' },
+    { key: 'contact_whatsapp_message', value: "Hi! I'm interested in PRIM AI Institute courses. Please share more details." },
+    { key: 'contact_show_map', value: 'true' },
+    { key: 'contact_map_embed_url', value: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.5482349281685!2d72.54098!3d23.08501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84c0b68a4e6f%3A0x4d1d5b2b36e2c92f!2sGanesh%20Glory%2C%20Gota%2C%20Ahmedabad%2C%20Gujarat%20382481!5e0!3m2!1sen!2sin!4v1720000000000!5m2!1sen!2sin' },
+    { key: 'contact_map_link_url', value: 'https://maps.google.com/?q=Ganesh+Glory+Gota+Ahmedabad+Gujarat+382470' },
+    // Contact FAQ
+    { key: 'contact_show_faq', value: 'true' },
+    { key: 'contact_faq_title', value: 'Frequently Asked Questions' },
+    { key: 'contact_faqs', value: JSON.stringify([
+      { id: '1', question: 'What is the primary focus of PRIM AI Institute?', answer: 'PRIM AI Institute specializes in practical AI education for school students, college students, working professionals, and business owners. Our programs focus on real-world applications of Artificial Intelligence with zero theoretical bloat and 100% hands-on learning.' },
+      { id: '2', question: 'Do I need prior coding or AI knowledge to join?', answer: 'Not at all! Our Level 1 Introduction course is designed for absolute beginners. We start from the very basics and build your skills step by step. All you need is curiosity and a smartphone or laptop.' },
+      { id: '3', question: 'What payment options are available?', answer: 'We offer flexible payment options including full payment, easy EMI plans, and scholarship opportunities for deserving students. Contact our admissions team to discuss the option that works best for you.' },
+      { id: '4', question: 'What kind of career support do you provide?', answer: 'We provide 100% placement assistance including resume building workshops, mock interview sessions, LinkedIn optimization, and direct referrals to our 350+ hiring partner companies across India.' },
+    ]) },
   ];
 
   for (const setting of defaultSettings) {
