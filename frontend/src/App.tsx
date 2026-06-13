@@ -16,6 +16,7 @@ const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
 const Bookings = lazy(() => import('@/pages/admin/Bookings'));
 const Enquiries = lazy(() => import('@/pages/admin/Enquiries'));
 const Settings = lazy(() => import('@/pages/admin/Settings'));
+const CourseSettings = lazy(() => import('@/pages/admin/CourseSettings'));
 
 function PublicLayout() {
   return (
@@ -84,6 +85,7 @@ export default function App() {
         <Route path="bookings" element={<Bookings />} />
         <Route path="enquiries" element={<Enquiries />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="courses" element={<CourseSettings />} />
       </Route>
     </Routes>
   );

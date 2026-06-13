@@ -7,6 +7,7 @@ const links = [
   { to: '/admin/dashboard', icon: '📊', label: 'Dashboard' },
   { to: '/admin/bookings', icon: '📅', label: 'Demo Bookings' },
   { to: '/admin/enquiries', icon: '📩', label: 'Enquiries' },
+  { to: '/admin/courses', icon: '📚', label: 'Courses Page' },
   { to: '/admin/settings', icon: '⚙️', label: 'Settings' },
 ];
 
