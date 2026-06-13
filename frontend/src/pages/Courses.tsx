@@ -75,7 +75,7 @@ export default function Courses() {
               </div>
             </div>
 
-            {/* Right — sticky card */}
+            {/* Right - sticky card */}
             <div className="glass-card rounded-2xl p-7 anim-4" style={{ border: '1px solid rgba(0,212,255,.2)', position: 'sticky', top: '100px' }}>
               <h3 className="font-bold text-sm mb-5 pb-4" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)', borderBottom: '1px solid var(--border)' }}>
                 Course Highlights

@@ -116,7 +116,7 @@ export default function CourseSettings() {
     setData((prev) => ({ ...prev, [key]: value }));
   }
 
-  // ── Persist helper — saves to Neon via API then refreshes store
+  // ── Persist helper - saves to Neon via API then refreshes store
   async function save(setSaving: (v: boolean) => void, setSaved: (v: boolean) => void) {
     setSaving(true);
     try {
@@ -408,7 +408,7 @@ export default function CourseSettings() {
 
         {/* ── Who Should Join ─────────────────────────────────────────────── */}
         <Card
-          title="Who Should Join — Audience Cards"
+          title="Who Should Join - Audience Cards"
           accent="#10b981"
           onSave={() => save(setAudSaving, setAudSaved)}
           saving={audSaving}
@@ -438,7 +438,7 @@ export default function CourseSettings() {
 
         {/* ── Curriculum ──────────────────────────────────────────────────── */}
         <Card
-          title="Curriculum — Modules & Topics"
+          title="Curriculum - Modules & Topics"
           accent="#8b5cf6"
           onSave={() => save(setCurrSaving, setCurrSaved)}
           saving={currSaving}
@@ -510,7 +510,7 @@ export default function CourseSettings() {
 
         {/* ── Outcomes ────────────────────────────────────────────────────── */}
         <Card
-          title="Outcomes — What You Will Be Able to Do"
+          title="Outcomes - What You Will Be Able to Do"
           accent="#f59e0b"
           onSave={() => save(setOutSaving, setOutSaved)}
           saving={outSaving}
@@ -581,7 +581,7 @@ export default function CourseSettings() {
 
         {/* ── Testimonials ─────────────────────────────────────────────────── */}
         <Card
-          title="Testimonials — Student Stories"
+          title="Testimonials - Student Stories"
           accent="#ec4899"
           onSave={() => save(setTestSaving, setTestSaved)}
           saving={testSaving}
