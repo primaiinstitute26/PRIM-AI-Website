@@ -24,6 +24,6 @@ export function sanitizeHtml(dirty: string): string {
       'a', 'img',
       'hr',
     ],
-    ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'style'],
+    ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'style', 'id'],
   });
 }
