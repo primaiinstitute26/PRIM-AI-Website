@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { LeadsTable } from '@/components/admin/LeadsTable';
+import { SearchInput } from '@/components/ui/SearchInput';
 import {
   getBookings,
   updateBookingStatus,
@@ -72,14 +73,16 @@ export default function Bookings() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        <input
-          type="text"
-          placeholder="Search by name or phone..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && fetchBookings()}
-          className="sm:max-w-xs"
-        />
+        <form
+          onSubmit={(e) => { e.preventDefault(); setPage(1); fetchBookings(); }}
+          className="sm:max-w-xs w-full"
+        >
+          <SearchInput
+            value={search}
+            onChange={setSearch}
+            placeholder="Search by name or phone..."
+          />
+        </form>
         <select
           value={statusFilter}
           onChange={(e) => { setStatusFilter(e.target.value as LeadStatus | ''); setPage(1); }}

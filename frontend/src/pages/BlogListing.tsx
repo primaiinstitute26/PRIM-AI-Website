@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { fetchPublicPosts, fetchPublicCategories, type BlogPost, type BlogCategory } from '@/api/blog';
+import { SearchInput } from '@/components/ui/SearchInput';
 
 const PAGE_SIZE = 9;
 
@@ -85,7 +86,6 @@ export default function BlogListing() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  const [inputValue, setInputValue] = useState('');
   const [activeCategory, setActiveCategory] = useState('');
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -106,12 +106,6 @@ export default function BlogListing() {
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    setSearch(inputValue);
-    setPage(1);
-  }
-
   function handleCategory(slug: string) {
     setActiveCategory(slug === activeCategory ? '' : slug);
     setPage(1);
@@ -130,29 +124,14 @@ export default function BlogListing() {
             Tutorials, case studies, and career guidance from the PRIM AI team.
           </p>
 
-          <form onSubmit={handleSearch} className="mt-8 flex justify-center">
-            <div className="relative w-full max-w-2xl">
-              <Search
-                size={18}
-                className="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none"
-                style={{ color: 'var(--muted)' }}
-              />
-              <input
-                type="text"
-                placeholder="Search articles..."
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                className="w-full pl-14 pr-36"
-                style={{ borderRadius: '9999px' }}
-              />
-              <button
-                type="submit"
-                className="btn-primary absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 text-sm"
-              >
-                Search
-              </button>
-            </div>
-          </form>
+          <div className="mt-8 flex justify-center">
+            <SearchInput
+              value={search}
+              onChange={(v) => { setSearch(v); setPage(1); }}
+              placeholder="Search articles, tutorials, news..."
+              className="max-w-2xl"
+            />
+          </div>
         </div>
       </section>
 
@@ -207,7 +186,7 @@ export default function BlogListing() {
                 {search ? `Nothing matched "${search}" - try a different term.` : 'No posts published yet - check back soon!'}
               </p>
               {search && (
-                <button onClick={() => { setSearch(''); setInputValue(''); setPage(1); }} className="btn-outline mt-6 text-sm px-6 py-2">
+                <button onClick={() => { setSearch(''); setPage(1); }} className="btn-outline mt-6 text-sm px-6 py-2">
                   Clear search
                 </button>
               )}

@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Search, Clock, ExternalLink, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Clock, ExternalLink, Pencil, Trash2 } from 'lucide-react';
+import { SearchInput } from '@/components/ui/SearchInput';
 import { adminFetchPosts, adminDeletePost, type BlogPost } from '@/api/blog';
 
 export default function BlogPosts() {
@@ -55,17 +56,13 @@ export default function BlogPosts() {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <form onSubmit={handleSearch} className="flex gap-2 flex-1">
-          <div className="relative flex-1">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--muted)' }} />
-            <input
-              type="text"
-              placeholder="Search posts…"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              className="pl-9"
-            />
-          </div>
-          <button type="submit" className="btn-electric text-sm px-4 py-2">Search</button>
+          <SearchInput
+            value={inputValue}
+            onChange={setInputValue}
+            placeholder="Search by title..."
+            className="flex-1"
+          />
+          <button type="submit" className="btn-electric text-sm px-4 py-2 shrink-0">Search</button>
         </form>
 
         <select
