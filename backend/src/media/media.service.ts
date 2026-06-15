@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import sharp from 'sharp';
@@ -27,20 +27,40 @@ export interface UploadResult {
 
 @Injectable()
 export class MediaService {
-  private readonly s3: S3Client;
+  private readonly spacesKey: string;
+  private readonly spacesSecret: string;
+  private readonly spacesEndpoint: string;
   private readonly bucket: string;
   private readonly cdnUrl: string;
+  private readonly configured: boolean;
 
   constructor(private config: ConfigService) {
-    this.bucket = config.getOrThrow<string>('DO_SPACES_BUCKET');
-    this.cdnUrl = config.getOrThrow<string>('DO_SPACES_CDN_URL');
+    this.spacesKey      = config.get<string>('DO_SPACES_KEY', '');
+    this.spacesSecret   = config.get<string>('DO_SPACES_SECRET', '');
+    this.spacesEndpoint = config.get<string>('DO_SPACES_ENDPOINT', '');
+    this.bucket         = config.get<string>('DO_SPACES_BUCKET', '');
+    this.cdnUrl         = config.get<string>('DO_SPACES_CDN_URL', '');
 
-    this.s3 = new S3Client({
-      endpoint: config.getOrThrow<string>('DO_SPACES_ENDPOINT'),
+    this.configured =
+      Boolean(this.spacesKey) &&
+      Boolean(this.spacesSecret) &&
+      Boolean(this.spacesEndpoint) &&
+      Boolean(this.bucket) &&
+      Boolean(this.cdnUrl);
+  }
+
+  private getS3(): S3Client {
+    if (!this.configured) {
+      throw new ServiceUnavailableException(
+        'Media uploads are not configured. Set DO_SPACES_KEY, DO_SPACES_SECRET, DO_SPACES_ENDPOINT, DO_SPACES_BUCKET and DO_SPACES_CDN_URL in .env',
+      );
+    }
+    return new S3Client({
+      endpoint: this.spacesEndpoint,
       region: 'us-east-1',
       credentials: {
-        accessKeyId: config.getOrThrow<string>('DO_SPACES_KEY'),
-        secretAccessKey: config.getOrThrow<string>('DO_SPACES_SECRET'),
+        accessKeyId: this.spacesKey,
+        secretAccessKey: this.spacesSecret,
       },
       forcePathStyle: false,
     });
@@ -51,6 +71,7 @@ export class MediaService {
     originalName: string,
     variant: MediaVariant = 'content',
   ): Promise<UploadResult> {
+    const s3 = this.getS3();
     const spec = VARIANT_SPECS[variant];
     const originalSizeKb = Math.round(buffer.length / 1024);
 
@@ -67,10 +88,9 @@ export class MediaService {
       .toBuffer({ resolveWithObject: true });
 
     const convertedSizeKb = Math.round(webpBuffer.length / 1024);
-
     const key = this.buildKey(originalName, variant);
 
-    await this.s3.send(
+    await s3.send(
       new PutObjectCommand({
         Bucket: this.bucket,
         Key: key,
