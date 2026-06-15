@@ -373,20 +373,29 @@ export default function BlogPost() {
           <p className="mt-4 text-lg max-w-2xl" style={{ color: 'var(--muted)' }}>{post.excerpt}</p>
 
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm" style={{ color: 'var(--muted)' }}>
-            <div className="flex items-center gap-2">
-              {post.author.avatarUrl ? (
-                <img src={post.author.avatarUrl} alt={post.author.name} className="w-8 h-8 rounded-full object-cover" />
-              ) : (
+            {post.showAuthor && (
+              <>
                 <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
-                  style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--electric)' }}
+                  className="flex items-center gap-2 rounded-full pl-1 pr-4 py-1"
+                  style={{ background: 'var(--card)', border: '1px solid var(--border)' }}
                 >
-                  {post.author.name[0]}
+                  {post.author.avatarUrl ? (
+                    <img src={post.author.avatarUrl} alt={post.author.name} className="w-8 h-8 rounded-full object-cover" />
+                  ) : (
+                    <div
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                      style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--electric)' }}
+                    >
+                      {post.author.name[0]}
+                    </div>
+                  )}
+                  <span className="font-medium" style={{ color: 'var(--white)' }}>{post.author.name}</span>
                 </div>
-              )}
-              <span className="font-medium" style={{ color: 'var(--white)' }}>{post.author.name}</span>
-            </div>
+                <div className="w-1 h-1 rounded-full" style={{ background: 'var(--muted)' }} />
+              </>
+            )}
             {formattedDate && <span>{formattedDate}</span>}
+            <div className="w-1 h-1 rounded-full" style={{ background: 'var(--muted)' }} />
             <div className="flex items-center gap-1">
               <Clock size={14} />
               <span>{post.readTimeMin} min read</span>
