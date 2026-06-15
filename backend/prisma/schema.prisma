@@ -79,3 +79,73 @@ model SiteSetting {
 
   @@map("site_settings")
 }
+
+// ─── Blog Module ─────────────────────────────────────────────────────────────
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model BlogCategory {
+  id        String     @id @default(cuid())
+  name      String
+  slug      String     @unique
+  color     String     @default("#00D4FF")
+  posts     BlogPost[]
+  createdAt DateTime   @default(now())
+
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  id        String        @id @default(cuid())
+  name      String
+  slug      String        @unique
+  posts     BlogPostTag[]
+  createdAt DateTime      @default(now())
+
+  @@map("blog_tags")
+}
+
+model BlogAuthor {
+  id        String     @id @default(cuid())
+  name      String
+  bio       String?
+  avatarUrl String?
+  posts     BlogPost[]
+  createdAt DateTime   @default(now())
+
+  @@map("blog_authors")
+}
+
+model BlogPost {
+  id            String        @id @default(cuid())
+  title         String
+  slug          String        @unique
+  excerpt       String
+  content       String        @db.Text
+  coverImageUrl String?
+  status        BlogStatus    @default(DRAFT)
+  readTimeMin   Int           @default(0)
+  category      BlogCategory  @relation(fields: [categoryId], references: [id])
+  categoryId    String
+  author        BlogAuthor    @relation(fields: [authorId], references: [id])
+  authorId      String
+  tags          BlogPostTag[]
+  publishedAt   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("blog_posts")
+}
+
+model BlogPostTag {
+  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+  tag    BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId  String
+
+  @@id([postId, tagId])
+  @@map("blog_post_tags")
+}

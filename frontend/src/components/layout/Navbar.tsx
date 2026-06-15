@@ -13,6 +13,7 @@ export function Navbar() {
     { to: '/', label: s.navLinkHome },
     { to: '/about', label: s.navLinkAbout },
     { to: '/courses', label: s.navLinkCourses },
+    { to: '/blog', label: 'Blog' },
     { to: '/contact', label: s.navLinkContact },
   ];
 

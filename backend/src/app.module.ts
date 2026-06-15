@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { SettingsModule } from './settings/settings.module';
+import { MediaModule } from './media/media.module';
+import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { SettingsModule } from './settings/settings.module';
     AdminModule,
     NotificationsModule,
     SettingsModule,
+    MediaModule,
+    BlogModule,
   ],
 })
 export class AppModule {}

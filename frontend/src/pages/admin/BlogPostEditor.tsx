@@ -1,0 +1,603 @@
+import { useEffect, useState, useCallback } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TiptapLink from '@tiptap/extension-link';
+import Placeholder from '@tiptap/extension-placeholder';
+import CharacterCount from '@tiptap/extension-character-count';
+import {
+  Bold, Italic, Underline as UnderlineIcon, Strikethrough,
+  Heading2, Heading3, List, ListOrdered, Quote, Code2,
+  Minus, Link as LinkIcon, ArrowLeft, Clock, Eye, Save,
+} from 'lucide-react';
+import { ImageUploadDropzone } from '@/components/admin/ImageUploadDropzone';
+import {
+  adminFetchPost, adminCreatePost, adminUpdatePost,
+  adminFetchCategories, adminFetchTags, adminFetchAuthors,
+  adminCreateCategory, adminCreateTag, adminCreateAuthor,
+  type BlogCategory, type BlogTag, type BlogAuthor,
+} from '@/api/blog';
+
+// ─── TipTap toolbar ───────────────────────────────────────────────────────
+
+function ToolbarBtn({
+  onClick,
+  active = false,
+  title,
+  children,
+}: {
+  onClick: () => void;
+  active?: boolean;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={title}
+      className="p-2 rounded-lg transition-colors"
+      style={{
+        background: active ? 'rgba(0,212,255,0.15)' : 'transparent',
+        color: active ? 'var(--electric)' : 'var(--muted)',
+        minWidth: '36px',
+        minHeight: '36px',
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
+  if (!editor) return null;
+
+  function setLink() {
+    const prev = editor.getAttributes('link').href as string | undefined;
+    const url = window.prompt('Enter URL:', prev ?? 'https://');
+    if (url === null) return;
+    if (!url) { editor.chain().focus().unsetLink().run(); return; }
+    editor.chain().focus().setLink({ href: url, target: '_blank' }).run();
+  }
+
+  return (
+    <div
+      className="flex flex-wrap gap-1 p-2 rounded-t-xl"
+      style={{ borderBottom: '1px solid var(--border)', background: 'rgba(255,255,255,0.02)' }}
+    >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} title="Bold">
+        <Bold size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} title="Italic">
+        <Italic size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} title="Underline">
+        <UnderlineIcon size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive('strike')} title="Strikethrough">
+        <Strikethrough size={16} />
+      </ToolbarBtn>
+
+      <div className="w-px mx-1" style={{ background: 'var(--border)' }} />
+
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Heading 2">
+        <Heading2 size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive('heading', { level: 3 })} title="Heading 3">
+        <Heading3 size={16} />
+      </ToolbarBtn>
+
+      <div className="w-px mx-1" style={{ background: 'var(--border)' }} />
+
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive('bulletList')} title="Bullet list">
+        <List size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive('orderedList')} title="Ordered list">
+        <ListOrdered size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} title="Blockquote">
+        <Quote size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleCodeBlock().run()} active={editor.isActive('codeBlock')} title="Code block">
+        <Code2 size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().setHorizontalRule().run()} active={false} title="Divider">
+        <Minus size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={setLink} active={editor.isActive('link')} title="Link">
+        <LinkIcon size={16} />
+      </ToolbarBtn>
+    </div>
+  );
+}
+
+// ─── Slug generator ────────────────────────────────────────────────────────
+
+function toSlug(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .slice(0, 100);
+}
+
+// ─── Quick-add dialogs ─────────────────────────────────────────────────────
+
+function QuickAddInput({
+  label,
+  placeholder,
+  onAdd,
+  loading,
+}: {
+  label: string;
+  placeholder: string;
+  onAdd: (name: string) => Promise<void>;
+  loading: boolean;
+}) {
+  const [val, setVal] = useState('');
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!val.trim()) return;
+    await onAdd(val.trim());
+    setVal('');
+  }
+  return (
+    <form onSubmit={submit} className="flex gap-2 mt-2">
+      <input
+        type="text"
+        placeholder={placeholder}
+        value={val}
+        onChange={(e) => setVal(e.target.value)}
+        className="flex-1 text-sm"
+        style={{ padding: '0.4rem 0.75rem', minHeight: '36px' }}
+      />
+      <button
+        type="submit"
+        disabled={loading || !val.trim()}
+        className="px-3 py-1 rounded-lg text-xs font-semibold disabled:opacity-40"
+        style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--electric)', border: '1px solid rgba(0,212,255,0.25)', whiteSpace: 'nowrap' }}
+      >
+        {loading ? '…' : `+ ${label}`}
+      </button>
+    </form>
+  );
+}
+
+// ─── Main editor ───────────────────────────────────────────────────────────
+
+const EXCERPT_MAX = 300;
+
+export default function BlogPostEditor() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const isNew = !id;
+
+  const [title, setTitle] = useState('');
+  const [slug, setSlug] = useState('');
+  const [slugManual, setSlugManual] = useState(false);
+  const [excerpt, setExcerpt] = useState('');
+  const [coverImageUrl, setCoverImageUrl] = useState<string | undefined>();
+  const [status, setStatus] = useState<'DRAFT' | 'PUBLISHED'>('DRAFT');
+  const [categoryId, setCategoryId] = useState('');
+  const [authorId, setAuthorId] = useState('');
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
+
+  const [categories, setCategories] = useState<BlogCategory[]>([]);
+  const [tags, setTags] = useState<BlogTag[]>([]);
+  const [authors, setAuthors] = useState<BlogAuthor[]>([]);
+
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [loadingRef, setLoadingRef] = useState(false);
+  const [addingCategory, setAddingCategory] = useState(false);
+  const [addingTag, setAddingTag] = useState(false);
+  const [addingAuthor, setAddingAuthor] = useState(false);
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      TiptapLink.configure({ openOnClick: false }),
+      Placeholder.configure({ placeholder: 'Write your article here…' }),
+      CharacterCount,
+    ],
+    editorProps: {
+      attributes: {
+        class: 'tiptap-editor',
+      },
+    },
+  });
+
+  const loadRefs = useCallback(async () => {
+    setLoadingRef(true);
+    const [cats, tgs, auths] = await Promise.all([
+      adminFetchCategories(),
+      adminFetchTags(),
+      adminFetchAuthors(),
+    ]).finally(() => setLoadingRef(false));
+    setCategories(cats);
+    setTags(tgs);
+    setAuthors(auths);
+    return { cats, auths };
+  }, []);
+
+  useEffect(() => {
+    loadRefs().then(({ cats, auths }) => {
+      if (isNew) {
+        if (cats.length > 0) setCategoryId(cats[0].id);
+        if (auths.length > 0) setAuthorId(auths[0].id);
+        return;
+      }
+      adminFetchPost(id!).then((post) => {
+        setTitle(post.title);
+        setSlug(post.slug);
+        setSlugManual(true);
+        setExcerpt(post.excerpt);
+        setCoverImageUrl(post.coverImageUrl);
+        setStatus(post.status);
+        setCategoryId(post.category.id);
+        setAuthorId(post.author.id);
+        setSelectedTagIds(post.tags.map((t) => t.id));
+        editor?.commands.setContent(post.content ?? '');
+      }).catch(() => navigate('/admin/blog'));
+    });
+  }, [id, isNew, navigate, loadRefs, editor]);
+
+  function onTitleChange(val: string) {
+    setTitle(val);
+    if (!slugManual) setSlug(toSlug(val));
+  }
+
+  function toggleTag(tagId: string) {
+    setSelectedTagIds((prev) =>
+      prev.includes(tagId) ? prev.filter((t) => t !== tagId) : [...prev, tagId],
+    );
+  }
+
+  async function addCategory(name: string) {
+    setAddingCategory(true);
+    try {
+      const cat = await adminCreateCategory({ name, slug: toSlug(name) });
+      setCategories((prev) => [...prev, cat]);
+      setCategoryId(cat.id);
+    } finally {
+      setAddingCategory(false);
+    }
+  }
+
+  async function addTag(name: string) {
+    setAddingTag(true);
+    try {
+      const tag = await adminCreateTag({ name, slug: toSlug(name) });
+      setTags((prev) => [...prev, tag]);
+      setSelectedTagIds((prev) => [...prev, tag.id]);
+    } finally {
+      setAddingTag(false);
+    }
+  }
+
+  async function addAuthor(name: string) {
+    setAddingAuthor(true);
+    try {
+      const author = await adminCreateAuthor({ name });
+      setAuthors((prev) => [...prev, author]);
+      setAuthorId(author.id);
+    } finally {
+      setAddingAuthor(false);
+    }
+  }
+
+  async function handleSave(publishNow = false) {
+    if (!title.trim() || !slug.trim() || !categoryId || !authorId) return;
+    const content = editor?.getHTML() ?? '';
+    const effectiveStatus = publishNow ? 'PUBLISHED' : status;
+
+    setSaving(true);
+    try {
+      const payload = {
+        title: title.trim(),
+        slug: slug.trim(),
+        excerpt: excerpt.trim(),
+        content,
+        coverImageUrl: coverImageUrl ?? undefined,
+        status: effectiveStatus,
+        categoryId,
+        authorId,
+        tagIds: selectedTagIds,
+      };
+
+      const saved = isNew
+        ? await adminCreatePost(payload)
+        : await adminUpdatePost(id!, payload);
+
+      if (publishNow) setStatus('PUBLISHED');
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+      if (isNew) navigate(`/admin/blog/${saved.id}/edit`, { replace: true });
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const wordCount = editor?.storage.characterCount?.words() ?? 0;
+  const readTimeEst = Math.max(1, Math.ceil(wordCount / 200));
+  const isValid = title.trim().length >= 5 && slug.trim().length >= 3 && categoryId && authorId;
+
+  return (
+    <div className="flex h-full" style={{ color: 'var(--white)' }}>
+      {/* Main edit area */}
+      <div className="flex-1 overflow-y-auto p-8 min-w-0">
+        <div className="max-w-3xl mx-auto">
+          <div className="flex items-center gap-3 mb-8">
+            <Link to="/admin/blog" className="p-2 rounded-lg transition-colors" style={{ color: 'var(--muted)' }}>
+              <ArrowLeft size={18} />
+            </Link>
+            <div>
+              <h1 className="text-xl font-bold" style={{ fontFamily: 'var(--font-head)' }}>
+                {isNew ? 'New Post' : 'Edit Post'}
+              </h1>
+            </div>
+          </div>
+
+          {/* Title */}
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="Article title…"
+              value={title}
+              onChange={(e) => onTitleChange(e.target.value)}
+              className="w-full text-3xl font-bold"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                borderBottom: '1px solid var(--border)',
+                borderRadius: 0,
+                padding: '0.5rem 0',
+                color: 'var(--white)',
+                fontFamily: 'var(--font-head)',
+              }}
+            />
+          </div>
+
+          {/* Slug */}
+          <div className="mb-6">
+            <label className="text-xs font-semibold uppercase tracking-wider mb-1 block" style={{ color: 'var(--muted)' }}>
+              URL Slug
+            </label>
+            <div className="flex items-center gap-2">
+              <span className="text-sm" style={{ color: 'var(--muted)' }}>/blog/</span>
+              <input
+                type="text"
+                value={slug}
+                onChange={(e) => { setSlug(toSlug(e.target.value)); setSlugManual(true); }}
+                className="flex-1 text-sm"
+                style={{ fontFamily: 'monospace' }}
+              />
+            </div>
+          </div>
+
+          {/* Excerpt */}
+          <div className="mb-6">
+            <label className="text-xs font-semibold uppercase tracking-wider mb-1 flex items-center justify-between" style={{ color: 'var(--muted)' }}>
+              <span>Excerpt</span>
+              <span className={excerpt.length > EXCERPT_MAX ? 'text-orange-400' : ''}>{excerpt.length}/{EXCERPT_MAX}</span>
+            </label>
+            <textarea
+              rows={3}
+              placeholder="A short description of this article (shown in listing cards)…"
+              value={excerpt}
+              onChange={(e) => setExcerpt(e.target.value.slice(0, EXCERPT_MAX))}
+              className="resize-none"
+            />
+          </div>
+
+          {/* TipTap editor */}
+          <div className="mb-6">
+            <label className="text-xs font-semibold uppercase tracking-wider mb-2 block" style={{ color: 'var(--muted)' }}>
+              Content
+            </label>
+            <div
+              className="glass-card overflow-hidden"
+              style={{ borderRadius: '0.75rem' }}
+            >
+              <Toolbar editor={editor} />
+              <EditorContent
+                editor={editor}
+                className="min-h-[400px]"
+              />
+            </div>
+            <p className="text-xs mt-2" style={{ color: 'var(--muted)' }}>
+              ~{wordCount} words · {readTimeEst} min read
+            </p>
+          </div>
+
+          {/* Cover image */}
+          <div className="mb-8">
+            <ImageUploadDropzone
+              value={coverImageUrl}
+              onChange={setCoverImageUrl}
+              variant="cover"
+              label="Cover Image"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Sidebar */}
+      <aside
+        className="w-80 shrink-0 overflow-y-auto p-6 flex flex-col gap-6"
+        style={{ borderLeft: '1px solid var(--border)', background: 'rgba(255,255,255,0.015)' }}
+      >
+        {/* Publish panel */}
+        <div className="glass-card p-5 rounded-xl">
+          <h3 className="text-sm font-bold mb-4" style={{ fontFamily: 'var(--font-head)' }}>Publishing</h3>
+
+          <div className="flex flex-col gap-2 mb-4">
+            {(['DRAFT', 'PUBLISHED'] as const).map((s) => (
+              <label
+                key={s}
+                className="flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-colors"
+                style={{
+                  background: status === s ? 'rgba(0,212,255,0.08)' : 'transparent',
+                  border: `1px solid ${status === s ? 'rgba(0,212,255,0.2)' : 'transparent'}`,
+                }}
+              >
+                <input
+                  type="radio"
+                  name="status"
+                  value={s}
+                  checked={status === s}
+                  onChange={() => setStatus(s)}
+                  className="accent-current"
+                  style={{ accentColor: 'var(--electric)' }}
+                />
+                <div>
+                  <p className="text-sm font-medium" style={{ color: status === s ? 'var(--white)' : 'var(--muted)' }}>
+                    {s === 'DRAFT' ? '○ Draft' : '● Published'}
+                  </p>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>
+                    {s === 'DRAFT' ? 'Not visible to public' : 'Visible at /blog'}
+                  </p>
+                </div>
+              </label>
+            ))}
+          </div>
+
+          <div
+            className="flex items-center gap-2 px-3 py-2 rounded-lg mb-4 text-sm"
+            style={{ background: 'rgba(0,212,255,0.06)', color: 'var(--electric)', border: '1px solid rgba(0,212,255,0.15)' }}
+          >
+            <Clock size={14} />
+            <span>~{readTimeEst} min read</span>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => handleSave(true)}
+              disabled={saving || !isValid}
+              className="btn-primary w-full text-sm disabled:opacity-40"
+            >
+              {saving ? 'Saving…' : '🚀 Publish Now'}
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSave(false)}
+              disabled={saving || !isValid}
+              className="btn-outline w-full text-sm disabled:opacity-40 flex items-center justify-center gap-2"
+            >
+              <Save size={14} />
+              {saving ? 'Saving…' : 'Save Draft'}
+            </button>
+          </div>
+
+          {saved && (
+            <p className="text-xs mt-3 text-center" style={{ color: 'var(--electric)' }}>
+              ✓ Saved successfully
+            </p>
+          )}
+
+          {status === 'PUBLISHED' && !isNew && (
+            <a
+              href={`/blog/${slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 mt-3 text-xs transition-colors hover:text-white"
+              style={{ color: 'var(--muted)' }}
+            >
+              <Eye size={13} /> View live post
+            </a>
+          )}
+        </div>
+
+        {/* Organization */}
+        <div className="glass-card p-5 rounded-xl">
+          <h3 className="text-sm font-bold mb-4" style={{ fontFamily: 'var(--font-head)' }}>Organization</h3>
+
+          {/* Category */}
+          <div className="mb-4">
+            <label className="text-xs font-semibold mb-1 block" style={{ color: 'var(--muted)' }}>Category *</label>
+            {loadingRef ? (
+              <div className="h-9 rounded animate-pulse" style={{ background: 'rgba(255,255,255,0.05)' }} />
+            ) : (
+              <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+                <option value="">Select category…</option>
+                {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            )}
+            <QuickAddInput label="Category" placeholder="New category name" onAdd={addCategory} loading={addingCategory} />
+          </div>
+
+          {/* Author */}
+          <div className="mb-4">
+            <label className="text-xs font-semibold mb-1 block" style={{ color: 'var(--muted)' }}>Author *</label>
+            {loadingRef ? (
+              <div className="h-9 rounded animate-pulse" style={{ background: 'rgba(255,255,255,0.05)' }} />
+            ) : (
+              <select value={authorId} onChange={(e) => setAuthorId(e.target.value)}>
+                <option value="">Select author…</option>
+                {authors.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
+              </select>
+            )}
+            <QuickAddInput label="Author" placeholder="New author name" onAdd={addAuthor} loading={addingAuthor} />
+          </div>
+
+          {/* Tags */}
+          <div>
+            <label className="text-xs font-semibold mb-2 block" style={{ color: 'var(--muted)' }}>Tags</label>
+            {tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-2">
+                {tags.map((tag) => {
+                  const active = selectedTagIds.includes(tag.id);
+                  return (
+                    <button
+                      key={tag.id}
+                      type="button"
+                      onClick={() => toggleTag(tag.id)}
+                      className="px-2.5 py-1 rounded-full text-xs font-medium transition-all"
+                      style={{
+                        background: active ? 'rgba(251,191,36,0.15)' : 'rgba(255,255,255,0.04)',
+                        color: active ? 'var(--gold)' : 'var(--muted)',
+                        border: `1px solid ${active ? 'rgba(251,191,36,0.35)' : 'var(--border)'}`,
+                      }}
+                    >
+                      #{tag.name}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            <QuickAddInput label="Tag" placeholder="New tag name" onAdd={addTag} loading={addingTag} />
+          </div>
+        </div>
+      </aside>
+
+      <style>{`
+        .tiptap-editor {
+          padding: 1.25rem 1.5rem;
+          min-height: 400px;
+          color: var(--white);
+          font-family: var(--font-body);
+          font-size: 1rem;
+          line-height: 1.75;
+          outline: none;
+        }
+        .tiptap-editor h2 { font-family: var(--font-head); font-size: 1.4rem; font-weight: 700; color: var(--white); margin: 1.5rem 0 0.75rem; }
+        .tiptap-editor h3 { font-family: var(--font-head); font-size: 1.15rem; font-weight: 600; color: var(--white); margin: 1.25rem 0 0.5rem; }
+        .tiptap-editor p { color: var(--muted); margin: 0.75rem 0; }
+        .tiptap-editor a { color: var(--electric); text-decoration: underline; }
+        .tiptap-editor strong { color: var(--white); }
+        .tiptap-editor ul, .tiptap-editor ol { padding-left: 1.25rem; color: var(--muted); margin: 0.75rem 0; }
+        .tiptap-editor li { margin: 0.3rem 0; }
+        .tiptap-editor blockquote { border-left: 3px solid var(--electric); padding: 0.5rem 1rem; margin: 1rem 0; background: rgba(0,212,255,0.05); border-radius: 0 0.5rem 0.5rem 0; color: var(--white); font-style: italic; }
+        .tiptap-editor pre { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .tiptap-editor code { color: var(--electric); font-family: 'Fira Code', monospace; font-size: 0.875rem; }
+        .tiptap-editor pre code { color: var(--white); }
+        .tiptap-editor hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+        .tiptap-editor p.is-editor-empty:first-child::before { content: attr(data-placeholder); color: var(--muted); opacity: 0.5; pointer-events: none; float: left; height: 0; }
+      `}</style>
+    </div>
+  );
+}
