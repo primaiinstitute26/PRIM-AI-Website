@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Clock, ArrowLeft, Share2, Link as LinkIcon, ChevronRight } from 'lucide-react';
+import { Clock, ArrowLeft, Share2, Link as LinkIcon } from 'lucide-react';
 import { fetchPostBySlug, fetchPublicPosts, type BlogPost as BlogPostType } from '@/api/blog';
 
 // ─── Reading progress bar ──────────────────────────────────────────────────
@@ -19,16 +19,10 @@ function ReadingProgressBar() {
   }, []);
 
   return (
-    <div
-      className="fixed top-16 left-0 right-0 z-30 h-0.5 transition-all"
-      style={{ background: 'var(--border)' }}
-    >
+    <div className="fixed top-16 left-0 right-0 z-30 h-0.5" style={{ background: 'var(--border)' }}>
       <div
         className="h-full transition-all duration-100"
-        style={{
-          width: `${progress}%`,
-          background: 'linear-gradient(90deg, var(--electric), var(--orange))',
-        }}
+        style={{ width: `${progress}%`, background: 'linear-gradient(90deg, var(--electric), var(--orange))' }}
       />
     </div>
   );
@@ -75,19 +69,20 @@ function TableOfContents({ items, activeId }: { items: TocItem[]; activeId: stri
       <h4 className="text-xs font-bold uppercase tracking-widest mb-4 shrink-0" style={{ color: 'var(--muted)' }}>
         On this page
       </h4>
-      <nav ref={navRef} className="space-y-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+      <nav ref={navRef} className="overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
         {items.map((item) => (
           <a
             key={item.id}
             href={`#${item.id}`}
-            className="flex items-start gap-2 text-sm py-1 transition-colors rounded"
-            style={{
-              paddingLeft: item.level === 3 ? '0.75rem' : 0,
-              color: activeId === item.id ? 'var(--electric)' : 'var(--muted)',
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
+            className={`toc-link${activeId === item.id ? ' toc-active' : ''}`}
+            style={{ paddingLeft: item.level === 3 ? '0.75rem' : 0 }}
           >
-            {activeId === item.id && <ChevronRight size={12} className="mt-1 shrink-0" style={{ color: 'var(--electric)' }} />}
-            <span className="leading-snug">{item.text}</span>
+            <span className="toc-bar" />
+            <span className="toc-text">{item.text}</span>
           </a>
         ))}
       </nav>
@@ -102,14 +97,14 @@ function ShareButtons({ title }: { title: string }) {
   const [copied, setCopied] = useState(false);
 
   function copyLink() {
-    navigator.clipboard.writeText(url).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); }).catch(() => {});
+    navigator.clipboard.writeText(url)
+      .then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); })
+      .catch(() => {});
   }
 
   return (
     <div className="glass-card p-5 rounded-2xl">
-      <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--muted)' }}>
-        Share
-      </h4>
+      <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--muted)' }}>Share</h4>
       <div className="flex gap-2">
         <a
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`}
@@ -148,15 +143,15 @@ function ShareButtons({ title }: { title: string }) {
 function AuthorBio({ author }: { author: BlogPostType['author'] }) {
   return (
     <div className="glass-card p-5 rounded-2xl">
-      <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--muted)' }}>
-        Author
-      </h4>
+      <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--muted)' }}>Author</h4>
       <div className="flex items-start gap-3">
         {author.avatarUrl ? (
           <img src={author.avatarUrl} alt={author.name} className="w-12 h-12 rounded-full object-cover shrink-0" />
         ) : (
-          <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold shrink-0"
-            style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--electric)' }}>
+          <div
+            className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold shrink-0"
+            style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--electric)' }}
+          >
             {author.name[0]}
           </div>
         )}
@@ -173,36 +168,70 @@ function AuthorBio({ author }: { author: BlogPostType['author'] }) {
   );
 }
 
-// ─── Related posts ─────────────────────────────────────────────────────────
+// ─── Keep Reading ──────────────────────────────────────────────────────────
 
-function RelatedPosts({ posts }: { posts: BlogPostType[] }) {
+function KeepReadingCard({ post }: { post: BlogPostType }) {
+  return (
+    <Link to={`/blog/${post.slug}`} className="keep-reading-card glass-card rounded-2xl overflow-hidden block">
+      <div className="h-48 w-full relative overflow-hidden">
+        <div
+          className="absolute inset-0 z-10"
+          style={{ background: 'linear-gradient(to top, var(--navy), transparent)' }}
+        />
+        {post.coverImageUrl ? (
+          <img src={post.coverImageUrl} alt={post.title} className="w-full h-full object-cover" />
+        ) : (
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ background: `linear-gradient(135deg, ${post.category.color}15, ${post.category.color}05)` }}
+          >
+            <span className="text-4xl opacity-20">✍️</span>
+          </div>
+        )}
+      </div>
+      <div className="p-6 relative z-20">
+        <div className="flex justify-between items-center mb-4">
+          <span
+            className="px-2 py-1 rounded-full text-xs font-bold"
+            style={{
+              background: post.category.color + '18',
+              color: post.category.color,
+              border: `1px solid ${post.category.color}33`,
+            }}
+          >
+            {post.category.name}
+          </span>
+          <span className="text-sm" style={{ color: 'var(--muted)' }}>
+            {post.publishedAt
+              ? new Date(post.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
+              : ''}
+          </span>
+        </div>
+        <h4
+          className="keep-reading-title text-lg font-semibold leading-snug line-clamp-2 transition-colors duration-300"
+          style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}
+        >
+          {post.title}
+        </h4>
+      </div>
+    </Link>
+  );
+}
+
+function KeepReading({ posts }: { posts: BlogPostType[] }) {
   if (!posts.length) return null;
   return (
-    <section className="mt-16 pt-12" style={{ borderTop: '1px solid var(--border)' }}>
-      <h3 className="text-xl font-bold mb-6" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}>
-        Related Articles
-      </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <section className="max-w-6xl mx-auto px-6 md:px-12 pt-12 pb-20" style={{ borderTop: '1px solid var(--border)' }}>
+      <div className="flex items-center gap-4 mb-10">
+        <div className="h-px flex-1" style={{ background: 'var(--border)' }} />
+        <h3 className="text-xs font-semibold uppercase" style={{ color: 'var(--orange2)', letterSpacing: '2.5px' }}>
+          Keep Reading
+        </h3>
+        <div className="h-px flex-1" style={{ background: 'var(--border)' }} />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {posts.map((post) => (
-          <Link
-            key={post.id}
-            to={`/blog/${post.slug}`}
-            className="glass-card glass-card-hover flex gap-4 p-4 rounded-xl"
-          >
-            {post.coverImageUrl && (
-              <img src={post.coverImageUrl} alt={post.title} className="w-20 h-16 rounded-lg object-cover shrink-0" />
-            )}
-            <div className="min-w-0">
-              <p className="text-xs font-semibold mb-1" style={{ color: post.category.color }}>{post.category.name}</p>
-              <p className="text-sm font-medium leading-snug line-clamp-2" style={{ color: 'var(--white)', fontFamily: 'var(--font-head)' }}>
-                {post.title}
-              </p>
-              <div className="flex items-center gap-1 mt-2 text-xs" style={{ color: 'var(--muted)' }}>
-                <Clock size={11} />
-                <span>{post.readTimeMin} min</span>
-              </div>
-            </div>
-          </Link>
+          <KeepReadingCard key={post.id} post={post} />
         ))}
       </div>
     </section>
@@ -227,19 +256,17 @@ export default function BlogPost() {
     fetchPostBySlug(slug)
       .then((data) => {
         setPost(data);
-        if (data.content) {
-          setTocItems(buildToc(data.content));
-        }
-        return fetchPublicPosts({ limit: 4, category: data.category.slug });
+        if (data.content) setTocItems(buildToc(data.content));
+        // Fetch latest posts (not filtered by category) so Keep Reading always has content
+        return fetchPublicPosts({ limit: 4 });
       })
       .then((res) => {
-        setRelatedPosts(res.posts.filter((p) => p.slug !== slug).slice(0, 2));
+        setRelatedPosts(res.posts.filter((p) => p.slug !== slug).slice(0, 3));
       })
       .catch(() => navigate('/blog'))
       .finally(() => setLoading(false));
   }, [slug, navigate]);
 
-  // Active TOC heading tracking
   useEffect(() => {
     if (!tocItems.length) return;
     const observer = new IntersectionObserver(
@@ -283,11 +310,7 @@ export default function BlogPost() {
       <div className="relative pt-16" style={{ minHeight: '420px' }}>
         {post.coverImageUrl ? (
           <>
-            <img
-              src={post.coverImageUrl}
-              alt={post.title}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+            <img src={post.coverImageUrl} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
             <div
               className="absolute inset-0"
               style={{ background: 'linear-gradient(to bottom, rgba(2,8,24,0.4) 0%, rgba(2,8,24,0.95) 100%)' }}
@@ -336,8 +359,10 @@ export default function BlogPost() {
               {post.author.avatarUrl ? (
                 <img src={post.author.avatarUrl} alt={post.author.name} className="w-8 h-8 rounded-full object-cover" />
               ) : (
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
-                  style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--electric)' }}>
+                <div
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                  style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--electric)' }}
+                >
                   {post.author.name[0]}
                 </div>
               )}
@@ -352,17 +377,16 @@ export default function BlogPost() {
         </div>
       </div>
 
-      {/* Content + sidebar */}
-      <div className="px-6 md:px-12 pb-24 max-w-6xl mx-auto">
+      {/* Content + sidebar — 70/30 */}
+      <div className="px-6 md:px-12 pb-16 max-w-6xl mx-auto">
         <div className="flex gap-8 items-start">
-          {/* Main content (70%) */}
+          {/* Article (70%) */}
           <article className="flex-1 min-w-0">
             <div
               ref={contentRef}
               className="prose-blog"
               dangerouslySetInnerHTML={{ __html: processedContent }}
             />
-            <RelatedPosts posts={relatedPosts} />
             <div className="mt-10 flex flex-col gap-5">
               <ShareButtons title={post.title} />
               <AuthorBio author={post.author} />
@@ -376,7 +400,11 @@ export default function BlogPost() {
         </div>
       </div>
 
+      {/* Keep Reading — full-width, outside the 70/30 grid */}
+      <KeepReading posts={relatedPosts} />
+
       <style>{`
+        /* Article prose */
         .prose-blog { color: var(--white); line-height: 1.8; font-size: 1.0625rem; font-family: var(--font-body); }
         .prose-blog h2 { font-family: var(--font-head); font-size: 1.6rem; font-weight: 700; color: var(--white); margin: 2.5rem 0 1rem; }
         .prose-blog h3 { font-family: var(--font-head); font-size: 1.25rem; font-weight: 600; color: var(--white); margin: 2rem 0 0.75rem; }
@@ -392,6 +420,22 @@ export default function BlogPost() {
         .prose-blog pre code { color: var(--white); }
         .prose-blog img { border-radius: 0.75rem; width: 100%; margin: 1.5rem 0; }
         .prose-blog hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+        /* TOC link — growing bar indicator */
+        .toc-link { display: flex; align-items: flex-start; gap: 0.75rem; padding: 4px 0; text-decoration: none; }
+        .toc-link .toc-bar { width: 2px; height: 0; margin-top: 7px; background: var(--electric); transition: height 0.3s ease; flex-shrink: 0; }
+        .toc-link .toc-text { font-size: 0.875rem; line-height: 1.625; transition: color 0.2s ease; color: var(--muted); }
+        .toc-link:hover .toc-bar { height: 1rem; }
+        .toc-link:hover .toc-text { color: var(--white); }
+        .toc-link.toc-active .toc-bar { height: 1rem; }
+        .toc-link.toc-active .toc-text { color: var(--electric); font-weight: 500; }
+
+        /* Keep Reading cards */
+        .keep-reading-card { transition: transform 0.5s ease, box-shadow 0.5s ease; }
+        .keep-reading-card:hover { transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,212,255,0.15); }
+        .keep-reading-card:hover .keep-reading-title { color: var(--electric); }
+        .keep-reading-card img { transition: transform 0.7s ease; }
+        .keep-reading-card:hover img { transform: scale(1.05); }
       `}</style>
     </div>
   );

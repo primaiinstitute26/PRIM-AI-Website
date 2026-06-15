@@ -1,6 +1,6 @@
 // Seed script - creates default admin account and site settings
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, BlogStatus } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -222,6 +222,95 @@ async function main() {
   }
 
   console.log('✅ Seed complete - admin and settings created');
+
+  // ─── Blog sample posts ──────────────────────────────────────────────────────
+  // Idempotent: only creates if the slug doesn't already exist
+  const seedPostExists = await prisma.blogPost.findUnique({
+    where: { slug: '5-ai-tools-every-student-should-know' },
+  });
+
+  if (!seedPostExists) {
+    const catAI = await prisma.blogCategory.upsert({
+      where: { slug: 'ai-education' },
+      update: {},
+      create: { name: 'AI Education', slug: 'ai-education', color: '#00D4FF' },
+    });
+    const catCareer = await prisma.blogCategory.upsert({
+      where: { slug: 'career' },
+      update: {},
+      create: { name: 'Career', slug: 'career', color: '#FF6B2B' },
+    });
+    const catTools = await prisma.blogCategory.upsert({
+      where: { slug: 'ai-tools' },
+      update: {},
+      create: { name: 'AI Tools', slug: 'ai-tools', color: '#FBBF24' },
+    });
+
+    let author = await prisma.blogAuthor.findFirst({ where: { name: 'PRIM AI Team' } });
+    if (!author) {
+      author = await prisma.blogAuthor.create({
+        data: {
+          name: 'PRIM AI Team',
+          bio: 'Insights from the instructors and curriculum team at PRIM AI Institute, Ahmedabad.',
+        },
+      });
+    }
+
+    const now = new Date();
+
+    await prisma.blogPost.upsert({
+      where: { slug: '5-ai-tools-every-student-should-know' },
+      update: {},
+      create: {
+        title: '5 AI Tools Every Student Should Know in 2026',
+        slug: '5-ai-tools-every-student-should-know',
+        excerpt: 'From writing essays to creating presentations in minutes, these five AI tools are transforming how students study and work.',
+        content: `<h2>Why AI Tools Matter for Students</h2><p>Artificial intelligence is no longer something only engineers use. Today, a Class 10 student can use the same AI tools that Fortune 500 companies rely on - for free. The only difference is knowing which tools exist and how to use them effectively.</p><h2>1. ChatGPT for Writing and Research</h2><p>ChatGPT is the most versatile AI tool for students. Use it to draft essays, summarize long articles, explain difficult concepts in simple language, and practice for exams. The key is learning how to write good prompts - a skill called prompt engineering that we teach at PRIM AI from day one.</p><h2>2. Canva AI for Design</h2><p>Canva's Magic Design feature generates entire slide decks from a single sentence. Students use this for school projects, college presentations, and internship applications - all without any design experience.</p><h2>3. Google Gemini for Research</h2><p>Gemini is deeply integrated into Google Docs, Sheets, Gmail, and Search. For students already using Google Workspace, it is the fastest way to add AI to an existing workflow. Use it to summarize research papers or analyze data in Sheets.</p><h2>4. Gamma.app for Presentations</h2><p>Gamma turns a topic or rough outline into a complete, beautifully designed presentation in under two minutes. Students at PRIM AI have created project presentations that their teachers thought took weeks to prepare.</p><h2>5. Quillbot for Writing Polish</h2><p>Quillbot paraphrases and rewrites text to make it clearer, more formal, or more concise. Combine it with ChatGPT for drafting and Quillbot for polishing, and your writing quality improves dramatically. Especially useful for non-native English speakers.</p><h2>Getting Started</h2><p>All five tools have free tiers that are more than enough for student use. The best approach is to pick one tool, use it every day for a week, and master it before moving to the next.</p>`,
+        coverImageUrl: 'https://picsum.photos/seed/tools2026/1600/900',
+        status: BlogStatus.PUBLISHED,
+        categoryId: catTools.id,
+        authorId: author.id,
+        publishedAt: new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000),
+        readTimeMin: 4,
+      },
+    });
+
+    await prisma.blogPost.upsert({
+      where: { slug: 'how-to-get-an-ai-job-without-coding' },
+      update: {},
+      create: {
+        title: 'How to Get an AI Job Without Knowing How to Code',
+        slug: 'how-to-get-an-ai-job-without-coding',
+        excerpt: 'Think AI careers are only for software engineers? Think again. Here are the fastest-growing non-technical AI roles in India right now.',
+        content: `<h2>The Myth: AI is Only for Coders</h2><p>Most people assume that working in AI requires years of computer science education and the ability to write complex Python scripts. This assumption is wrong - and it is holding a lot of talented people back.</p><p>In 2026, some of the most in-demand AI roles require zero programming skills. Companies are desperately hiring people who can bridge the gap between AI technology and real-world business problems.</p><h2>AI Prompt Engineer</h2><p>Prompt engineers design the instructions given to AI systems to get the best possible outputs. They work in marketing, customer service, legal, healthcare, and almost every other industry. In India, experienced prompt engineers earn between 4 to 12 LPA, with the role growing 300% year-over-year.</p><p>No coding required. The key skills are clear communication, logical thinking, and deep familiarity with how AI models behave - all teachable in weeks, not years.</p><h2>AI Content Strategist</h2><p>AI content strategists use AI tools to plan, create, and optimize content at scale. Companies that previously needed a team of 10 content writers now hire 2-3 AI-fluent strategists instead. Salaries range from 5 to 15 LPA for experienced strategists.</p><h2>AI Trainer and Evaluator</h2><p>AI models need human feedback to improve. AI trainers review AI outputs, rate their quality, and flag errors. This role is available remotely, pays well for part-time work, and is an excellent entry point into the AI industry.</p><h2>AI Business Analyst</h2><p>Business analysts who understand AI identify where AI can save costs, improve efficiency, or create new revenue. They do not build AI systems - they decide where AI should be applied and measure the results. This role commands a premium salary because the supply of people who understand both business and AI is extremely limited.</p><h2>How to Start Today</h2><p>Our Level 1 AI Foundation course teaches you to use 8+ AI tools professionally in 6-8 weeks. Our Level 2 Generalist track then builds the specific skills for the roles above. You go from zero to job-ready without writing a single line of code.</p>`,
+        coverImageUrl: 'https://picsum.photos/seed/aicareer/1600/900',
+        status: BlogStatus.PUBLISHED,
+        categoryId: catCareer.id,
+        authorId: author.id,
+        publishedAt: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
+        readTimeMin: 5,
+      },
+    });
+
+    await prisma.blogPost.upsert({
+      where: { slug: 'prompt-engineering-beginners-guide' },
+      update: {},
+      create: {
+        title: 'Prompt Engineering: The Skill That Makes AI 10x More Useful',
+        slug: 'prompt-engineering-beginners-guide',
+        excerpt: 'The difference between a useful AI output and a useless one is almost always the quality of the prompt. Here is how to write prompts that actually work.',
+        content: `<h2>What Is Prompt Engineering?</h2><p>Prompt engineering is the practice of writing clear, specific instructions for AI systems to get the best possible outputs. It is not a technical skill - it is a communication skill. The better you are at describing what you want, the better the AI performs.</p><p>Think of it like giving directions. Telling someone "go to the nearby shop" gets inconsistent results. Telling someone "turn left, walk 200 meters, enter the green door" gets them exactly where you want. Prompt engineering is the same principle applied to AI.</p><h2>The Four Elements of a Strong Prompt</h2><p>Every effective prompt has four key elements: Role, Task, Context, and Format. When you include all four, AI outputs become dramatically more accurate and useful.</p><p><strong>Role:</strong> Tell the AI who it should behave as. "You are an experienced HR manager with 15 years of experience hiring for tech companies." This shapes the entire tone and expertise level of the response.</p><p><strong>Task:</strong> State exactly what you want. "Write a job description for a junior software developer role." Vague tasks produce vague outputs.</p><p><strong>Context:</strong> Provide relevant background. "The company is a 50-person startup in Ahmedabad. The role is remote-first. Salary is 4-6 LPA." Context eliminates guesswork.</p><p><strong>Format:</strong> Specify how you want the output. "Format it as a bulleted list. Keep total length under 300 words." Format instructions prevent the AI from returning a wall of text when you wanted something scannable.</p><h2>Common Mistakes to Avoid</h2><p>The most common mistake is writing a one-line prompt and expecting a perfect result. "Write me a blog post" produces something generic. "Write a 600-word blog post for Indian college students explaining three benefits of learning AI before graduating. Use a conversational tone. Include one real-world example per benefit." - that produces something usable.</p><p>The second mistake is not iterating. Prompt engineering is a conversation. If the first output is 80% of what you need, ask the AI to adjust the remaining 20%. "Make the tone more casual" or "Expand the second section" are perfectly valid follow-ups.</p><h2>Practice Exercise</h2><p>Take any task you do regularly at school or work. Write a prompt using the four elements above. Run it in ChatGPT or Gemini. Evaluate the output. Refine until the result matches what you would have written yourself. This exercise, done ten times, will make you a competent prompt engineer.</p>`,
+        coverImageUrl: 'https://picsum.photos/seed/prompteng/1600/900',
+        status: BlogStatus.PUBLISHED,
+        categoryId: catAI.id,
+        authorId: author.id,
+        publishedAt: new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000),
+        readTimeMin: 5,
+      },
+    });
+
+    console.log('✅ Blog sample posts seeded (3 posts)');
+  }
 }
 
 main()
