@@ -379,7 +379,7 @@ export default function BlogPost() {
 
       {/* Content + sidebar — 70/30 */}
       <div className="px-6 md:px-12 pb-16 max-w-6xl mx-auto">
-        <div className="flex gap-8 items-start">
+        <div className="flex gap-8">
           {/* Article (70%) */}
           <article className="flex-1 min-w-0">
             <div
