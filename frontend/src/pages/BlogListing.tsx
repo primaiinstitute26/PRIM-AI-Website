@@ -47,17 +47,21 @@ function PostCard({ post }: { post: BlogPost }) {
         </p>
 
         <div className="mt-auto flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--border)' }}>
-          <div className="flex items-center gap-2">
-            {post.author.avatarUrl ? (
-              <img src={post.author.avatarUrl} alt={post.author.name} className="w-7 h-7 rounded-full object-cover" />
-            ) : (
-              <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
-                style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--electric)' }}>
-                {post.author.name[0]}
-              </div>
-            )}
-            <span className="text-xs font-medium" style={{ color: 'var(--muted)' }}>{post.author.name}</span>
-          </div>
+          {post.showAuthor ? (
+            <div className="flex items-center gap-2">
+              {post.author.avatarUrl ? (
+                <img src={post.author.avatarUrl} alt={post.author.name} className="w-7 h-7 rounded-full object-cover" />
+              ) : (
+                <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                  style={{ background: 'rgba(0,212,255,0.15)', color: 'var(--electric)' }}>
+                  {post.author.name[0]}
+                </div>
+              )}
+              <span className="text-xs font-medium" style={{ color: 'var(--muted)' }}>{post.author.name}</span>
+            </div>
+          ) : (
+            <div />
+          )}
           <div className="flex items-center gap-1 text-xs" style={{ color: 'var(--muted)' }}>
             <Clock size={12} />
             <span>{post.readTimeMin} min read</span>
