@@ -6,10 +6,12 @@ import Underline from '@tiptap/extension-underline';
 import TiptapLink from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
+import TextAlign from '@tiptap/extension-text-align';
 import {
   Bold, Italic, Underline as UnderlineIcon, Strikethrough,
   Heading2, Heading3, List, ListOrdered, Quote, Code2,
   Minus, Link as LinkIcon, ArrowLeft, Clock, Eye, Save,
+  AlignLeft, AlignCenter, AlignRight, AlignJustify,
 } from 'lucide-react';
 import { ImageUploadDropzone } from '@/components/admin/ImageUploadDropzone';
 import ToggleSwitch from '@/components/admin/ToggleSwitch';
@@ -109,6 +111,21 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn onClick={setLink} active={editor.isActive('link')} title="Link">
         <LinkIcon size={16} />
       </ToolbarBtn>
+
+      <div className="w-px mx-1" style={{ background: 'var(--border)' }} />
+
+      <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('left').run()} active={editor.isActive({ textAlign: 'left' })} title="Align left">
+        <AlignLeft size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('center').run()} active={editor.isActive({ textAlign: 'center' })} title="Align center">
+        <AlignCenter size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('right').run()} active={editor.isActive({ textAlign: 'right' })} title="Align right">
+        <AlignRight size={16} />
+      </ToolbarBtn>
+      <ToolbarBtn onClick={() => editor.chain().focus().setTextAlign('justify').run()} active={editor.isActive({ textAlign: 'justify' })} title="Justify">
+        <AlignJustify size={16} />
+      </ToolbarBtn>
     </div>
   );
 }
@@ -204,6 +221,11 @@ export default function BlogPostEditor() {
       TiptapLink.configure({ openOnClick: false }),
       Placeholder.configure({ placeholder: 'Write your article here…' }),
       CharacterCount,
+      TextAlign.configure({
+        types: ['paragraph'],
+        alignments: ['left', 'center', 'right', 'justify'],
+        defaultAlignment: 'justify',
+      }),
     ],
     editorProps: {
       attributes: {
@@ -555,7 +577,7 @@ export default function BlogPostEditor() {
             )}
             <QuickAddInput label="Author" placeholder="New author name" onAdd={addAuthor} loading={addingAuthor} />
 
-            {/* Author detail editor — shown when an author is selected */}
+            {/* Author detail editor - shown when an author is selected */}
             {authorId && (() => {
               const sel = authors.find(a => a.id === authorId);
               if (!sel) return null;

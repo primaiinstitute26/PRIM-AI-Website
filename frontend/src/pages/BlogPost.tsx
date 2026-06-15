@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Clock, ArrowLeft, Link as LinkIcon } from 'lucide-react';
 import { fetchPostBySlug, fetchPublicPosts, type BlogPost as BlogPostType } from '@/api/blog';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 // ─── Reading progress bar ──────────────────────────────────────────────────
 
@@ -315,7 +316,7 @@ export default function BlogPost() {
 
   if (!post) return null;
 
-  const processedContent = post.content ? injectIds(post.content) : '';
+  const processedContent = post.content ? sanitizeHtml(injectIds(post.content)) : '';
   const formattedDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })
     : '';
@@ -404,7 +405,7 @@ export default function BlogPost() {
         </div>
       </div>
 
-      {/* Content + sidebar — 70/30 */}
+      {/* Content + sidebar - 70/30 */}
       <div className="px-6 md:px-12 pb-16 max-w-6xl mx-auto">
         <div className="flex gap-8">
           {/* Article (70%) */}
@@ -423,14 +424,14 @@ export default function BlogPost() {
             </div>
           </article>
 
-          {/* Sidebar (30%) — TOC only */}
+          {/* Sidebar (30%) - TOC only */}
           <aside className="hidden lg:block w-72 shrink-0">
             <TableOfContents items={tocItems} activeId={activeId} />
           </aside>
         </div>
       </div>
 
-      {/* Keep Reading — full-width, outside the 70/30 grid */}
+      {/* Keep Reading - full-width, outside the 70/30 grid */}
       <KeepReading posts={relatedPosts} />
 
       <style>{`
@@ -438,7 +439,7 @@ export default function BlogPost() {
         .prose-blog { color: var(--white); line-height: 1.8; font-size: 1.0625rem; font-family: var(--font-body); }
         .prose-blog h2 { font-family: var(--font-head); font-size: 1.6rem; font-weight: 700; color: var(--white); margin: 2.5rem 0 1rem; }
         .prose-blog h3 { font-family: var(--font-head); font-size: 1.25rem; font-weight: 600; color: var(--white); margin: 2rem 0 0.75rem; }
-        .prose-blog p { margin: 1.25rem 0; color: var(--muted); }
+        .prose-blog p { margin: 1.25rem 0; color: var(--muted); text-align: justify; text-justify: inter-word; hyphens: auto; }
         .prose-blog a { color: var(--electric); text-decoration: underline; }
         .prose-blog strong { color: var(--white); font-weight: 600; }
         .prose-blog em { color: var(--muted); }
@@ -455,7 +456,7 @@ export default function BlogPost() {
         .share-btn { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--white); transition: all 0.3s ease; }
         .share-btn:hover { background: rgba(0,212,255,0.2); color: var(--electric); border-color: rgba(0,212,255,0.5); transform: translateY(-4px); }
 
-        /* TOC link — growing bar indicator */
+        /* TOC link - growing bar indicator */
         .toc-link { display: flex; align-items: flex-start; gap: 0.75rem; padding: 4px 0; text-decoration: none; }
         .toc-link .toc-bar { width: 2px; height: 0; margin-top: 7px; background: var(--electric); transition: height 0.3s ease; flex-shrink: 0; }
         .toc-link .toc-text { font-size: 0.875rem; line-height: 1.625; transition: color 0.2s ease; color: var(--muted); }
