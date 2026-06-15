@@ -57,14 +57,25 @@ function injectIds(html: string): string {
 }
 
 function TableOfContents({ items, activeId }: { items: TocItem[]; activeId: string }) {
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!activeId || !navRef.current) return;
+    const el = navRef.current.querySelector<HTMLElement>(`[href="#${activeId}"]`);
+    el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [activeId]);
+
   if (!items.length) return null;
 
   return (
-    <div className="glass-card p-5 rounded-2xl sticky top-24">
-      <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--muted)' }}>
+    <div
+      className="glass-card p-5 rounded-2xl sticky top-24 flex flex-col"
+      style={{ maxHeight: 'calc(100vh - 8rem)' }}
+    >
+      <h4 className="text-xs font-bold uppercase tracking-widest mb-4 shrink-0" style={{ color: 'var(--muted)' }}>
         On this page
       </h4>
-      <nav className="space-y-1">
+      <nav ref={navRef} className="space-y-1 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
         {items.map((item) => (
           <a
             key={item.id}
@@ -352,13 +363,15 @@ export default function BlogPost() {
               dangerouslySetInnerHTML={{ __html: processedContent }}
             />
             <RelatedPosts posts={relatedPosts} />
+            <div className="mt-10 flex flex-col gap-5">
+              <ShareButtons title={post.title} />
+              <AuthorBio author={post.author} />
+            </div>
           </article>
 
-          {/* Sidebar (30%) */}
-          <aside className="hidden lg:flex flex-col gap-5 w-72 shrink-0">
+          {/* Sidebar (30%) — TOC only */}
+          <aside className="hidden lg:block w-72 shrink-0">
             <TableOfContents items={tocItems} activeId={activeId} />
-            <ShareButtons title={post.title} />
-            <AuthorBio author={post.author} />
           </aside>
         </div>
       </div>
