@@ -19,7 +19,7 @@ const POST_SELECT = {
   createdAt: true,
   updatedAt: true,
   category: { select: { id: true, name: true, slug: true, color: true } },
-  author: { select: { id: true, name: true, avatarUrl: true } },
+  author: { select: { id: true, name: true, designation: true, avatarUrl: true } },
   tags: { select: { tag: { select: { id: true, name: true, slug: true } } } },
 };
 
@@ -94,7 +94,7 @@ export class BlogService {
 
   async listAuthors() {
     return this.prisma.blogAuthor.findMany({
-      select: { id: true, name: true, bio: true, avatarUrl: true },
+      select: { id: true, name: true, designation: true, bio: true, avatarUrl: true },
       orderBy: { name: 'asc' },
     });
   }
