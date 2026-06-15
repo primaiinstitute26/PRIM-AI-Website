@@ -130,19 +130,28 @@ export default function BlogListing() {
             Tutorials, case studies, and career guidance from the PRIM AI team.
           </p>
 
-          <form onSubmit={handleSearch} className="mt-8 flex gap-3 max-w-lg mx-auto">
-            <div className="flex-1 relative">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--muted)' }} />
+          <form onSubmit={handleSearch} className="mt-8 flex justify-center">
+            <div className="relative w-full max-w-2xl">
+              <Search
+                size={18}
+                className="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ color: 'var(--muted)' }}
+              />
               <input
                 type="text"
-                placeholder="Search articles…"
+                placeholder="Search articles..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                className="pl-9 pr-4"
+                className="w-full pl-14 pr-36"
                 style={{ borderRadius: '9999px' }}
               />
+              <button
+                type="submit"
+                className="btn-primary absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 text-sm"
+              >
+                Search
+              </button>
             </div>
-            <button type="submit" className="btn-primary px-6 py-2 text-sm">Search</button>
           </form>
         </div>
       </section>

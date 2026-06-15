@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Clock, ArrowLeft, Share2, Link as LinkIcon } from 'lucide-react';
+import { Clock, ArrowLeft, Link as LinkIcon } from 'lucide-react';
 import { fetchPostBySlug, fetchPublicPosts, type BlogPost as BlogPostType } from '@/api/blog';
 
 // ─── Reading progress bar ──────────────────────────────────────────────────
@@ -111,10 +111,12 @@ function ShareButtons({ title }: { title: string }) {
         <a
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`}
           target="_blank" rel="noopener noreferrer"
-          title="Share on Twitter"
+          title="Share on X (Twitter)"
           className="share-btn w-10 h-10 rounded-full flex items-center justify-center"
         >
-          <Share2 size={18} />
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.26 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
         </a>
         <a
           href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
