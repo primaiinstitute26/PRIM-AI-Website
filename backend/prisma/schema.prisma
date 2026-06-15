@@ -128,6 +128,7 @@ model BlogPost {
   content       String        @db.Text
   coverImageUrl String?
   status        BlogStatus    @default(DRAFT)
+  showAuthor    Boolean       @default(true)
   readTimeMin   Int           @default(0)
   category      BlogCategory  @relation(fields: [categoryId], references: [id])
   categoryId    String

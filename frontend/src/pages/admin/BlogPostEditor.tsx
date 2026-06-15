@@ -12,6 +12,7 @@ import {
   Minus, Link as LinkIcon, ArrowLeft, Clock, Eye, Save,
 } from 'lucide-react';
 import { ImageUploadDropzone } from '@/components/admin/ImageUploadDropzone';
+import ToggleSwitch from '@/components/admin/ToggleSwitch';
 import {
   adminFetchPost, adminCreatePost, adminUpdatePost,
   adminFetchCategories, adminFetchTags, adminFetchAuthors,
@@ -183,6 +184,7 @@ export default function BlogPostEditor() {
   const [categoryId, setCategoryId] = useState('');
   const [authorId, setAuthorId] = useState('');
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
+  const [showAuthor, setShowAuthor] = useState(true);
 
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [tags, setTags] = useState<BlogTag[]>([]);
@@ -240,6 +242,7 @@ export default function BlogPostEditor() {
         setCategoryId(post.category.id);
         setAuthorId(post.author.id);
         setSelectedTagIds(post.tags.map((t) => t.id));
+        setShowAuthor(post.showAuthor);
         editor?.commands.setContent(post.content ?? '');
       }).catch(() => navigate('/admin/blog'));
     });
@@ -303,6 +306,7 @@ export default function BlogPostEditor() {
         content,
         coverImageUrl: coverImageUrl ?? undefined,
         status: effectiveStatus,
+        showAuthor,
         categoryId,
         authorId,
         tagIds: selectedTagIds,
@@ -463,6 +467,14 @@ export default function BlogPostEditor() {
                 </div>
               </label>
             ))}
+          </div>
+
+          <div className="pt-1 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+            <ToggleSwitch
+              checked={showAuthor}
+              onChange={setShowAuthor}
+              label="Show Author Details"
+            />
           </div>
 
           <div

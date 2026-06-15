@@ -30,6 +30,7 @@ export interface BlogPost {
   content?: string;
   coverImageUrl?: string;
   status: 'DRAFT' | 'PUBLISHED';
+  showAuthor: boolean;
   readTimeMin: number;
   publishedAt?: string;
   createdAt: string;
@@ -53,6 +54,7 @@ export interface CreateBlogPostPayload {
   content: string;
   coverImageUrl?: string;
   status: 'DRAFT' | 'PUBLISHED';
+  showAuthor?: boolean;
   categoryId: string;
   authorId: string;
   tagIds: string[];

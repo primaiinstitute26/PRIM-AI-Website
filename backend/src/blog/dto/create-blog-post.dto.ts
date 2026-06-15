@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsBoolean,
   IsDateString,
   IsEnum,
   IsOptional,
@@ -49,4 +50,8 @@ export class CreateBlogPostDto {
   @IsOptional()
   @IsDateString()
   publishedAt?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  showAuthor?: boolean;
 }

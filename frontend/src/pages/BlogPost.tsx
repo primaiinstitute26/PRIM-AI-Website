@@ -404,11 +404,11 @@ export default function BlogPost() {
               dangerouslySetInnerHTML={{ __html: processedContent }}
             />
             <div
-              className="mt-8 pt-8 flex flex-col md:flex-row gap-8 items-start justify-between"
+              className={`mt-8 pt-8 flex flex-col md:flex-row gap-8 items-start${post.showAuthor ? ' justify-between' : ''}`}
               style={{ borderTop: '1px solid var(--border)' }}
             >
               <ShareButtons title={post.title} />
-              <AuthorBio author={post.author} />
+              {post.showAuthor && <AuthorBio author={post.author} />}
             </div>
           </article>
 

@@ -14,6 +14,7 @@ const POST_SELECT = {
   excerpt: true,
   coverImageUrl: true,
   status: true,
+  showAuthor: true,
   readTimeMin: true,
   publishedAt: true,
   createdAt: true,
