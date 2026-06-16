@@ -88,7 +88,7 @@ export default function Courses() {
                   </div>
                 ))}
               </div>
-              <button type="button" onClick={modal.open} className="btn-primary w-full py-3 mt-5 justify-center">Book Free Demo →</button>
+              <button type="button" onClick={modal.open} className="btn-primary w-full py-3 mt-5 justify-center">Book Free Demo ➞</button>
               <p className="text-xs text-center mt-3" style={{ color: 'var(--muted)' }}>Free demo · No fees · No obligation</p>
             </div>
           </div>
@@ -212,7 +212,7 @@ export default function Courses() {
                       </div>
                     ))}
                   </div>
-                  <div className="text-3xl text-center" style={{ color: 'var(--electric)' }}>→</div>
+                  <div className="text-3xl text-center" style={{ color: 'var(--electric)' }}>➞</div>
                   <div className="glass-card p-7 rounded-2xl" style={{ border: '1px solid rgba(0,212,255,.2)', background: 'rgba(0,212,255,.04)' }}>
                     <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: 'var(--electric)' }}>{data.afterLabel}</p>
                     {data.afterItems.map((item, i) => (
@@ -248,7 +248,7 @@ export default function Courses() {
                     <p className="text-sm leading-relaxed italic mb-4" style={{ color: 'var(--muted)' }}>"{t.quote}"</p>
                     <div className="flex items-center gap-2 text-xs">
                       <span style={{ color: 'var(--muted)' }}>{t.before}</span>
-                      <span className="font-bold" style={{ color: 'var(--electric)' }}>→</span>
+                      <span className="font-bold" style={{ color: 'var(--electric)' }}>➞</span>
                       <span className="font-semibold" style={{ color: 'var(--electric)' }}>{t.after}</span>
                     </div>
                   </div>
@@ -307,13 +307,13 @@ export default function Courses() {
                   <div className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: 'var(--orange)' }}>Level 2A – Non-Tech Track</div>
                   <div className="text-2xl font-bold mb-2" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}>AI Generalist Program</div>
                   <p className="text-sm leading-relaxed mb-5" style={{ color: 'var(--muted)' }}>For freshers, professionals, and entrepreneurs. Master 15+ AI tools for content, design, video, automation, and productivity.</p>
-                  <span className="text-sm font-semibold" style={{ color: 'var(--orange)' }}>Explore Course →</span>
+                  <span className="text-sm font-semibold" style={{ color: 'var(--orange)' }}>Explore Course ➞</span>
                 </NavLink>
                 <NavLink to="/courses" className="glass-card glass-card-hover p-8 rounded-2xl no-underline block" style={{ borderTop: '2.5px solid #a78bfa' }}>
                   <div className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#a78bfa' }}>Level 2B – Tech Track</div>
                   <div className="text-2xl font-bold mb-2" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}>AI Developer Program</div>
                   <p className="text-sm leading-relaxed mb-5" style={{ color: 'var(--muted)' }}>For IT and engineering students. Learn AI-assisted coding, LLM APIs, GitHub Copilot, and build your own AI-powered applications.</p>
-                  <span className="text-sm font-semibold" style={{ color: '#a78bfa' }}>Explore Course →</span>
+                  <span className="text-sm font-semibold" style={{ color: '#a78bfa' }}>Explore Course ➞</span>
                 </NavLink>
               </div>
             </section>
@@ -330,7 +330,7 @@ export default function Courses() {
           </h2>
           <p className="relative text-lg max-w-xl mx-auto mb-10" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>{data.finalCtaBody}</p>
           <div className="relative flex flex-col sm:flex-row gap-4 justify-center">
-            <button type="button" onClick={modal.open} className="btn-primary px-10 py-4 text-lg">Book Free Demo Class →</button>
+            <button type="button" onClick={modal.open} className="btn-primary px-10 py-4 text-lg">Book Free Demo Class ➞</button>
             <a
               href={`https://wa.me/917573055191?text=${encodeURIComponent("Hi! I'm interested in the AI Foundation Program. Please share more details.")}`}
               target="_blank"

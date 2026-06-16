@@ -89,7 +89,7 @@ export default function AdminLogin() {
             className="btn-primary w-full mt-2"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Signing in...' : 'Sign In →'}
+            {isSubmitting ? 'Signing in...' : 'Sign In ➞'}
           </button>
         </form>
       </GlassCard>

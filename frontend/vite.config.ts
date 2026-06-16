@@ -1,4 +1,4 @@
-// Vite config - React plugin, path alias @→src, API proxy to backend
+// Vite config - React plugin, path alias @➞src, API proxy to backend
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';

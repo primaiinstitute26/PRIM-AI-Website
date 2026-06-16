@@ -60,8 +60,8 @@ npm install                          # first time only
 npx prisma migrate dev --name init   # first time only
 npx prisma db seed                   # first time only
 npm run start:dev
-# → http://localhost:3001
-# → http://localhost:3001/api/docs  (Swagger)
+# ➞ http://localhost:3001
+# ➞ http://localhost:3001/api/docs  (Swagger)
 ```
 
 ### Run Frontend
@@ -69,7 +69,7 @@ npm run start:dev
 cd frontend
 npm install    # first time only
 npm run dev
-# → http://localhost:5173
+# ➞ http://localhost:5173
 ```
 
 ---
@@ -134,19 +134,19 @@ prim-ai-institute/
 │
 ├── backend/
 │   ├── src/
-│   │   ├── bookings/         → demo booking CRUD + CSV export
-│   │   ├── enquiries/        → enquiry CRUD + CSV export
-│   │   ├── auth/             → JWT login (admin only)
-│   │   ├── admin/            → dashboard stats + recent leads
-│   │   ├── notifications/    → MSG91 WhatsApp + console fallback
-│   │   ├── settings/         → site-wide key/value settings
-│   │   ├── prisma/           → PrismaService (global)
+│   │   ├── bookings/         ➞ demo booking CRUD + CSV export
+│   │   ├── enquiries/        ➞ enquiry CRUD + CSV export
+│   │   ├── auth/             ➞ JWT login (admin only)
+│   │   ├── admin/            ➞ dashboard stats + recent leads
+│   │   ├── notifications/    ➞ MSG91 WhatsApp + console fallback
+│   │   ├── settings/         ➞ site-wide key/value settings
+│   │   ├── prisma/           ➞ PrismaService (global)
 │   │   ├── app.module.ts
 │   │   └── main.ts
 │   ├── prisma/
 │   │   ├── schema.prisma
 │   │   └── seed.ts
-│   ├── .env                  → actual dev env (not committed)
+│   ├── .env                  ➞ actual dev env (not committed)
 │   ├── .env.example
 │   ├── tsconfig.json
 │   └── package.json
@@ -198,7 +198,7 @@ enum LeadStatus {
 ### Auth
 | Method | Route | Purpose |
 |---|---|---|
-| POST | `/api/auth/login` | Login → returns JWT |
+| POST | `/api/auth/login` | Login ➞ returns JWT |
 
 ### Admin (Bearer JWT required)
 | Method | Route | Purpose |
@@ -261,7 +261,7 @@ Auth is controlled by `PrivateRoute` in `App.tsx` reading from Zustand `authStor
 | `.btn-outline` | White bordered pill button |
 | `.btn-electric` | Cyan bordered pill button |
 | `.section-tag` | Cyan uppercase label above headings |
-| `.gradient-text` | Cyan→orange gradient text |
+| `.gradient-text` | Cyan➞orange gradient text |
 
 ### Rules
 1. Background is **always** `var(--navy)` - never white, never light grey
@@ -279,7 +279,7 @@ Auth is controlled by `PrivateRoute` in `App.tsx` reading from Zustand `authStor
 ## Validation Rules
 
 ```
-Phone:   /^[6-9]\d{9}$/   →  "Enter valid 10-digit Indian mobile number"
+Phone:   /^[6-9]\d{9}$/   ➞  "Enter valid 10-digit Indian mobile number"
 Name:    minLength 2, maxLength 50
 Message: minLength 10, maxLength 500
 Email:   optional, valid format
@@ -292,8 +292,8 @@ Course:  must be Course enum value
 ## Notification System
 
 `NotificationsService` in `backend/src/notifications/`:
-- In **development** (`NODE_ENV=development`) → logs message to console (no MSG91 call)
-- In **production** → POSTs to MSG91 WhatsApp API using `MSG91_AUTH_KEY` env var
+- In **development** (`NODE_ENV=development`) ➞ logs message to console (no MSG91 call)
+- In **production** ➞ POSTs to MSG91 WhatsApp API using `MSG91_AUTH_KEY` env var
 - Both `sendBookingAlert()` and `sendEnquiryAlert()` follow same pattern
 
 ---

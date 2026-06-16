@@ -96,7 +96,7 @@ export default function Contact() {
                   className="inline-block mt-3 text-xs font-semibold"
                   style={{ color: 'var(--electric)' }}
                 >
-                  Open in Maps →
+                  Open in Maps ➞
                 </span>
               </div>
             </a>
@@ -318,7 +318,7 @@ export default function Contact() {
                     className="btn-primary w-full py-3 mt-1"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? 'Sending…' : 'Send Enquiry →'}
+                    {isSubmitting ? 'Sending…' : 'Send Enquiry ➞'}
                   </button>
                 </form>
               </>

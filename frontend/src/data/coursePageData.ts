@@ -110,7 +110,7 @@ export const DEFAULT_COURSE_DATA: CoursePageData = {
   title: 'AI Foundation Program',
   tagline:
     'Your first step into the world of Artificial Intelligence. No prior knowledge required - just curiosity and the willingness to learn.',
-  cta1Text: 'Book Free Demo Class →',
+  cta1Text: 'Book Free Demo Class ➞',
   cta2Text: 'Download Syllabus',
   quickStats: [
     '⏱ 6-8 Weeks',

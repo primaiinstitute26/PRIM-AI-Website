@@ -8,7 +8,7 @@ interface StatCardProps {
   color?: string;
 }
 
-const trendSymbol = { up: '↑', down: '↓', neutral: '→' } as const;
+const trendSymbol = { up: '↑', down: '↓', neutral: '➞' } as const;
 const trendColor = {
   up: '#22c55e',
   down: 'var(--orange)',

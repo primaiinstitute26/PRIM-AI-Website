@@ -125,7 +125,7 @@ export default function Bookings() {
             disabled={page === totalPages}
             className="btn-outline text-sm px-4 py-2 disabled:opacity-40"
           >
-            Next →
+            Next ➞
           </button>
         </div>
       )}

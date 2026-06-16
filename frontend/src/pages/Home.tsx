@@ -191,7 +191,7 @@ export default function Home() {
         {/* CTAs */}
         <div className="anim-4 flex flex-col sm:flex-row gap-4 items-center justify-center">
           <button onClick={openModal} className="btn-primary text-base px-8 py-3">
-            {s.heroCta1Text} →
+            {s.heroCta1Text} ➞
           </button>
           <a
             href="#courses"
@@ -454,7 +454,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <button onClick={openModal} className="btn-outline text-sm px-6 py-2">Book Free Demo →</button>
+            <button onClick={openModal} className="btn-outline text-sm px-6 py-2">Book Free Demo ➞</button>
           </div>
 
           {/* Fork arrow */}
@@ -505,7 +505,7 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <button onClick={openModal} className="btn-outline text-sm px-5 py-2">Book Free Demo →</button>
+                <button onClick={openModal} className="btn-outline text-sm px-5 py-2">Book Free Demo ➞</button>
               </div>
             ))}
           </div>
@@ -577,7 +577,7 @@ export default function Home() {
             ))}
           </div>
           <button onClick={openModal} className="btn-primary text-base px-8 py-3">
-            Start Your AI Journey - Free Demo →
+            Start Your AI Journey - Free Demo ➞
           </button>
         </div>
       </section>
@@ -628,7 +628,7 @@ export default function Home() {
         </h2>
         <p className="mb-10" style={{ color: 'var(--muted)' }}>The question is - are you writing it, or watching others write it?</p>
         <button onClick={openModal} className="btn-primary text-base px-10 py-4">
-          Book Your Free Demo Class →
+          Book Your Free Demo Class ➞
         </button>
         <p className="mt-4 text-xs" style={{ color: 'var(--muted)' }}>Free. No obligation. Limited seats per batch.</p>
       </section>
@@ -665,7 +665,7 @@ function TestiCard({ t }: { t: Testi }) {
       <p className="text-sm leading-relaxed italic flex-1" style={{ color: 'var(--white)' }}>{t.quote}</p>
       <div className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs overflow-hidden" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid var(--border)' }}>
         <span className="truncate" style={{ color: 'var(--muted)' }}>{t.before}</span>
-        <span className="font-bold flex-shrink-0" style={{ color: 'var(--electric)' }}>→</span>
+        <span className="font-bold flex-shrink-0" style={{ color: 'var(--electric)' }}>➞</span>
         <span className="font-semibold truncate" style={{ color: 'var(--electric)' }}>{t.after}</span>
       </div>
     </div>

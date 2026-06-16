@@ -160,7 +160,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                 className="btn-primary w-full mt-2"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Booking...' : 'Book Free Demo →'}
+                {isSubmitting ? 'Booking...' : 'Book Free Demo ➞'}
               </button>
             </form>
           </>

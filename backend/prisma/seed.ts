@@ -121,7 +121,7 @@ async function main() {
       badge: 'Level 1 – AI Foundation',
       title: 'AI Foundation Program',
       tagline: 'Your first step into the world of Artificial Intelligence. No prior knowledge required - just curiosity and the willingness to learn.',
-      cta1Text: 'Book Free Demo Class →',
+      cta1Text: 'Book Free Demo Class ➞',
       cta2Text: 'Download Syllabus',
       quickStats: ['⏱ 6-8 Weeks', '👤 1-to-1 Mentorship', '🏫 Offline · Hands-on', '✅ ISO Certificate', '🗣 Hindi & Gujarati'],
       cardHighlights: [

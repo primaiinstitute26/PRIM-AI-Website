@@ -279,7 +279,7 @@ const ABOUT_SECTIONS: SectionDef[] = [
     fields: [
       { key: 'about_badge_text', label: 'Badge Text', hint: 'Small pill above heading (e.g. OUR STORY)' },
       { key: 'about_hero_h1', label: 'Heading - Line 1', hint: 'White text line' },
-      { key: 'about_hero_h1_accent', label: 'Heading - Gradient Line', hint: 'Cyan → orange gradient line' },
+      { key: 'about_hero_h1_accent', label: 'Heading - Gradient Line', hint: 'Cyan ➞ orange gradient line' },
       { key: 'about_hero_subtext', label: 'Subtext Paragraph', type: 'textarea' },
       { key: 'about_stat1_count', label: 'Stat 1 - Number', hint: 'e.g. 10+' },
       { key: 'about_stat1_label', label: 'Stat 1 - Label', hint: 'e.g. YEARS EXP' },
@@ -385,7 +385,7 @@ const CONTACT_SECTIONS: SectionDef[] = [
       { key: 'contact_whatsapp_number', label: 'WhatsApp Number', hint: 'Digits only with country code. e.g. 917573055191' },
       { key: 'contact_whatsapp_message', label: 'Pre-filled WhatsApp Message', type: 'textarea' },
       { key: 'contact_show_map', label: 'Show Map Section', type: 'toggle' },
-      { key: 'contact_map_embed_url', label: 'Google Maps Embed URL', hint: 'Google Maps → Share → Embed a map → copy the src="" value from the iframe code', type: 'textarea' },
+      { key: 'contact_map_embed_url', label: 'Google Maps Embed URL', hint: 'Google Maps ➞ Share ➞ Embed a map ➞ copy the src="" value from the iframe code', type: 'textarea' },
       { key: 'contact_map_link_url', label: 'Map Direct Link', hint: 'Opens in Google Maps when user clicks the map' },
     ],
   },
