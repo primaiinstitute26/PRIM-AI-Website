@@ -6,6 +6,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Sidebar } from '@/components/admin/Sidebar';
 import { useAuthStore } from '@/store/authStore';
+import { ScrollToTop } from '@/components/shared/ScrollToTop';
+import { WhatsAppFloat } from '@/components/shared/WhatsAppFloat';
 
 const Home = lazy(() => import('@/pages/Home'));
 const About = lazy(() => import('@/pages/About'));
@@ -65,6 +67,9 @@ function PageLoader() {
 
 export default function App() {
   return (
+    <>
+    <ScrollToTop />
+    <WhatsAppFloat />
     <Routes>
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
@@ -97,5 +102,6 @@ export default function App() {
         <Route path="blog/:id/edit" element={<BlogPostEditor />} />
       </Route>
     </Routes>
+    </>
   );
 }

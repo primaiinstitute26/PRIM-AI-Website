@@ -102,11 +102,53 @@ interface FormValues {
   // Contact FAQ
   contact_show_faq: string;
   contact_faq_title: string;
-  // Footer social links
+  // Footer social links (legacy)
   footer_social_facebook: string;
   footer_social_youtube: string;
   footer_social_instagram: string;
   footer_social_linkedin: string;
+  // Footer — CTA strip
+  footer_cta_show: string;
+  footer_cta_heading: string;
+  footer_cta_subtext: string;
+  footer_cta_demo_btn_text: string;
+  footer_cta_wa_btn_text: string;
+  // Footer — stats bar
+  footer_stats_show: string;
+  footer_stat_1_num: string;
+  footer_stat_1_label: string;
+  footer_stat_2_num: string;
+  footer_stat_2_label: string;
+  footer_stat_3_num: string;
+  footer_stat_3_label: string;
+  footer_stat_4_num: string;
+  footer_stat_4_label: string;
+  footer_stat_5_num: string;
+  footer_stat_5_label: string;
+  // Footer — brand col
+  footer_desc: string;
+  footer_iso_show: string;
+  // Footer — column visibility
+  footer_quicklinks_show: string;
+  footer_courses_show: string;
+  footer_explore_more_show: string;
+  // Footer — contact col
+  footer_contact_show: string;
+  footer_address: string;
+  footer_phone: string;
+  footer_email: string;
+  footer_hours: string;
+  // Footer — social icons
+  footer_social_show: string;
+  footer_social_whatsapp: string;
+  // Footer — WhatsApp float
+  footer_wa_float_show: string;
+  footer_wa_float_number: string;
+  // Footer — legal links
+  footer_privacy_url: string;
+  footer_terms_url: string;
+  footer_sitemap_url: string;
+  footer_franchise_url: string;
 }
 
 type FormKey = keyof FormValues;
@@ -202,6 +244,41 @@ const DEFAULTS: FormValues = {
   footer_social_youtube: '',
   footer_social_instagram: '',
   footer_social_linkedin: '',
+  // Footer
+  footer_cta_show: 'true',
+  footer_cta_heading: 'Ready to Start Your AI Journey?',
+  footer_cta_subtext: 'Book a free demo class — no fees, no obligation. Just come and experience it.',
+  footer_cta_demo_btn_text: '🚀 Book Free Demo Class',
+  footer_cta_wa_btn_text: '💬 WhatsApp Us',
+  footer_stats_show: 'true',
+  footer_stat_1_num: '5000+',
+  footer_stat_1_label: 'Students Trained',
+  footer_stat_2_num: '1500+',
+  footer_stat_2_label: 'Hiring Partners',
+  footer_stat_3_num: '20+',
+  footer_stat_3_label: 'Years Expertise',
+  footer_stat_4_num: '3',
+  footer_stat_4_label: 'AI Programs',
+  footer_stat_5_num: '50+',
+  footer_stat_5_label: 'AI Tools Taught',
+  footer_desc: "Gujarat's premier AI training institute — empowering students, professionals, and entrepreneurs with real-world AI skills that transform careers and businesses.",
+  footer_iso_show: 'true',
+  footer_quicklinks_show: 'true',
+  footer_courses_show: 'true',
+  footer_explore_more_show: 'true',
+  footer_contact_show: 'true',
+  footer_address: 'Ahmedabad, Gujarat, India',
+  footer_phone: '+91 88490 31797',
+  footer_email: 'primeai.dev@gmail.com',
+  footer_hours: 'Mon – Fri, 9 AM – 7 PM',
+  footer_social_show: 'true',
+  footer_social_whatsapp: '',
+  footer_wa_float_show: 'true',
+  footer_wa_float_number: '917573055191',
+  footer_privacy_url: '#',
+  footer_terms_url: '#',
+  footer_sitemap_url: '#',
+  footer_franchise_url: '#',
 };
 
 // ─── Section definitions ──────────────────────────────────────────
@@ -412,15 +489,64 @@ const CONTACT_SECTIONS: SectionDef[] = [
 
 const FOOTER_SECTIONS: SectionDef[] = [
   {
-    id: 'footer_social',
-    icon: '🔗',
-    title: 'Footer - Social Links',
+    id: 'footer_brand',
+    icon: '🏷️',
+    title: 'Footer - Brand Column',
     accentColor: 'var(--electric)',
     fields: [
-      { key: 'footer_social_facebook', label: 'Facebook URL', hint: 'Full URL e.g. https://facebook.com/yourpage — leave blank to disable' },
-      { key: 'footer_social_youtube', label: 'YouTube URL', hint: 'Full URL e.g. https://youtube.com/@yourchannel' },
-      { key: 'footer_social_instagram', label: 'Instagram URL', hint: 'Full URL e.g. https://instagram.com/yourhandle' },
+      { key: 'footer_desc', label: 'Brand Description', type: 'textarea', hint: 'Appears below the PRIM AI Institute logo' },
+      { key: 'footer_iso_show', label: 'Show ISO Certified Badge', type: 'toggle' },
+      { key: 'footer_quicklinks_show', label: 'Show Quick Links Column', type: 'toggle' },
+      { key: 'footer_courses_show', label: 'Show Courses Column', type: 'toggle' },
+      { key: 'footer_explore_more_show', label: 'Show "Explore More" Sub-Section', type: 'toggle', hint: 'The Corporate Training + Success Stories links inside the Courses column' },
+    ],
+  },
+  {
+    id: 'footer_contact',
+    icon: '📍',
+    title: 'Footer - Contact Column',
+    accentColor: '#34d399',
+    fields: [
+      { key: 'footer_contact_show', label: 'Show Contact Column', type: 'toggle' },
+      { key: 'footer_address', label: 'Address', hint: 'Shown as plain text' },
+      { key: 'footer_phone', label: 'Phone Number', hint: 'Shown as a clickable tel: link' },
+      { key: 'footer_email', label: 'Email Address', hint: 'Shown as a clickable mailto: link' },
+      { key: 'footer_hours', label: 'Office Hours', hint: 'e.g. Mon – Fri, 9 AM – 7 PM' },
+    ],
+  },
+  {
+    id: 'footer_social',
+    icon: '🔗',
+    title: 'Footer - Social Media Icons',
+    accentColor: 'var(--electric)',
+    fields: [
+      { key: 'footer_social_show', label: 'Show Social Icons', type: 'toggle' },
+      { key: 'footer_social_whatsapp', label: 'WhatsApp URL', hint: 'Full URL e.g. https://wa.me/917573055191 — leave blank to hide' },
       { key: 'footer_social_linkedin', label: 'LinkedIn URL', hint: 'Full URL e.g. https://linkedin.com/company/yourcompany' },
+      { key: 'footer_social_instagram', label: 'Instagram URL', hint: 'Full URL e.g. https://instagram.com/yourhandle' },
+      { key: 'footer_social_youtube', label: 'YouTube URL', hint: 'Full URL e.g. https://youtube.com/@yourchannel' },
+    ],
+  },
+  {
+    id: 'footer_wa_float',
+    icon: '💬',
+    title: 'Footer - WhatsApp Floating Button',
+    accentColor: '#25d366',
+    fields: [
+      { key: 'footer_wa_float_show', label: 'Show WhatsApp Float Button', type: 'toggle' },
+      { key: 'footer_wa_float_number', label: 'WhatsApp Number', hint: 'Digits only with country code — no +, no spaces. e.g. 917573055191. Used by both this button and the Footer CTA WhatsApp button.' },
+    ],
+  },
+  {
+    id: 'footer_legal',
+    icon: '⚖️',
+    title: 'Footer - Legal Links',
+    accentColor: 'var(--muted)',
+    fields: [
+      { key: 'footer_privacy_url', label: 'Privacy Policy URL', hint: 'Use # if page not built yet' },
+      { key: 'footer_terms_url', label: 'Terms & Conditions URL' },
+      { key: 'footer_sitemap_url', label: 'Sitemap URL' },
+      { key: 'footer_franchise_url', label: 'Franchise URL' },
     ],
   },
 ];

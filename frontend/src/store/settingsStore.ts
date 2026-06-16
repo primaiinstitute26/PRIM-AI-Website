@@ -101,11 +101,13 @@ export interface SiteSettings {
   contactShowFaq: boolean;
   contactFaqTitle: string;
   contactFaqs: ContactFAQ[];
-  // Footer social links
+  // Footer social links (legacy typed fields — kept for compatibility)
   footerSocialFacebook: string;
   footerSocialYoutube: string;
   footerSocialInstagram: string;
   footerSocialLinkedin: string;
+  // Footer settings — all footer_* keys as a raw record for the full footer
+  footerSettings: Record<string, string>;
   // Courses page
   coursePageData: CoursePageData;
 }
@@ -214,11 +216,13 @@ const DEFAULTS: SiteSettings = {
   contactShowFaq: true,
   contactFaqTitle: 'Frequently Asked Questions',
   contactFaqs: DEFAULT_FAQS,
-  // Footer social links
+  // Footer social links (legacy)
   footerSocialFacebook: '',
   footerSocialYoutube: '',
   footerSocialInstagram: '',
   footerSocialLinkedin: '',
+  // Footer settings raw record
+  footerSettings: {},
   // Courses page
   coursePageData: DEFAULT_COURSE_DATA,
 };
@@ -344,11 +348,15 @@ export const useSettingsStore = create<SettingsState>()((set) => ({
           contactShowFaq: r.contact_show_faq !== 'false',
           contactFaqTitle: r.contact_faq_title ?? DEFAULTS.contactFaqTitle,
           contactFaqs: parseFaqs(r.contact_faqs),
-          // Footer social links
+          // Footer social links (legacy)
           footerSocialFacebook: r.footer_social_facebook ?? '',
           footerSocialYoutube: r.footer_social_youtube ?? '',
           footerSocialInstagram: r.footer_social_instagram ?? '',
           footerSocialLinkedin: r.footer_social_linkedin ?? '',
+          // Footer settings — capture all footer_* keys as a raw record
+          footerSettings: Object.fromEntries(
+            Object.entries(r).filter(([k]) => k.startsWith('footer_'))
+          ),
           coursePageData: parseCourseData(r.course_page_data),
         },
       });

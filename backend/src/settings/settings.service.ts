@@ -48,9 +48,26 @@ const PUBLIC_KEYS = new Set([
   'contact_show_faq', 'contact_faq_title', 'contact_faqs',
   // Courses page (single JSON blob)
   'course_page_data',
-  // Footer social links
+  // Footer social links (existing)
   'footer_social_facebook', 'footer_social_youtube',
   'footer_social_instagram', 'footer_social_linkedin',
+  // Footer — new full-footer keys
+  'footer_cta_show', 'footer_cta_heading', 'footer_cta_subtext',
+  'footer_cta_demo_btn_text', 'footer_cta_wa_btn_text',
+  'footer_stats_show',
+  'footer_stat_1_num', 'footer_stat_1_label',
+  'footer_stat_2_num', 'footer_stat_2_label',
+  'footer_stat_3_num', 'footer_stat_3_label',
+  'footer_stat_4_num', 'footer_stat_4_label',
+  'footer_stat_5_num', 'footer_stat_5_label',
+  'footer_desc', 'footer_iso_show',
+  'footer_quicklinks_show', 'footer_courses_show', 'footer_explore_more_show',
+  'footer_contact_show', 'footer_address', 'footer_phone',
+  'footer_email', 'footer_hours',
+  'footer_social_show', 'footer_social_whatsapp',
+  'footer_wa_float_show', 'footer_wa_float_number',
+  'footer_privacy_url', 'footer_terms_url',
+  'footer_sitemap_url', 'footer_franchise_url',
 ]);
 
 @Injectable()

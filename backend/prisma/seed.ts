@@ -205,6 +205,51 @@ async function main() {
     }) },
     { key: 'contact_show_faq', value: 'true' },
     { key: 'contact_faq_title', value: 'Frequently Asked Questions' },
+    // Footer — CTA strip
+    { key: 'footer_cta_show', value: 'true' },
+    { key: 'footer_cta_heading', value: 'Ready to Start Your AI Journey?' },
+    { key: 'footer_cta_subtext', value: 'Book a free demo class — no fees, no obligation. Just come and experience it.' },
+    { key: 'footer_cta_demo_btn_text', value: '🚀 Book Free Demo Class' },
+    { key: 'footer_cta_wa_btn_text', value: '💬 WhatsApp Us' },
+    // Footer — stats bar
+    { key: 'footer_stats_show', value: 'true' },
+    { key: 'footer_stat_1_num', value: '5000+' },
+    { key: 'footer_stat_1_label', value: 'Students Trained' },
+    { key: 'footer_stat_2_num', value: '1500+' },
+    { key: 'footer_stat_2_label', value: 'Hiring Partners' },
+    { key: 'footer_stat_3_num', value: '20+' },
+    { key: 'footer_stat_3_label', value: 'Years Expertise' },
+    { key: 'footer_stat_4_num', value: '3' },
+    { key: 'footer_stat_4_label', value: 'AI Programs' },
+    { key: 'footer_stat_5_num', value: '50+' },
+    { key: 'footer_stat_5_label', value: 'AI Tools Taught' },
+    // Footer — brand col
+    { key: 'footer_desc', value: "Gujarat's premier AI training institute — empowering students, professionals, and entrepreneurs with real-world AI skills that transform careers and businesses." },
+    { key: 'footer_iso_show', value: 'true' },
+    // Footer — column visibility
+    { key: 'footer_quicklinks_show', value: 'true' },
+    { key: 'footer_courses_show', value: 'true' },
+    { key: 'footer_explore_more_show', value: 'true' },
+    // Footer — contact col
+    { key: 'footer_contact_show', value: 'true' },
+    { key: 'footer_address', value: 'Ahmedabad, Gujarat, India' },
+    { key: 'footer_phone', value: '+91 88490 31797' },
+    { key: 'footer_email', value: 'primeai.dev@gmail.com' },
+    { key: 'footer_hours', value: 'Mon – Fri, 9 AM – 7 PM' },
+    // Footer — social icons
+    { key: 'footer_social_show', value: 'true' },
+    { key: 'footer_social_whatsapp', value: '' },
+    { key: 'footer_social_linkedin', value: '' },
+    { key: 'footer_social_instagram', value: '' },
+    { key: 'footer_social_youtube', value: '' },
+    // Footer — WhatsApp float
+    { key: 'footer_wa_float_show', value: 'true' },
+    { key: 'footer_wa_float_number', value: '917573055191' },
+    // Footer — legal links
+    { key: 'footer_privacy_url', value: '#' },
+    { key: 'footer_terms_url', value: '#' },
+    { key: 'footer_sitemap_url', value: '#' },
+    { key: 'footer_franchise_url', value: '#' },
     { key: 'contact_faqs', value: JSON.stringify([
       { id: '1', question: 'What is the primary focus of PRIM AI Institute?', answer: 'PRIM AI Institute specializes in practical AI education for school students, college students, working professionals, and business owners. Our programs focus on real-world applications of Artificial Intelligence with zero theoretical bloat and 100% hands-on learning.' },
       { id: '2', question: 'Do I need prior coding or AI knowledge to join?', answer: 'Not at all! Our Level 1 Introduction course is designed for absolute beginners. We start from the very basics and build your skills step by step. All you need is curiosity and a smartphone or laptop.' },

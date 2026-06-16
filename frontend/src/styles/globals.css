@@ -2,6 +2,7 @@
 
 :root {
   --navy:     #020818;
+  --navy2:    #040d1e;
   --electric: #00D4FF;
   --orange:   #FF6B2B;
   --orange2:  #FF9500;
@@ -241,3 +242,13 @@ select option {
   transition: opacity .5s ease, transform .5s ease;
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* WhatsApp float animations */
+@keyframes wa-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes wa-pulse {
+  0%   { transform: scale(1); opacity: .6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
