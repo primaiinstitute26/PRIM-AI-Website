@@ -101,6 +101,11 @@ export interface SiteSettings {
   contactShowFaq: boolean;
   contactFaqTitle: string;
   contactFaqs: ContactFAQ[];
+  // Footer social links
+  footerSocialFacebook: string;
+  footerSocialYoutube: string;
+  footerSocialInstagram: string;
+  footerSocialLinkedin: string;
   // Courses page
   coursePageData: CoursePageData;
 }
@@ -209,6 +214,11 @@ const DEFAULTS: SiteSettings = {
   contactShowFaq: true,
   contactFaqTitle: 'Frequently Asked Questions',
   contactFaqs: DEFAULT_FAQS,
+  // Footer social links
+  footerSocialFacebook: '',
+  footerSocialYoutube: '',
+  footerSocialInstagram: '',
+  footerSocialLinkedin: '',
   // Courses page
   coursePageData: DEFAULT_COURSE_DATA,
 };
@@ -334,6 +344,11 @@ export const useSettingsStore = create<SettingsState>()((set) => ({
           contactShowFaq: r.contact_show_faq !== 'false',
           contactFaqTitle: r.contact_faq_title ?? DEFAULTS.contactFaqTitle,
           contactFaqs: parseFaqs(r.contact_faqs),
+          // Footer social links
+          footerSocialFacebook: r.footer_social_facebook ?? '',
+          footerSocialYoutube: r.footer_social_youtube ?? '',
+          footerSocialInstagram: r.footer_social_instagram ?? '',
+          footerSocialLinkedin: r.footer_social_linkedin ?? '',
           coursePageData: parseCourseData(r.course_page_data),
         },
       });

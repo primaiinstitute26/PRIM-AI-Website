@@ -48,6 +48,9 @@ const PUBLIC_KEYS = new Set([
   'contact_show_faq', 'contact_faq_title', 'contact_faqs',
   // Courses page (single JSON blob)
   'course_page_data',
+  // Footer social links
+  'footer_social_facebook', 'footer_social_youtube',
+  'footer_social_instagram', 'footer_social_linkedin',
 ]);
 
 @Injectable()

@@ -102,6 +102,11 @@ interface FormValues {
   // Contact FAQ
   contact_show_faq: string;
   contact_faq_title: string;
+  // Footer social links
+  footer_social_facebook: string;
+  footer_social_youtube: string;
+  footer_social_instagram: string;
+  footer_social_linkedin: string;
 }
 
 type FormKey = keyof FormValues;
@@ -193,6 +198,10 @@ const DEFAULTS: FormValues = {
   contact_map_link_url: 'https://maps.google.com/?q=Ganesh+Glory+Gota+Ahmedabad+Gujarat+382470',
   contact_show_faq: 'true',
   contact_faq_title: 'Frequently Asked Questions',
+  footer_social_facebook: '',
+  footer_social_youtube: '',
+  footer_social_instagram: '',
+  footer_social_linkedin: '',
 };
 
 // ─── Section definitions ──────────────────────────────────────────
@@ -397,6 +406,21 @@ const CONTACT_SECTIONS: SectionDef[] = [
     fields: [
       { key: 'contact_show_faq', label: 'Show FAQ Section', type: 'toggle' },
       { key: 'contact_faq_title', label: 'FAQ Section Title' },
+    ],
+  },
+];
+
+const FOOTER_SECTIONS: SectionDef[] = [
+  {
+    id: 'footer_social',
+    icon: '🔗',
+    title: 'Footer - Social Links',
+    accentColor: 'var(--electric)',
+    fields: [
+      { key: 'footer_social_facebook', label: 'Facebook URL', hint: 'Full URL e.g. https://facebook.com/yourpage — leave blank to disable' },
+      { key: 'footer_social_youtube', label: 'YouTube URL', hint: 'Full URL e.g. https://youtube.com/@yourchannel' },
+      { key: 'footer_social_instagram', label: 'Instagram URL', hint: 'Full URL e.g. https://instagram.com/yourhandle' },
+      { key: 'footer_social_linkedin', label: 'LinkedIn URL', hint: 'Full URL e.g. https://linkedin.com/company/yourcompany' },
     ],
   },
 ];
@@ -653,6 +677,18 @@ export default function Settings() {
       </div>
       <div className="flex flex-col gap-8">
         {ABOUT_SECTIONS.map(renderSection)}
+      </div>
+
+      {/* ── Footer sections ────────────────────────────────── */}
+      <div className="flex items-center gap-4 mt-12 mb-6">
+        <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
+        <span className="text-xs font-bold tracking-widest uppercase px-3" style={{ color: 'var(--electric)' }}>
+          Footer
+        </span>
+        <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
+      </div>
+      <div className="flex flex-col gap-8 mb-0">
+        {FOOTER_SECTIONS.map(renderSection)}
       </div>
 
       {/* ── Contact Page sections ──────────────────────────── */}
