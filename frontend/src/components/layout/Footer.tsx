@@ -89,7 +89,7 @@ function FooterLink({ to, label }: { to: string; label: string }) {
         onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--white)'; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--muted)'; }}
       >
-        <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[0.7rem]">→</span>
+        <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[0.7rem]">➞</span>
         {label}
       </Link>
     </li>
@@ -216,7 +216,7 @@ export function Footer() {
                       onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--white)'; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--muted)'; }}
                     >
-                      <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[0.7rem]">→</span>
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[0.7rem]">➞</span>
                       {c.label}
                       <span
                         className="text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full border ml-auto shrink-0"

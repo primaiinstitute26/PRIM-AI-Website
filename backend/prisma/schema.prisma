@@ -175,7 +175,7 @@ model AiCourse {
   certificate      String
   placementInfo    String
   levelLabel       String
-  ctaDemoText      String                  @default("Book Free Demo →")
+  ctaDemoText      String                  @default("Book Free Demo ➞")
   ctaWaText        String                  @default("💬 Chat on WhatsApp")
   ctaDownloadText  String                  @default("Download Syllabus")
   displayOrder     Int                     @default(0)

@@ -59,7 +59,7 @@ model AiCourse {
   certificate      String                                    // e.g. "ISO 9001:2015 Certified"
   placementInfo    String                                    // e.g. "Yes - 1500+ Partners"
   levelLabel       String                                    // e.g. "Beginner - No experience needed"
-  ctaDemoText      String   @default("Book Free Demo →")    // primary CTA button label
+  ctaDemoText      String   @default("Book Free Demo ➞")    // primary CTA button label
   ctaWaText        String   @default("💬 Chat on WhatsApp") // secondary CTA label
   ctaDownloadText  String   @default("Download Syllabus")   // download CTA label
   displayOrder     Int      @default(0)                     // sort order on /courses listing
@@ -305,11 +305,11 @@ export interface CourseTestimonial{ id, courseId, initials, name, meta, avatarGr
 
 ```typescript
 // Public
-getAllCourses()               → GET /courses         → AiCourse[]
-getCourseBySlug(slug)        → GET /courses/:slug    → AiCourse
+getAllCourses()               ➞ GET /courses         ➞ AiCourse[]
+getCourseBySlug(slug)        ➞ GET /courses/:slug    ➞ AiCourse
 
 // Admin (axios interceptor adds Bearer token automatically)
-adminGetCourse(slug)         → GET /admin/courses/:slug
+adminGetCourse(slug)         ➞ GET /admin/courses/:slug
 adminUpdateCourseHero(slug, data)
 adminUpdateWhoItems(slug, items)
 adminUpdateModules(slug, items)
@@ -357,7 +357,7 @@ Final CTA
 ```
 
 ### CourseCard component
-Shows: badge pill, title, tagline, 4 meta pills (duration/mode/language/level), first 7 tools as pills, first 4 outcomes as checkmarks, then two buttons (Demo CTA + "View Course →").
+Shows: badge pill, title, tagline, 4 meta pills (duration/mode/language/level), first 7 tools as pills, first 4 outcomes as checkmarks, then two buttons (Demo CTA + "View Course ➞").
 
 ### `useReveal()` hook
 `Courses.tsx` uses `useReveal()` with **empty `[]` deps** -this is correct here because content exists on first render (no async blocking).
@@ -430,7 +430,7 @@ const r8 = useReveal(loaded); // related courses
 ### Page Sections (in order)
 
 ```
-1. Bottom Sticky Bar      -fixed bottom-0, slides up via translateY(100%) → (0)
+1. Bottom Sticky Bar      -fixed bottom-0, slides up via translateY(100%) ➞ (0)
 2. Hero                   -gradient bg, left text + right highlights card
 3. Prerequisite Banner    -L2A/L2B only, cyan info box linking to L1
 4. Who Should Join (r1)   -emoji-box cards (3-col grid)
@@ -438,7 +438,7 @@ const r8 = useReveal(loaded); // related courses
 6. Tools (r3)             -L1: 4-col mini-cards | L2A/L2B: 3-col category cards
 7. Outcomes + Before/After (r4) -2-col outcome cards + 3-col before/after
 8. Course Details & Eligibility (r5) -2-col: info rows | eligibility checklist
-9. Testimonials (r6)      -3-col cards: avatar/name → quote → transform row
+9. Testimonials (r6)      -3-col cards: avatar/name ➞ quote ➞ transform row
 10. FAQ (r7)              -expandable + icon circle
 11. Related Courses (r8)  -2-col proper cards with colored border-top
 12. Final CTA             -centered with radial gradient bg
@@ -455,8 +455,8 @@ const LEVEL_COLOR = {
 
 ### Tools display logic
 ```typescript
-// L1 → individual mini-cards (4 cols)
-// L2A/L2B → category-grouped cards (3 cols)
+// L1 ➞ individual mini-cards (4 cols)
+// L2A/L2B ➞ category-grouped cards (3 cols)
 
 function groupToolsByCategory(tools) {
   // groups by tool.category, uses first tool's emoji as category icon
@@ -493,7 +493,7 @@ function FAQItem({ faq, accent }) {
 - Position: `fixed bottom-0`
 - Hidden initially: `transform: translateY(100%)`
 - Shown after hero: `transform: translateY(0)` + `transition: transform 0.4s ease`
-- Trigger: `IntersectionObserver` on `heroRef` -`!entry.isIntersecting` → show bar
+- Trigger: `IntersectionObserver` on `heroRef` -`!entry.isIntersecting` ➞ show bar
 - Observer re-registers in `useEffect` with `[course]` dep (to re-attach after data loads)
 
 ---
@@ -596,13 +596,13 @@ const LEVEL_COLOR = {
 // Last row:  borderRadius: '0 0 16px 16px'
 // Middle:    borderRadius: '0'
 // borderTop: 'none' for all except first (achieved via: isFirst ? '1px solid var(--border)' : 'none')
-// Left accent bar: absolute positioned div, opacity-0 → group-hover:opacity-100
+// Left accent bar: absolute positioned div, opacity-0 ➞ group-hover:opacity-100
 // Grid: grid-cols-1 sm:grid-cols-[140px_1fr]
 ```
 
 **Before/After 3-column layout**
 ```tsx
-// Desktop: grid-cols-[1fr_auto_1fr]  -before | → | after
+// Desktop: grid-cols-[1fr_auto_1fr]  -before | ➞ | after
 // Mobile:  grid-cols-1               -stacks vertically with ↓ arrow
 // Before box: background var(--card), muted dots
 // After box:  background ${accent}06, accent dots, colored border
@@ -610,9 +610,9 @@ const LEVEL_COLOR = {
 
 **Testimonial cards**
 ```
-avatar+name → quote (italic, flex-1) → transform row (before → after)
+avatar+name ➞ quote (italic, flex-1) ➞ transform row (before ➞ after)
 ```
-The transform row is a simple inline text: `{t.before}` `→` `{t.after}` -NOT a grid.
+The transform row is a simple inline text: `{t.before}` `➞` `{t.after}` -NOT a grid.
 
 **Category tools (L2A/L2B)**
 - Group tools by `tool.category` using `groupToolsByCategory()` helper
@@ -621,7 +621,7 @@ The transform row is a simple inline text: `{t.before}` `→` `{t.after}` -NOT a
 
 **Related course cards**
 - `borderTop: 2.5px solid ${RELATED_COLOR[r.slug]}` -the only visual differentiator
-- Proper card with level label, title, description text, "Explore Course →"
+- Proper card with level label, title, description text, "Explore Course ➞"
 
 ---
 

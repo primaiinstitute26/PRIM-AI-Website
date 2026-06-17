@@ -17,7 +17,7 @@ CREATE TABLE "courses" (
     "certificate" TEXT NOT NULL,
     "placementInfo" TEXT NOT NULL,
     "levelLabel" TEXT NOT NULL,
-    "ctaDemoText" TEXT NOT NULL DEFAULT 'Book Free Demo →',
+    "ctaDemoText" TEXT NOT NULL DEFAULT 'Book Free Demo ➞',
     "ctaWaText" TEXT NOT NULL DEFAULT '💬 Chat on WhatsApp',
     "ctaDownloadText" TEXT NOT NULL DEFAULT 'Download Syllabus',
     "displayOrder" INTEGER NOT NULL DEFAULT 0,

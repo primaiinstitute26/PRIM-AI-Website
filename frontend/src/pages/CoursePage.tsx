@@ -360,7 +360,7 @@ export default function CoursePage() {
               className="text-xs font-semibold flex-shrink-0 underline"
               style={{ color: 'var(--electric)' }}
             >
-              View L1 →
+              View L1 ➞
             </Link>
           </div>
         </div>
@@ -600,7 +600,7 @@ export default function CoursePage() {
                   ))}
                 </div>
 
-                <div className="text-3xl font-bold text-center hidden md:block" style={{ color: accent }}>→</div>
+                <div className="text-3xl font-bold text-center hidden md:block" style={{ color: accent }}>➞</div>
                 <div className="text-2xl font-bold text-center block md:hidden" style={{ color: accent }}>↓</div>
 
                 <div
@@ -737,7 +737,7 @@ export default function CoursePage() {
                     style={{ borderTop: '1px solid var(--border)' }}
                   >
                     <span style={{ color: 'var(--muted)' }}>{t.before}</span>
-                    <span className="font-bold" style={{ color: accent }}>→</span>
+                    <span className="font-bold" style={{ color: accent }}>➞</span>
                     <span className="font-semibold" style={{ color: accent }}>{t.after}</span>
                   </div>
                 </div>
@@ -809,7 +809,7 @@ export default function CoursePage() {
                     {r.desc}
                   </div>
                   <div className="text-sm font-semibold" style={{ color: RELATED_COLOR[r.slug] }}>
-                    Explore Course →
+                    Explore Course ➞
                   </div>
                 </Link>
               ))}

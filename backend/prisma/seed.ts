@@ -394,7 +394,7 @@ async function seedCoursesListingPage() {
       ctaTag: 'GET STARTED',
       ctaHeading: 'Not Sure Where to Start?',
       ctaDesc: 'Book a free 60-minute demo session and our trainers will guide you to the right level based on your background, goals, and schedule.',
-      ctaBtnPrimary: 'Book Free Demo →',
+      ctaBtnPrimary: 'Book Free Demo ➞',
       ctaBtnSecondary: 'Talk to Us',
       whoCards: {
         create: [
@@ -429,7 +429,7 @@ async function seedCourses() {
       certificate: 'ISO 9001:2015 ✓',
       placementInfo: 'Yes – 1500+ Partners',
       levelLabel: 'Beginner · No experience needed',
-      ctaDemoText: 'Book Free Demo →',
+      ctaDemoText: 'Book Free Demo ➞',
       ctaWaText: '💬 Chat on WhatsApp',
       ctaDownloadText: 'Download Syllabus',
       whoItems: [
@@ -509,7 +509,7 @@ async function seedCourses() {
       certificate: 'ISO 9001:2015 ✓',
       placementInfo: 'Yes – 1500+ Partners',
       levelLabel: 'Intermediate · L1 recommended',
-      ctaDemoText: 'Book Free Demo →',
+      ctaDemoText: 'Book Free Demo ➞',
       ctaWaText: '💬 Chat on WhatsApp',
       ctaDownloadText: 'Download Syllabus',
       whoItems: [
@@ -598,7 +598,7 @@ async function seedCourses() {
       certificate: 'ISO 9001:2015 ✓',
       placementInfo: 'Yes – 1500+ Partners',
       levelLabel: 'Tech Track · Basic coding helpful',
-      ctaDemoText: 'Book Free Demo →',
+      ctaDemoText: 'Book Free Demo ➞',
       ctaWaText: '💬 Chat on WhatsApp',
       ctaDownloadText: 'Download Syllabus',
       whoItems: [

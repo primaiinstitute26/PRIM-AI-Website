@@ -109,7 +109,7 @@ function CourseCard({ course }: { course: AiCourse }) {
             {course.ctaDemoText}
           </button>
           <Link to={`/courses/${slug}`} className="btn-outline text-sm px-5 py-2.5">
-            View Course →
+            View Course ➞
           </Link>
         </div>
       </div>
@@ -320,7 +320,7 @@ export default function Courses() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button onClick={modal.open} className="btn-primary px-8 py-3 text-base">
-              {page?.ctaBtnPrimary ?? 'Book Free Demo →'}
+              {page?.ctaBtnPrimary ?? 'Book Free Demo ➞'}
             </button>
             <Link to="/contact" className="btn-outline px-8 py-3 text-base">
               {page?.ctaBtnSecondary ?? 'Talk to Us'}
