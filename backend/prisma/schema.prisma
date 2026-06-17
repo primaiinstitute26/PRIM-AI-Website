@@ -151,3 +151,171 @@ model BlogPostTag {
   @@id([postId, tagId])
   @@map("blog_post_tags")
 }
+
+// ─── Courses Module ────────────────────────────────────────────────────────────
+
+enum CourseLevel {
+  L1_FOUNDATION
+  L2A_GENERALIST
+  L2B_DEVELOPER
+}
+
+model AiCourse {
+  id               String                  @id @default(cuid())
+  level            CourseLevel             @unique
+  badgeText        String
+  title            String
+  tagline          String
+  heroImageUrl     String?
+  duration         String
+  mentorship       String
+  trainingDays     String
+  language         String
+  mode             String
+  certificate      String
+  placementInfo    String
+  levelLabel       String
+  ctaDemoText      String                  @default("Book Free Demo →")
+  ctaWaText        String                  @default("💬 Chat on WhatsApp")
+  ctaDownloadText  String                  @default("Download Syllabus")
+  displayOrder     Int                     @default(0)
+  whoItems         CourseWhoItem[]
+  modules          CourseModule[]
+  tools            CourseTool[]
+  outcomes         CourseOutcome[]
+  beforeAfter      CourseBeforeAfter?
+  eligibilityItems CourseEligibilityItem[]
+  faqs             CourseFAQ[]
+  testimonials     CourseTestimonial[]
+  updatedAt        DateTime                @updatedAt
+  createdAt        DateTime                @default(now())
+
+  @@map("courses")
+}
+
+model CourseWhoItem {
+  id       String   @id @default(cuid())
+  courseId String
+  course   AiCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  emoji    String
+  title    String
+  desc     String
+  order    Int      @default(0)
+
+  @@map("course_who_items")
+}
+
+model CourseModule {
+  id       String   @id @default(cuid())
+  courseId String
+  course   AiCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  label    String
+  title    String
+  topics   String[]
+  order    Int      @default(0)
+
+  @@map("course_modules")
+}
+
+model CourseTool {
+  id       String   @id @default(cuid())
+  courseId String
+  course   AiCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  emoji    String
+  name     String
+  category String
+  order    Int      @default(0)
+
+  @@map("course_tools")
+}
+
+model CourseOutcome {
+  id       String   @id @default(cuid())
+  courseId String
+  course   AiCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title    String
+  desc     String
+  order    Int      @default(0)
+
+  @@map("course_outcomes")
+}
+
+model CourseBeforeAfter {
+  id          String   @id @default(cuid())
+  courseId    String   @unique
+  course      AiCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  beforeItems String[]
+  afterItems  String[]
+
+  @@map("course_before_after")
+}
+
+model CourseEligibilityItem {
+  id       String   @id @default(cuid())
+  courseId String
+  course   AiCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  text     String
+  order    Int      @default(0)
+
+  @@map("course_eligibility_items")
+}
+
+model CourseFAQ {
+  id       String   @id @default(cuid())
+  courseId String
+  course   AiCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  question String
+  answer   String
+  order    Int      @default(0)
+
+  @@map("course_faqs")
+}
+
+model CourseTestimonial {
+  id         String   @id @default(cuid())
+  courseId   String
+  course     AiCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  initials   String
+  name       String
+  meta       String
+  avatarGrad String
+  quote      String
+  before     String
+  after      String
+  order      Int      @default(0)
+
+  @@map("course_testimonials")
+}
+
+// Singleton record for the /courses listing page content
+model CoursesListingPage {
+  id                String                  @id @default(cuid())
+  heroTag           String
+  heroHeadingMain   String
+  heroHeadingAccent String
+  heroSubtitle      String
+  whoTag            String
+  whoHeadingMain    String
+  whoHeadingAccent  String
+  ctaTag            String
+  ctaHeading        String
+  ctaDesc           String
+  ctaBtnPrimary     String
+  ctaBtnSecondary   String
+  whoCards          CoursesListingWhoCard[]
+  updatedAt         DateTime                @updatedAt
+
+  @@map("courses_listing_page")
+}
+
+model CoursesListingWhoCard {
+  id     String             @id @default(cuid())
+  pageId String
+  page   CoursesListingPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  emoji  String
+  title  String
+  desc   String
+  order  Int                @default(0)
+
+  @@map("courses_listing_who_cards")
+}

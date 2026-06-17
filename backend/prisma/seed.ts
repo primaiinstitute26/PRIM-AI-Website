@@ -1,6 +1,6 @@
-// Seed script - creates default admin account and site settings
+// Seed script - creates default admin account, site settings, and courses
 
-import { PrismaClient, BlogStatus } from '@prisma/client';
+import { PrismaClient, BlogStatus, CourseLevel } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -370,6 +370,355 @@ async function main() {
 
     console.log('✅ Blog sample posts seeded (3 posts)');
   }
+
+  await seedCourses();
+  await seedCoursesListingPage();
+}
+
+async function seedCoursesListingPage() {
+  const existing = await prisma.coursesListingPage.count();
+  if (existing > 0) {
+    console.log('⏭  Courses listing page already seeded');
+    return;
+  }
+
+  await prisma.coursesListingPage.create({
+    data: {
+      heroTag: 'THE PROGRAMS',
+      heroHeadingMain: 'One Path.',
+      heroHeadingAccent: 'Three Levels.',
+      heroSubtitle: 'From absolute beginner to professional AI practitioner -our structured pathway takes you from zero knowledge to job-ready skills at the pace that suits you.',
+      whoTag: 'WHO IS THIS FOR',
+      whoHeadingMain: 'Built for',
+      whoHeadingAccent: 'Every Background',
+      ctaTag: 'GET STARTED',
+      ctaHeading: 'Not Sure Where to Start?',
+      ctaDesc: 'Book a free 60-minute demo session and our trainers will guide you to the right level based on your background, goals, and schedule.',
+      ctaBtnPrimary: 'Book Free Demo →',
+      ctaBtnSecondary: 'Talk to Us',
+      whoCards: {
+        create: [
+          { emoji: '🎓', title: 'Students (Class 6–Grad)', desc: 'Stand out in school projects, assignments, and placements with real AI skills.', order: 0 },
+          { emoji: '💼', title: 'Working Professionals', desc: 'Save 5–10 hours per week by using AI to automate content, research, and routine tasks.', order: 1 },
+          { emoji: '🚀', title: 'Entrepreneurs', desc: 'Handle marketing, content, design, and customer communication in-house with AI.', order: 2 },
+          { emoji: '✍️', title: 'Freelancers & Creators', desc: 'Offer AI-powered services, 10x your output, and charge premium rates.', order: 3 },
+          { emoji: '🤔', title: 'AI Curious – Zero Background', desc: 'No coding, no tech experience. Just bring curiosity – we handle everything else.', order: 4 },
+        ],
+      },
+    },
+  });
+
+  console.log('✅ Courses listing page seeded');
+}
+
+async function seedCourses() {
+  const coursesData = [
+    // ─── L1 Foundation ────────────────────────────────────────────────────────
+    {
+      level: CourseLevel.L1_FOUNDATION,
+      displayOrder: 0,
+      badgeText: 'Level 1 · AI Foundation',
+      title: 'AI Foundation Program',
+      tagline: 'Your first step into the world of Artificial Intelligence. No coding. No experience. Just curiosity.',
+      heroImageUrl: null,
+      duration: '6 to 8 Weeks',
+      mentorship: '1-to-1 Personal',
+      trainingDays: 'Monday to Friday',
+      language: 'Hindi & Gujarati',
+      mode: 'Offline · Hands-on',
+      certificate: 'ISO 9001:2015 ✓',
+      placementInfo: 'Yes – 1500+ Partners',
+      levelLabel: 'Beginner · No experience needed',
+      ctaDemoText: 'Book Free Demo →',
+      ctaWaText: '💬 Chat on WhatsApp',
+      ctaDownloadText: 'Download Syllabus',
+      whoItems: [
+        { emoji: '🎓', title: 'School Students', desc: 'Class 6–12 students who want to stand out in school projects, assignments, and competitions using AI tools.', order: 0 },
+        { emoji: '🎓', title: 'College Students', desc: 'Freshers and graduates looking to add practical AI skills to their resume before entering the job market.', order: 1 },
+        { emoji: '💼', title: 'Working Professionals', desc: 'Admin, HR, operations, sales, and marketing professionals who want to use AI to save time and work smarter.', order: 2 },
+        { emoji: '🚀', title: 'Entrepreneurs', desc: 'Business owners and aspiring entrepreneurs who want to use AI for marketing, content, and daily operations.', order: 3 },
+        { emoji: '🤔', title: 'Anyone Curious About AI', desc: 'Zero background needed. If you have heard about AI and want to understand it by actually using it, this is where you start.', order: 4 },
+        { emoji: '✅', title: 'No Prerequisites Required', desc: 'No coding. No technical background. No expensive laptop. Just bring your curiosity and willingness to learn.', order: 5 },
+      ],
+      modules: [
+        { label: 'Module 1', title: 'AI Fundamentals & Getting Started', topics: ['What is Artificial Intelligence?', 'How AI thinks and works', 'ChatGPT basics and setup', 'Google Gemini introduction', 'Your first AI conversation'], order: 0 },
+        { label: 'Module 2', title: 'Prompt Engineering & Content Creation', topics: ['What is a prompt?', 'Writing effective prompts', 'AI for writing & essays', 'Email drafting with AI', 'Quillbot & Grammarly AI'], order: 1 },
+        { label: 'Module 3', title: 'Creative AI · Design, Images & Presentations', topics: ['Canva AI – posters & banners', 'DALL-E image generation', 'AI presentations with Gamma.app', 'Microsoft Copilot in Office', 'Creative project building'], order: 2 },
+        { label: 'Module 4', title: 'Real-World Application & Final Project', topics: ['AI for research & summarization', 'Productivity automation basics', 'Personal AI workflow setup', 'Final capstone project', 'Certificate presentation'], order: 3 },
+      ],
+      tools: [
+        { emoji: '🤖', name: 'ChatGPT', category: 'Writing & Research', order: 0 },
+        { emoji: '🌐', name: 'Google Gemini', category: 'Research & Search', order: 1 },
+        { emoji: '🎨', name: 'Canva AI', category: 'Design & Visual', order: 2 },
+        { emoji: '🖼️', name: 'DALL-E', category: 'Image Generation', order: 3 },
+        { emoji: '🪟', name: 'Microsoft Copilot', category: 'Office Productivity', order: 4 },
+        { emoji: '✍️', name: 'Quillbot', category: 'Writing & Grammar', order: 5 },
+        { emoji: '📐', name: 'Gamma.app', category: 'AI Presentations', order: 6 },
+        { emoji: '💙', name: 'Claude by Anthropic', category: 'Writing Assistant', order: 7 },
+      ],
+      outcomes: [
+        { title: 'Build Presentations in Minutes', desc: 'Use Gamma.app and Canva AI to create professional presentations that impress teachers, clients, and managers.', order: 0 },
+        { title: 'Write Emails & Content with AI', desc: 'Draft professional emails, essays, reports, and social media content using ChatGPT and Claude in half the time.', order: 1 },
+        { title: 'Generate Images & Posters', desc: 'Create stunning visuals, banners, and artwork for any project using DALL-E and Canva AI – no design skills needed.', order: 2 },
+        { title: 'Research Any Topic Instantly', desc: 'Use AI to summarize documents, research papers, news articles, and complex topics in seconds.', order: 3 },
+        { title: 'Automate Simple Daily Tasks', desc: 'Set up basic AI workflows that save you 1–2 hours every day across email, content, and research tasks.', order: 4 },
+        { title: 'Start Your AI Career Journey', desc: 'Build a strong foundation to confidently move to Level 2 specializations – generalist or developer track.', order: 5 },
+      ],
+      beforeAfter: {
+        beforeItems: ['Spending hours on assignments and projects', 'Struggling to write good content', 'Paying for design work or templates', 'No idea how AI works or where to start', 'Feeling left behind in the AI revolution'],
+        afterItems: ['Projects done in minutes with AI assistance', 'Confident AI-powered writer and creator', 'Creating your own professional designs for free', 'Using 8+ AI tools confidently every day', 'Ready for the AI-powered future of work'],
+      },
+      eligibilityItems: [
+        { text: 'Age 12 years and above', order: 0 },
+        { text: 'Any educational qualification – school, college, or working', order: 1 },
+        { text: 'Zero coding or technical knowledge required', order: 2 },
+        { text: 'No prior AI experience needed', order: 3 },
+        { text: 'School students, college students, and professionals – all welcome', order: 4 },
+        { text: 'Entrepreneurs and homemakers – absolutely welcome', order: 5 },
+        { text: 'Anyone curious about AI – this is your starting point', order: 6 },
+      ],
+      faqs: [
+        { question: 'Do I need to know coding to join?', answer: 'No. This course has zero coding. You will use AI tools through simple text interfaces – no programming knowledge needed at any point.', order: 0 },
+        { question: 'What kind of laptop or device do I need?', answer: 'Any laptop, tablet, or smartphone with internet access works. All AI tools used are browser-based and free to access.', order: 1 },
+        { question: 'How long is the course?', answer: 'The AI Foundation Program runs for 6 to 8 weeks with classes Monday to Friday. Each session is approximately 1.5 hours.', order: 2 },
+        { question: 'Is there a certificate at the end?', answer: 'Yes. You receive an ISO 9001:2015 certified completion certificate from PRIM AI Institute upon successful project submission.', order: 3 },
+        { question: 'Can school students join this program?', answer: 'Yes. The course is designed to be accessible from Class 6 onwards. Many of our best students have been in school.', order: 4 },
+        { question: 'What happens after I complete Level 1?', answer: 'You can progress to Level 2A (AI Generalist – non-tech track) or Level 2B (AI Developer – tech track) based on your career goals.', order: 5 },
+        { question: 'Is there a free demo I can attend first?', answer: 'Yes. We offer a free 60-minute demo session where you experience the teaching style and meet our trainers before enrolling.', order: 6 },
+      ],
+      testimonials: [
+        { initials: 'RS', name: 'Rahul S.', meta: 'Class 11, Ahmedabad', avatarGrad: 'linear-gradient(135deg,#00D4FF,#0099CC)', quote: 'I used to think AI was only for engineers. After just two weeks at PRIM AI, I was building presentations and writing content that my teachers were amazed by. Best decision I made.', before: 'Struggling with assignments', after: 'Using 8 AI tools daily', order: 0 },
+        { initials: 'PD', name: 'Priya D.', meta: 'HR Executive, Surat', avatarGrad: 'linear-gradient(135deg,#FF6B2B,#FF9500)', quote: 'As an HR professional, I was spending 3 hours writing job descriptions and emails. Now I do it in 20 minutes with AI. The ROI on this course is incredible.', before: '3 hours writing JDs', after: '20 minutes with AI', order: 1 },
+        { initials: 'NM', name: 'Neel M.', meta: 'Small Business Owner, Baroda', avatarGrad: 'linear-gradient(135deg,#a78bfa,#7c3aed)', quote: 'I was skeptical about AI for my business. The foundation course showed me exactly how to use ChatGPT and Canva AI to create all my marketing content. My costs dropped by 60%.', before: 'Paying for content creation', after: '60% cost reduction', order: 2 },
+      ],
+    },
+
+    // ─── L2A Generalist ────────────────────────────────────────────────────────
+    {
+      level: CourseLevel.L2A_GENERALIST,
+      displayOrder: 1,
+      badgeText: 'Level 2A · Non-Tech Track',
+      title: 'AI Generalist Program',
+      tagline: 'Master 15+ AI tools for content creation, design, video, and business automation. No coding needed.',
+      heroImageUrl: null,
+      duration: '6 to 8 Weeks',
+      mentorship: '1-to-1 Personal',
+      trainingDays: 'Monday to Friday',
+      language: 'Hindi & Gujarati',
+      mode: 'Offline · Hands-on',
+      certificate: 'ISO 9001:2015 ✓',
+      placementInfo: 'Yes – 1500+ Partners',
+      levelLabel: 'Intermediate · L1 recommended',
+      ctaDemoText: 'Book Free Demo →',
+      ctaWaText: '💬 Chat on WhatsApp',
+      ctaDownloadText: 'Download Syllabus',
+      whoItems: [
+        { emoji: '💼', title: 'Working Professionals', desc: 'HR, marketing, sales, and operations professionals who want to use AI to dramatically increase their output and value.', order: 0 },
+        { emoji: '🎓', title: 'Fresh Graduates', desc: 'Job seekers who want to stand out in interviews by demonstrating real AI skills with a portfolio of projects.', order: 1 },
+        { emoji: '🚀', title: 'Entrepreneurs & Founders', desc: 'Business owners who want to handle their own content creation, social media, design, and marketing using AI.', order: 2 },
+        { emoji: '✍️', title: 'Content Creators', desc: 'Bloggers, YouTubers, Instagram creators who want to 10x their content output using AI writing and video tools.', order: 3 },
+        { emoji: '💡', title: 'Freelancers', desc: 'Designers, writers, virtual assistants who want to offer AI-powered services and charge premium rates.', order: 4 },
+        { emoji: '✅', title: 'Zero Coding Required', desc: 'This track is specifically designed for non-technical professionals. You will never write a single line of code.', order: 5 },
+      ],
+      modules: [
+        { label: 'Week 1–2', title: 'Advanced Prompt Engineering & AI Writing', topics: ['Advanced ChatGPT techniques', 'Claude AI for professional writing', 'Prompt frameworks for business use', 'Email drafting & professional communication', 'AI for reports, proposals & presentations', 'Perplexity AI for deep research'], order: 0 },
+        { label: 'Week 3–4', title: 'AI Design, Image & Visual Content', topics: ['Canva AI – advanced features', 'Adobe Firefly for creative visuals', 'Midjourney prompt writing', 'DALL-E for product images', 'Social media content creation at scale', 'Logo & branding with AI tools'], order: 1 },
+        { label: 'Week 5–6', title: 'AI Video Creation & Presentations', topics: ['Runway ML for AI video', 'InVideo AI for video editing', 'Pika Labs for short video', 'Gamma.app for AI presentations', 'Reel & YouTube script writing with AI', 'AI voiceover & dubbing tools'], order: 2 },
+        { label: 'Week 7–8', title: 'Workflow Automation & Final Project', topics: ['Zapier for task automation', 'Make.com workflow builder', 'Notion AI for productivity', 'Otter.ai for meeting automation', 'Build your personal AI workflow system', 'Final capstone project & presentation'], order: 3 },
+      ],
+      tools: [
+        { emoji: '✍️', name: 'ChatGPT', category: 'Writing & Research', order: 0 },
+        { emoji: '🤖', name: 'Claude AI', category: 'Professional Writing', order: 1 },
+        { emoji: '🔍', name: 'Perplexity AI', category: 'Deep Research', order: 2 },
+        { emoji: '📓', name: 'Notion AI', category: 'Productivity', order: 3 },
+        { emoji: '🎨', name: 'Canva AI', category: 'Design & Visuals', order: 4 },
+        { emoji: '🎆', name: 'Adobe Firefly', category: 'Creative Visuals', order: 5 },
+        { emoji: '🖼️', name: 'Midjourney', category: 'Image Generation', order: 6 },
+        { emoji: '🎬', name: 'Runway ML', category: 'AI Video', order: 7 },
+        { emoji: '📹', name: 'InVideo AI', category: 'Video Editing', order: 8 },
+        { emoji: '🎥', name: 'Pika Labs', category: 'Short Video', order: 9 },
+        { emoji: '📊', name: 'Gamma.app', category: 'AI Presentations', order: 10 },
+        { emoji: '⚡', name: 'Zapier', category: 'Task Automation', order: 11 },
+        { emoji: '🔄', name: 'Make.com', category: 'Workflow Builder', order: 12 },
+        { emoji: '📝', name: 'Otter.ai', category: 'Meeting Automation', order: 13 },
+        { emoji: '🖼️', name: 'DALL-E', category: 'Image Generation', order: 14 },
+      ],
+      outcomes: [
+        { title: 'Create Professional Content at Scale', desc: 'Write blog posts, social media captions, email campaigns, and video scripts in minutes using AI writing tools.', order: 0 },
+        { title: 'Design Stunning Visuals Without a Designer', desc: 'Use Canva AI, Adobe Firefly, and Midjourney to create professional-grade graphics, thumbnails, and brand assets.', order: 1 },
+        { title: 'Produce Videos with AI', desc: 'Use Runway ML and InVideo AI to create short-form video content, reels, and YouTube videos without a production team.', order: 2 },
+        { title: 'Automate Repetitive Business Tasks', desc: 'Build Zapier and Make.com workflows that run automatically – saving 5–10 hours of manual work every week.', order: 3 },
+        { title: 'Build a Marketable AI Portfolio', desc: 'Complete 4+ real projects during the course that you can showcase to employers or clients as proof of your skills.', order: 4 },
+        { title: 'Offer AI-Powered Freelance Services', desc: 'Know how to package and sell AI-powered content, design, and automation services at premium freelance rates.', order: 5 },
+        { title: 'Research and Summarize at 10x Speed', desc: 'Use Perplexity AI and Claude to research any topic, summarize documents, and extract insights in minutes.', order: 6 },
+        { title: 'Transition Into AI-Adjacent Roles', desc: 'Qualify for roles like AI Content Manager, Digital Marketing Specialist, or Marketing Automation Executive.', order: 7 },
+      ],
+      beforeAfter: {
+        beforeItems: ['Writing content manually for hours', 'Paying freelancers for design and video', 'Doing repetitive admin tasks by hand', 'No clear AI skills to show employers', 'Feeling overwhelmed by the number of AI tools'],
+        afterItems: ['Publishing polished content in under 30 minutes', 'Handling design, video, and content in-house with AI', 'Automated workflows running on autopilot', 'A portfolio of 4+ AI projects ready to show', 'Confident using 15+ professional AI tools'],
+      },
+      eligibilityItems: [
+        { text: 'Age 16 years and above', order: 0 },
+        { text: 'Completed Level 1 or have equivalent AI basics knowledge', order: 1 },
+        { text: 'No coding or technical background required', order: 2 },
+        { text: 'Working professionals, fresh graduates, and entrepreneurs welcome', order: 3 },
+        { text: 'Content creators, freelancers, and marketers welcome', order: 4 },
+        { text: 'Basic smartphone or laptop proficiency needed', order: 5 },
+        { text: 'Willingness to practice tools between sessions', order: 6 },
+      ],
+      faqs: [
+        { question: 'Is Level 1 mandatory before joining Level 2A?', answer: 'It is strongly recommended. If you already have hands-on experience using tools like ChatGPT, Canva AI, and understand prompt writing, you may be eligible to skip Level 1 after a brief assessment.', order: 0 },
+        { question: 'Will I need to pay for the AI tools used?', answer: 'Most tools have free tiers that are sufficient for the course. A few tools like Midjourney have minimal subscription costs. We will guide you on the most cost-effective setups.', order: 1 },
+        { question: 'What kind of projects will I build?', answer: 'You will build 4 real projects: an AI content marketing campaign, a visual brand kit, an AI-generated video, and a personal automation workflow system.', order: 2 },
+        { question: 'Is there placement support after this course?', answer: 'Yes. We provide resume review, portfolio presentation coaching, and connect you with our 1500+ hiring partner network.', order: 3 },
+        { question: 'Can I learn this course alongside my job?', answer: 'Absolutely. Classes run Monday to Friday and session timings can be adjusted for working professionals on a case-by-case basis.', order: 4 },
+        { question: 'How is this different from free YouTube tutorials?', answer: 'This is structured, hands-on, and mentored learning. You get 1-to-1 guidance, real project feedback, a certificate, and placement support – none of which YouTube provides.', order: 5 },
+        { question: 'Will I receive a certificate for this level?', answer: 'Yes. An ISO 9001:2015 certified Level 2A completion certificate is awarded upon successful project submission and presentation.', order: 6 },
+      ],
+      testimonials: [
+        { initials: 'NM', name: 'Neha M.', meta: 'Marketing Manager, Ahmedabad', avatarGrad: 'linear-gradient(135deg,#00D4FF,#0099CC)', quote: 'Level 2A completely changed how I work. I now produce a week of social media content in 3 hours using AI. My productivity has doubled and my boss has noticed. This course paid for itself in month one.', before: 'Week of content took 3 days', after: 'Same content in 3 hours', order: 0 },
+        { initials: 'KS', name: 'Karan S.', meta: 'Freelance Designer, Surat', avatarGrad: 'linear-gradient(135deg,#FF6B2B,#FF9500)', quote: 'I was spending 8 hours on a logo project. Now with Midjourney and Canva AI, I deliver in 2 hours and charge the same rate. My monthly income has gone up by 40%.', before: '8 hours per logo project', after: '2 hours, 40% more income', order: 1 },
+        { initials: 'PD', name: 'Pooja D.', meta: 'Fresh Graduate, Baroda', avatarGrad: 'linear-gradient(135deg,#a78bfa,#7c3aed)', quote: 'I was struggling to find a job. After completing the AI Generalist program, I built a portfolio of AI projects and landed a Digital Marketing role with a 30% higher salary than my peers.', before: 'Job searching for 4 months', after: 'Hired within 3 weeks of graduating', order: 2 },
+      ],
+    },
+
+    // ─── L2B Developer ─────────────────────────────────────────────────────────
+    {
+      level: CourseLevel.L2B_DEVELOPER,
+      displayOrder: 2,
+      badgeText: 'Level 2B · Tech Track',
+      title: 'AI Developer Program',
+      tagline: 'Learn to code smarter, build faster, and develop AI-powered applications. Turn ideas into real products.',
+      heroImageUrl: null,
+      duration: '8 to 10 Weeks',
+      mentorship: '1-to-1 Personal',
+      trainingDays: 'Monday to Friday',
+      language: 'Hindi & Gujarati',
+      mode: 'Offline · Hands-on',
+      certificate: 'ISO 9001:2015 ✓',
+      placementInfo: 'Yes – 1500+ Partners',
+      levelLabel: 'Tech Track · Basic coding helpful',
+      ctaDemoText: 'Book Free Demo →',
+      ctaWaText: '💬 Chat on WhatsApp',
+      ctaDownloadText: 'Download Syllabus',
+      whoItems: [
+        { emoji: '💻', title: 'IT & CS Students', desc: 'Computer science students who want to build AI-powered projects that stand out in campus placements and internships.', order: 0 },
+        { emoji: '⚙️', title: 'Engineering Students', desc: 'Engineering graduates who want to add AI development skills to their technical profile and access better opportunities.', order: 1 },
+        { emoji: '👨‍💻', title: 'Working Developers', desc: 'Software developers who want to integrate AI into their projects, automate testing, and work with LLM APIs.', order: 2 },
+        { emoji: '🧪', title: 'QA & Testers', desc: 'Testers who want to use AI for automated test generation, bug analysis, and intelligent test execution.', order: 3 },
+        { emoji: '🚀', title: 'Tech Entrepreneurs', desc: 'Founders building SaaS products, apps, or tools who want to leverage AI APIs without hiring a large team.', order: 4 },
+        { emoji: '✅', title: 'Basic Coding Helpful', desc: 'You do not need to be an expert, but knowing basic Python or JavaScript will help you get the most from this course.', order: 5 },
+      ],
+      modules: [
+        { label: 'Week 1–2', title: 'AI-Assisted Coding & Developer Tools', topics: ['GitHub Copilot setup & workflow', 'Cursor AI for intelligent coding', 'ChatGPT for code explanation & review', 'Claude for debugging and refactoring', 'Prompt engineering for developers', 'AI code review best practices'], order: 0 },
+        { label: 'Week 3–4', title: 'LLM APIs & AI Integration', topics: ['OpenAI API fundamentals', 'Gemini API integration', 'API authentication & security', 'Building chat interfaces with AI', 'Handling AI responses and streaming', 'Error handling and rate limits'], order: 1 },
+        { label: 'Week 5–6', title: 'AI App Development & No-Code Tools', topics: ['LangChain basics and agents', 'Replit for rapid prototyping', 'Bolt.new for full-stack AI apps', 'V0.dev for AI-powered UI', 'Building your first AI chatbot', 'AI-powered search & retrieval (RAG)'], order: 2 },
+        { label: 'Week 7–8', title: 'Testing, Automation & Deployment', topics: ['AI for test case generation', 'Selenium + AI for automated testing', 'Zapier & API integrations', 'Deploying AI apps to production', 'Performance & cost optimization', 'Security considerations in AI apps'], order: 3 },
+        { label: 'Week 9–10', title: 'Capstone Project & Portfolio Building', topics: ['Build a complete AI-powered application', 'Code review & mentor feedback sessions', 'GitHub portfolio setup and README', 'Project documentation with AI', 'Demo day presentation', 'Certificate & placement guidance'], order: 4 },
+      ],
+      tools: [
+        { emoji: '💻', name: 'GitHub Copilot', category: 'AI Coding Assistants', order: 0 },
+        { emoji: '🖊️', name: 'Cursor AI', category: 'AI Coding Assistants', order: 1 },
+        { emoji: '🔤', name: 'Tabnine', category: 'AI Coding Assistants', order: 2 },
+        { emoji: '🤖', name: 'OpenAI API', category: 'LLM APIs', order: 3 },
+        { emoji: '🌐', name: 'Gemini API', category: 'LLM APIs', order: 4 },
+        { emoji: '💬', name: 'Claude API', category: 'LLM APIs', order: 5 },
+        { emoji: '🔗', name: 'LangChain', category: 'AI Frameworks', order: 6 },
+        { emoji: '💾', name: 'Replit', category: 'Development Platform', order: 7 },
+        { emoji: '⚡', name: 'Bolt.new', category: 'AI App Builder', order: 8 },
+      ],
+      outcomes: [
+        { title: 'Code 3x Faster with AI Assistance', desc: 'Use GitHub Copilot and Cursor AI to write, review, and refactor code significantly faster than before.', order: 0 },
+        { title: 'Integrate LLM APIs into Real Applications', desc: 'Build applications that use OpenAI, Gemini, and Claude APIs to add intelligent features to any project.', order: 1 },
+        { title: 'Build and Deploy AI-Powered Apps', desc: 'Create full-stack AI applications using LangChain, Bolt.new, and Replit and deploy them to production.', order: 2 },
+        { title: 'Automate Testing with AI', desc: 'Use AI to generate comprehensive test cases, run automated tests, and reduce QA time by up to 60%.', order: 3 },
+        { title: 'Create a Strong GitHub Portfolio', desc: 'Graduate with 2+ complete AI projects on GitHub that demonstrate your skills to any technical interviewer.', order: 4 },
+        { title: 'Understand RAG and Agent Architecture', desc: 'Build AI systems that can search documents, use tools, and operate autonomously as intelligent agents.', order: 5 },
+        { title: 'Work with AI in Any Tech Stack', desc: 'Apply AI integration patterns regardless of whether you work in Python, JavaScript, or any other language.', order: 6 },
+        { title: 'Access Higher-Paying Tech Roles', desc: 'Position yourself for AI Engineer, ML Engineer, or Full-Stack AI Developer roles with 40–80% salary premium.', order: 7 },
+      ],
+      beforeAfter: {
+        beforeItems: ['Writing boilerplate code manually for hours', 'No experience with AI APIs or LLMs', 'Struggling to stand out in campus placements', 'Time-consuming manual testing and debugging', 'No AI projects in your GitHub portfolio'],
+        afterItems: ['Shipping features 3x faster with AI-assisted coding', 'Confidently integrating OpenAI, Gemini & Claude APIs', 'A portfolio with 2+ complete AI-powered applications', 'Automated test suites generated by AI', 'Ready for AI Engineer roles with premium pay'],
+      },
+      eligibilityItems: [
+        { text: 'Age 16 years and above', order: 0 },
+        { text: 'Basic programming knowledge in any language (Python or JavaScript preferred)', order: 1 },
+        { text: 'Completed Level 1 or has equivalent AI fundamentals knowledge', order: 2 },
+        { text: 'Laptop with at least 8GB RAM and internet connection', order: 3 },
+        { text: 'IT students, CS students, engineering students, and working developers', order: 4 },
+        { text: 'Willingness to write code, build projects, and commit to 2+ hours of practice daily', order: 5 },
+        { text: 'Passion for building real AI applications – not just learning theory', order: 6 },
+      ],
+      faqs: [
+        { question: 'What programming language will be used?', answer: 'Primarily Python for AI work (LangChain, OpenAI API) and JavaScript/TypeScript for frontend integrations. Basic Python knowledge is very helpful.', order: 0 },
+        { question: 'Do I need to know AI or machine learning theory?', answer: 'No. This course focuses on practical AI application development – using existing AI APIs and tools – not building AI models from scratch.', order: 1 },
+        { question: 'What will my final project look like?', answer: 'You will build and deploy a complete AI-powered application of your choice – for example, a document Q&A chatbot, an AI content generator, or an automated workflow tool.', order: 2 },
+        { question: 'Is there support for placing into AI developer roles?', answer: 'Yes. We offer resume coaching, GitHub portfolio review, mock technical interviews, and direct referrals to our 1500+ hiring partner network.', order: 3 },
+        { question: 'Will I need to pay for API costs?', answer: 'Most providers offer free tiers that are sufficient for the course (OpenAI free credits, Gemini free tier). We will show you how to minimize costs throughout.', order: 4 },
+        { question: 'Can working professionals join while employed?', answer: 'Yes. This is designed to be completable alongside a full-time job. The intensive 10-week schedule includes daily practice but sessions can be scheduled flexibly for working professionals.', order: 5 },
+        { question: 'How is this different from an online coding bootcamp?', answer: 'This is AI-specific, project-based, and mentored 1-to-1. You are not just learning to code – you are learning to build AI applications that have immediate market demand.', order: 6 },
+      ],
+      testimonials: [
+        { initials: 'AP', name: 'Arjun P.', meta: 'CS Student, Ahmedabad', avatarGrad: 'linear-gradient(135deg,#00D4FF,#0099CC)', quote: 'I walked into campus placements with a GitHub portfolio showing 2 working AI apps. Every interviewer was impressed. I got a 7.5 LPA offer – 60% higher than my peers who did not have AI skills.', before: 'No AI projects, average placements', after: '7.5 LPA offer with AI portfolio', order: 0 },
+        { initials: 'RV', name: 'Riya V.', meta: 'Junior Developer, Surat', avatarGrad: 'linear-gradient(135deg,#FF6B2B,#FF9500)', quote: 'I was spending hours writing repetitive code. After this course, GitHub Copilot and Cursor AI changed my workflow completely. I ship features 3x faster and my manager has noticed the difference.', before: 'Hours on repetitive coding tasks', after: '3x faster feature delivery', order: 1 },
+        { initials: 'SM', name: 'Sanket M.', meta: 'QA Engineer, Baroda', avatarGrad: 'linear-gradient(135deg,#a78bfa,#7c3aed)', quote: 'I used to manually write test cases for days. AI now generates my test suites in hours. I also built a small AI testing tool that my entire QA team now uses. This course genuinely advanced my career.', before: 'Manual test writing took days', after: 'AI-generated test suites in hours', order: 2 },
+      ],
+    },
+  ];
+
+  for (const courseData of coursesData) {
+    const { whoItems, modules, tools, outcomes, beforeAfter, eligibilityItems, faqs, testimonials, ...coreData } = courseData;
+
+    const course = await prisma.aiCourse.upsert({
+      where: { level: coreData.level },
+      update: {},
+      create: coreData,
+    });
+
+    // Only seed related items if they don't exist yet
+    const existingWho = await prisma.courseWhoItem.count({ where: { courseId: course.id } });
+    if (existingWho === 0) {
+      await prisma.courseWhoItem.createMany({ data: whoItems.map((i) => ({ ...i, courseId: course.id })) });
+    }
+
+    const existingModules = await prisma.courseModule.count({ where: { courseId: course.id } });
+    if (existingModules === 0) {
+      await prisma.courseModule.createMany({ data: modules.map((i) => ({ ...i, courseId: course.id })) });
+    }
+
+    const existingTools = await prisma.courseTool.count({ where: { courseId: course.id } });
+    if (existingTools === 0) {
+      await prisma.courseTool.createMany({ data: tools.map((i) => ({ ...i, courseId: course.id })) });
+    }
+
+    const existingOutcomes = await prisma.courseOutcome.count({ where: { courseId: course.id } });
+    if (existingOutcomes === 0) {
+      await prisma.courseOutcome.createMany({ data: outcomes.map((i) => ({ ...i, courseId: course.id })) });
+    }
+
+    const existingBA = await prisma.courseBeforeAfter.count({ where: { courseId: course.id } });
+    if (existingBA === 0 && beforeAfter) {
+      await prisma.courseBeforeAfter.create({ data: { ...beforeAfter, courseId: course.id } });
+    }
+
+    const existingElig = await prisma.courseEligibilityItem.count({ where: { courseId: course.id } });
+    if (existingElig === 0) {
+      await prisma.courseEligibilityItem.createMany({ data: eligibilityItems.map((i) => ({ ...i, courseId: course.id })) });
+    }
+
+    const existingFaqs = await prisma.courseFAQ.count({ where: { courseId: course.id } });
+    if (existingFaqs === 0) {
+      await prisma.courseFAQ.createMany({ data: faqs.map((i) => ({ ...i, courseId: course.id })) });
+    }
+
+    const existingTestimonials = await prisma.courseTestimonial.count({ where: { courseId: course.id } });
+    if (existingTestimonials === 0) {
+      await prisma.courseTestimonial.createMany({ data: testimonials.map((i) => ({ ...i, courseId: course.id })) });
+    }
+  }
+
+  console.log('✅ Courses seeded (L1, L2A, L2B)');
 }
 
 main()

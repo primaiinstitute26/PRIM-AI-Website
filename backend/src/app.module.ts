@@ -11,6 +11,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { SettingsModule } from './settings/settings.module';
 import { MediaModule } from './media/media.module';
 import { BlogModule } from './blog/blog.module';
+import { CoursesModule } from './courses/courses.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { BlogModule } from './blog/blog.module';
     SettingsModule,
     MediaModule,
     BlogModule,
+    CoursesModule,
   ],
 })
 export class AppModule {}
