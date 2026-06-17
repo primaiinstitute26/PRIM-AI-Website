@@ -124,17 +124,18 @@ export function CoursePathConnector() {
             className="cpc-dot"
           />
 
-          {/* "CHOOSE YOUR TRACK" pill */}
+          {/* "CHOOSE YOUR TRACK" pill — centered on junction (y=55) */}
           <rect
-            x="246" y="62" width="208" height="32"
+            x="246" y="32" width="208" height="32"
             rx="16" ry="16"
             fill="rgba(2,8,24,0.95)"
             stroke="rgba(255,255,255,0.1)"
             strokeWidth="1"
           />
           <text
-            x="350" y="82"
+            x="350" y="50"
             textAnchor="middle"
+            dominantBaseline="middle"
             fill="#8a9bc0"
             fontSize="11"
             fontFamily="'Plus Jakarta Sans', sans-serif"
