@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllCourses, getListingPage } from '@/api/courses';
 import { useModal } from '@/hooks/useModal';
@@ -16,6 +16,11 @@ const LEVEL_COLOR: Record<string, string> = {
   L1_FOUNDATION: 'var(--electric)',
   L2A_GENERALIST: 'var(--orange)',
   L2B_DEVELOPER: '#a78bfa',
+};
+
+const LEVEL_BTN_RGB: Record<string, string> = {
+  L2A_GENERALIST: '255,107,43',
+  L2B_DEVELOPER: '167,139,250',
 };
 
 function MetaPill({ label }: { label: string }) {
@@ -154,6 +159,8 @@ export default function Courses() {
   const [courses, setCourses] = useState<AiCourse[]>([]);
   const [page, setPage] = useState<CoursesListingPage | null>(null);
   const [loading, setLoading] = useState(true);
+  const [mobileActiveTrack, setMobileActiveTrack] = useState(0);
+  const mobileCarouselRef = useRef<HTMLDivElement>(null);
   const modal = useModal();
   const heroRef = useReveal();
   const pathwayRef = useReveal();
@@ -167,6 +174,18 @@ export default function Courses() {
       })
       .catch(console.error)
       .finally(() => setLoading(false));
+  }, []);
+
+  const handleMobileCarouselScroll = useCallback(() => {
+    const el = mobileCarouselRef.current;
+    if (!el) return;
+    setMobileActiveTrack(Math.min(1, Math.max(0, Math.round(el.scrollLeft / el.clientWidth))));
+  }, []);
+
+  const goToMobileTrack = useCallback((idx: number) => {
+    setMobileActiveTrack(idx);
+    const el = mobileCarouselRef.current;
+    if (el) el.scrollTo({ left: idx * el.clientWidth, behavior: 'smooth' });
   }, []);
 
   const l1 = courses.find((c) => c.level === 'L1_FOUNDATION');
@@ -210,30 +229,117 @@ export default function Courses() {
             <>
               {l1 && <CourseCard course={l1} />}
 
-              <CoursePathConnector />
+              <div className="hidden md:block w-full">
+                <CoursePathConnector />
+              </div>
 
-              {/* Mobile: horizontal snap-scroll carousel - full cards, swipe to navigate */}
-              <div className="md:hidden overflow-hidden -mx-4">
-                <div
-                  className="no-scrollbar flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory px-4"
-                  style={{ scrollbarWidth: 'none' }}
-                >
-                  {l2a && (
-                    <div className="snap-start shrink-0 w-[88vw]">
-                      <CourseCard course={l2a} />
-                    </div>
-                  )}
-                  {l2b && (
-                    <div className="snap-start shrink-0 w-[88vw]">
-                      <CourseCard course={l2b} />
-                    </div>
-                  )}
-                  {/* trailing spacer so last card scrolls fully into view */}
-                  <div className="shrink-0 w-4" aria-hidden="true" />
+              {/* Mobile: synchronized pathway — junction + tabs + card as one unit */}
+              <div className="md:hidden flex flex-col items-center w-full">
+
+                {/* Junction node */}
+                <div className="flex flex-col items-center mb-5">
+                  <div
+                    className="w-px h-7"
+                    style={{ background: 'linear-gradient(to bottom, var(--electric), rgba(0,212,255,0.45))' }}
+                  />
+                  <div
+                    className="w-3 h-3 rounded-full my-2"
+                    style={{ background: 'var(--electric)', boxShadow: '0 0 12px rgba(0,212,255,0.7), 0 0 24px rgba(0,212,255,0.3)' }}
+                  />
+                  <div
+                    className="text-[10px] font-bold uppercase tracking-[2.5px] px-4 py-1.5 rounded-full"
+                    style={{ color: 'var(--muted)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  >
+                    Choose Your Track
+                  </div>
                 </div>
-                <p className="text-center text-xs mt-1" style={{ color: 'var(--muted)' }}>
-                  Swipe left to see AI Developer Program →
-                </p>
+
+                {/* Track selector tabs */}
+                {(l2a || l2b) && (
+                  <div className="flex gap-2 w-full mb-0">
+                    {(
+                      [
+                        { level: 'L2A_GENERALIST', label: 'L2A – Non-Tech', idx: 0 },
+                        { level: 'L2B_DEVELOPER',  label: 'L2B – Tech',     idx: 1 },
+                      ] as const
+                    ).map(({ level, label, idx }) => (
+                      <button
+                        key={level}
+                        onClick={() => goToMobileTrack(idx)}
+                        className="flex-1 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-300"
+                        style={{
+                          background: mobileActiveTrack === idx ? `rgba(${LEVEL_BTN_RGB[level]},0.12)` : 'rgba(255,255,255,0.02)',
+                          border: `1.5px solid ${mobileActiveTrack === idx ? `rgba(${LEVEL_BTN_RGB[level]},0.6)` : 'rgba(255,255,255,0.08)'}`,
+                          color: mobileActiveTrack === idx ? LEVEL_COLOR[level] : 'var(--muted)',
+                          boxShadow: mobileActiveTrack === idx ? `0 0 18px rgba(${LEVEL_BTN_RGB[level]},0.22), inset 0 0 8px rgba(${LEVEL_BTN_RGB[level]},0.06)` : 'none',
+                          fontFamily: 'var(--font-head)',
+                        }}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Connector line: active tab → card top */}
+                {(l2a || l2b) && (
+                  <div
+                    className="w-px transition-all duration-300"
+                    style={{
+                      height: 28,
+                      background: `linear-gradient(to bottom, rgba(${LEVEL_BTN_RGB[mobileActiveTrack === 0 ? 'L2A_GENERALIST' : 'L2B_DEVELOPER']},0.9), rgba(${LEVEL_BTN_RGB[mobileActiveTrack === 0 ? 'L2A_GENERALIST' : 'L2B_DEVELOPER']},0.25))`,
+                      boxShadow: `0 0 8px rgba(${LEVEL_BTN_RGB[mobileActiveTrack === 0 ? 'L2A_GENERALIST' : 'L2B_DEVELOPER']},0.5)`,
+                    }}
+                  />
+                )}
+
+                {/* Carousel */}
+                {(l2a || l2b) && (
+                  <div className="overflow-hidden w-full">
+                    <div
+                      ref={mobileCarouselRef}
+                      onScroll={handleMobileCarouselScroll}
+                      className="no-scrollbar flex overflow-x-auto snap-x snap-mandatory"
+                      style={{ scrollbarWidth: 'none' }}
+                    >
+                      {l2a && (
+                        <div className="snap-start shrink-0 w-full">
+                          <CourseCard course={l2a} />
+                        </div>
+                      )}
+                      {l2b && (
+                        <div className="snap-start shrink-0 w-full">
+                          <CourseCard course={l2b} />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Dot indicators — tappable */}
+                {l2a && l2b && (
+                  <div className="flex justify-center gap-2 mt-3">
+                    {(
+                      [
+                        { level: 'L2A_GENERALIST', idx: 0 },
+                        { level: 'L2B_DEVELOPER',  idx: 1 },
+                      ] as const
+                    ).map(({ level, idx }) => (
+                      <button
+                        key={level}
+                        onClick={() => goToMobileTrack(idx)}
+                        className="rounded-full cursor-pointer transition-all duration-300"
+                        style={{
+                          width: mobileActiveTrack === idx ? 20 : 6,
+                          height: 6,
+                          background: mobileActiveTrack === idx ? LEVEL_COLOR[level] : 'rgba(255,255,255,0.15)',
+                          boxShadow: mobileActiveTrack === idx ? `0 0 8px rgba(${LEVEL_BTN_RGB[level]},0.55)` : 'none',
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+
               </div>
 
               {/* Desktop: 2-column grid */}
