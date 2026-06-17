@@ -246,10 +246,9 @@ async function main() {
     { key: 'footer_wa_float_show', value: 'true' },
     { key: 'footer_wa_float_number', value: '917573055191' },
     // Footer -legal links
-    { key: 'footer_privacy_url', value: '#' },
-    { key: 'footer_terms_url', value: '#' },
-    { key: 'footer_sitemap_url', value: '#' },
-    { key: 'footer_franchise_url', value: '#' },
+    { key: 'footer_privacy_url', value: '/privacy' },
+    { key: 'footer_terms_url', value: '/terms' },
+    { key: 'footer_refund_url', value: '/refund-policy' },
     { key: 'contact_faqs', value: JSON.stringify([
       { id: '1', question: 'What is the primary focus of PRIM AI Institute?', answer: 'PRIM AI Institute specializes in practical AI education for school students, college students, working professionals, and business owners. Our programs focus on real-world applications of Artificial Intelligence with zero theoretical bloat and 100% hands-on learning.' },
       { id: '2', question: 'Do I need prior coding or AI knowledge to join?', answer: 'Not at all! Our Level 1 Introduction course is designed for absolute beginners. We start from the very basics and build your skills step by step. All you need is curiosity and a smartphone or laptop.' },

@@ -1,6 +1,7 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { DemoModal } from '@/components/shared/DemoModal';
+import { CoursePathConnector } from '@/components/shared/CoursePathConnector';
 import { useSettingsStore } from '@/store/settingsStore';
 
 // ─── Static data (not admin-editable) ────────────────────────────
@@ -457,16 +458,11 @@ export default function Home() {
             <button onClick={openModal} className="btn-outline text-sm px-6 py-2">Book Free Demo ➞</button>
           </div>
 
-          {/* Fork arrow */}
-          <div className="flex flex-col items-center gap-1 py-4" style={{ color: 'var(--muted)', fontSize: '0.7rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
-            <div className="w-px h-7" style={{ background: 'linear-gradient(to bottom, var(--electric), var(--orange))' }} />
-            <span>Choose Your Track</span>
-            <div className="w-px h-7" style={{ background: 'linear-gradient(to bottom, var(--orange), #a78bfa)' }} />
-          </div>
+          <CoursePathConnector />
 
           {/* Level 2 split */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-4xl">
-            {[
+          {(() => {
+            const l2Cards = [
               {
                 levelLabel: 'Level 2A - Non-Tech Track', borderColor: 'var(--orange)',
                 badgeBg: 'rgba(255,107,43,.1)', badgeColor: 'var(--orange)',
@@ -483,12 +479,10 @@ export default function Home() {
                 tools: ['GitHub Copilot', 'Cursor AI', 'ChatGPT', 'OpenAI API', 'LangChain', 'Replit', 'Bolt.new', 'Zapier'],
                 outcomes: ['Code 2× faster with AI', 'Debug errors instantly', 'Add AI to any app', 'Build AI-powered chatbots', 'Automate testing with AI', 'Take AI freelance projects'],
               },
-            ].map((c) => (
-              <div
-                key={c.title}
-                className="reveal glass-card p-6 transition-all duration-300 hover:-translate-y-1"
-                style={{ borderTop: `2.5px solid ${c.borderColor}` }}
-              >
+            ];
+
+            const CardContent = ({ c }: { c: typeof l2Cards[0] }) => (
+              <>
                 <span className="inline-block text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full mb-3" style={{ background: c.badgeBg, color: c.badgeColor }}>{c.levelLabel}</span>
                 <h3 className="font-bold mb-1 text-lg" style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}>{c.title}</h3>
                 <p className="text-xs italic mb-3" style={{ color: 'var(--muted)' }}>{c.tagline}</p>
@@ -506,9 +500,42 @@ export default function Home() {
                   ))}
                 </div>
                 <button onClick={openModal} className="btn-outline text-sm px-5 py-2">Book Free Demo ➞</button>
-              </div>
-            ))}
-          </div>
+              </>
+            );
+
+            return (
+              <>
+                {/* Mobile: horizontal snap-scroll carousel - full cards, swipe to navigate */}
+                <div className="md:hidden overflow-hidden -mx-6 w-screen">
+                  <div
+                    className="no-scrollbar flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory px-6"
+                    style={{ scrollbarWidth: 'none' }}
+                  >
+                    {l2Cards.map((c) => (
+                      <div key={c.title} className="snap-start shrink-0 w-[88vw]">
+                        <div className="glass-card p-5 h-full flex flex-col" style={{ borderTop: `2.5px solid ${c.borderColor}` }}>
+                          <CardContent c={c} />
+                        </div>
+                      </div>
+                    ))}
+                    <div className="shrink-0 w-4" aria-hidden="true" />
+                  </div>
+                  <p className="text-center text-xs mt-1" style={{ color: 'var(--muted)' }}>
+                    Swipe left to see AI Developer Program →
+                  </p>
+                </div>
+
+                {/* Desktop: 2-column grid */}
+                <div className="hidden md:grid md:grid-cols-2 gap-5 w-full max-w-4xl">
+                  {l2Cards.map((c) => (
+                    <div key={c.title} className="reveal glass-card p-6 flex flex-col transition-all duration-300 hover:-translate-y-1" style={{ borderTop: `2.5px solid ${c.borderColor}` }}>
+                      <CardContent c={c} />
+                    </div>
+                  ))}
+                </div>
+              </>
+            );
+          })()}
         </div>
       </section>
 

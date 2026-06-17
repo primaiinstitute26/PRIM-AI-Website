@@ -22,6 +22,9 @@ const Bookings = lazy(() => import('@/pages/admin/Bookings'));
 const Enquiries = lazy(() => import('@/pages/admin/Enquiries'));
 const Settings = lazy(() => import('@/pages/admin/Settings'));
 const CoursesAdmin = lazy(() => import('@/pages/admin/CoursesAdmin'));
+const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy'));
+const TermsConditions = lazy(() => import('@/pages/TermsConditions'));
+const RefundPolicy = lazy(() => import('@/pages/RefundPolicy'));
 const BlogPosts = lazy(() => import('@/pages/admin/BlogPosts'));
 const BlogPostEditor = lazy(() => import('@/pages/admin/BlogPostEditor'));
 
@@ -82,6 +85,9 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/blog" element={<BlogListing />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsConditions />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
       </Route>
 
       <Route path="/admin/login" element={

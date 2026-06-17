@@ -252,3 +252,6 @@ select option {
   0%   { transform: scale(1); opacity: .6; }
   100% { transform: scale(1.8); opacity: 0; }
 }
+
+/* Hide scrollbar for carousel rows */
+.no-scrollbar::-webkit-scrollbar { display: none; }

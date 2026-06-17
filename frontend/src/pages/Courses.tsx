@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getAllCourses, getListingPage } from '@/api/courses';
 import { useModal } from '@/hooks/useModal';
 import { DemoModal } from '@/components/shared/DemoModal';
+import { CoursePathConnector } from '@/components/shared/CoursePathConnector';
 import type { AiCourse, CoursesListingPage } from '@/types';
 
 const LEVEL_SLUG: Record<string, string> = {
@@ -38,7 +39,7 @@ function CourseCard({ course }: { course: AiCourse }) {
   return (
     <>
       <div
-        className="glass-card rounded-2xl p-6 md:p-8 flex flex-col gap-5"
+        className="glass-card rounded-2xl p-6 md:p-8 flex flex-col gap-5 h-full"
         style={{ borderTop: `3px solid ${accentColor}` }}
       >
         <div>
@@ -209,31 +210,34 @@ export default function Courses() {
             <>
               {l1 && <CourseCard course={l1} />}
 
-              {/* Divider */}
-              <div className="flex flex-col items-center gap-3 my-8">
-                <div className="w-px h-8" style={{ background: 'var(--border)' }} />
+              <CoursePathConnector />
+
+              {/* Mobile: horizontal snap-scroll carousel - full cards, swipe to navigate */}
+              <div className="md:hidden overflow-hidden -mx-4">
                 <div
-                  className="text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full"
-                  style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--muted)', border: '1px solid var(--border)' }}
+                  className="no-scrollbar flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory px-4"
+                  style={{ scrollbarWidth: 'none' }}
                 >
-                  Choose Your Track at Level 2
+                  {l2a && (
+                    <div className="snap-start shrink-0 w-[88vw]">
+                      <CourseCard course={l2a} />
+                    </div>
+                  )}
+                  {l2b && (
+                    <div className="snap-start shrink-0 w-[88vw]">
+                      <CourseCard course={l2b} />
+                    </div>
+                  )}
+                  {/* trailing spacer so last card scrolls fully into view */}
+                  <div className="shrink-0 w-4" aria-hidden="true" />
                 </div>
-                <div
-                  className="flex items-end justify-center gap-0 w-64"
-                  style={{ color: 'var(--muted)', fontSize: 11 }}
-                >
-                  <div className="flex-1 flex flex-col items-center gap-1">
-                    <div className="w-px h-6" style={{ background: 'var(--border)' }} />
-                    <span>↙ L2A Non-Tech</span>
-                  </div>
-                  <div className="flex-1 flex flex-col items-center gap-1">
-                    <div className="w-px h-6" style={{ background: 'var(--border)' }} />
-                    <span>L2B Tech ↘</span>
-                  </div>
-                </div>
+                <p className="text-center text-xs mt-1" style={{ color: 'var(--muted)' }}>
+                  Swipe left to see AI Developer Program →
+                </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              {/* Desktop: 2-column grid */}
+              <div className="hidden md:grid md:grid-cols-2 gap-6">
                 {l2a && <CourseCard course={l2a} />}
                 {l2b && <CourseCard course={l2b} />}
               </div>

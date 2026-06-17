@@ -115,10 +115,9 @@ export function Footer() {
   ].filter((link) => link.href);
 
   const legalLinks = [
-    { label: 'Privacy Policy',     href: s('footer_privacy_url', '#') },
-    { label: 'Terms & Conditions', href: s('footer_terms_url', '#') },
-    { label: 'Sitemap',            href: s('footer_sitemap_url', '#') },
-    { label: 'Franchise',          href: s('footer_franchise_url', '#') },
+    { label: 'Privacy Policy',     href: s('footer_privacy_url', '/privacy') },
+    { label: 'Terms & Conditions', href: s('footer_terms_url', '/terms') },
+    { label: 'Refund Policy',      href: s('footer_refund_url', '/refund-policy') },
   ];
 
   return (
@@ -323,15 +322,27 @@ export function Footer() {
                   {i > 0 && (
                     <div className="w-1 h-1 rounded-full hidden md:block" style={{ background: 'var(--border)' }} />
                   )}
-                  <a
-                    href={item.href}
-                    className="text-xs transition-colors duration-200"
-                    style={{ color: 'var(--muted)' }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--white)'; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--muted)'; }}
-                  >
-                    {item.label}
-                  </a>
+                  {item.href.startsWith('/') ? (
+                    <Link
+                      to={item.href}
+                      className="text-xs transition-colors duration-200"
+                      style={{ color: 'var(--muted)' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--white)'; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--muted)'; }}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.href}
+                      className="text-xs transition-colors duration-200"
+                      style={{ color: 'var(--muted)' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--white)'; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--muted)'; }}
+                    >
+                      {item.label}
+                    </a>
+                  )}
                 </Fragment>
               ))}
             </div>

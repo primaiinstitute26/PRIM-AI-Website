@@ -147,8 +147,7 @@ interface FormValues {
   // Footer -legal links
   footer_privacy_url: string;
   footer_terms_url: string;
-  footer_sitemap_url: string;
-  footer_franchise_url: string;
+  footer_refund_url: string;
 }
 
 type FormKey = keyof FormValues;
@@ -275,10 +274,9 @@ const DEFAULTS: FormValues = {
   footer_social_whatsapp: '',
   footer_wa_float_show: 'true',
   footer_wa_float_number: '917573055191',
-  footer_privacy_url: '#',
-  footer_terms_url: '#',
-  footer_sitemap_url: '#',
-  footer_franchise_url: '#',
+  footer_privacy_url: '/privacy',
+  footer_terms_url: '/terms',
+  footer_refund_url: '/refund-policy',
 };
 
 // ─── Section definitions ──────────────────────────────────────────
@@ -543,10 +541,9 @@ const FOOTER_SECTIONS: SectionDef[] = [
     title: 'Footer - Legal Links',
     accentColor: 'var(--muted)',
     fields: [
-      { key: 'footer_privacy_url', label: 'Privacy Policy URL', hint: 'Use # if page not built yet' },
+      { key: 'footer_privacy_url', label: 'Privacy Policy URL' },
       { key: 'footer_terms_url', label: 'Terms & Conditions URL' },
-      { key: 'footer_sitemap_url', label: 'Sitemap URL' },
-      { key: 'footer_franchise_url', label: 'Franchise URL' },
+      { key: 'footer_refund_url', label: 'Refund Policy URL' },
     ],
   },
 ];
