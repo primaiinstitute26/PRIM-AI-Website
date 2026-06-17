@@ -455,7 +455,35 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <button onClick={openModal} className="btn-outline text-sm px-6 py-2">Book Free Demo ➞</button>
+            <button
+              onClick={openModal}
+              className="w-full text-sm font-semibold py-3 rounded-full transition-all duration-300 cursor-pointer"
+              style={{
+                background: 'rgba(0,212,255,0.08)',
+                border: '1px solid rgba(0,212,255,0.4)',
+                color: 'var(--electric)',
+                boxShadow: '0 0 20px rgba(0,212,255,0.1)',
+                minHeight: '44px',
+                fontFamily: 'var(--font-head)',
+                letterSpacing: '0.02em',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = 'rgba(0,212,255,0.18)';
+                el.style.borderColor = 'rgba(0,212,255,0.7)';
+                el.style.boxShadow = '0 0 32px rgba(0,212,255,0.28), inset 0 0 8px rgba(0,212,255,0.1)';
+                el.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = 'rgba(0,212,255,0.08)';
+                el.style.borderColor = 'rgba(0,212,255,0.4)';
+                el.style.boxShadow = '0 0 20px rgba(0,212,255,0.1)';
+                el.style.transform = '';
+              }}
+            >
+              Book Free Demo ➞
+            </button>
           </div>
 
           <CoursePathConnector />
@@ -465,7 +493,7 @@ export default function Home() {
             const l2Cards = [
               {
                 levelLabel: 'Level 2A - Non-Tech Track', borderColor: 'var(--orange)',
-                badgeBg: 'rgba(255,107,43,.1)', badgeColor: 'var(--orange)',
+                badgeBg: 'rgba(255,107,43,.1)', badgeColor: 'var(--orange)', btnRgb: '255,107,43',
                 title: 'AI Generalist Program', tagline: '"Master AI tools. Work smarter. Live better."',
                 meta: ['6-8 Weeks', 'Professionals & Freshers'],
                 tools: ['ChatGPT', 'Claude', 'Canva AI', 'Midjourney', 'Runway ML', 'InVideo AI', 'Zapier', 'Notion AI'],
@@ -473,7 +501,7 @@ export default function Home() {
               },
               {
                 levelLabel: 'Level 2B - Tech Track', borderColor: '#a78bfa',
-                badgeBg: 'rgba(167,139,250,.1)', badgeColor: '#a78bfa',
+                badgeBg: 'rgba(167,139,250,.1)', badgeColor: '#a78bfa', btnRgb: '167,139,250',
                 title: 'AI Developer Program', tagline: '"Code smarter. Build faster. Develop with AI."',
                 meta: ['8-10 Weeks', 'IT & Engineering Students'],
                 tools: ['GitHub Copilot', 'Cursor AI', 'ChatGPT', 'OpenAI API', 'LangChain', 'Replit', 'Bolt.new', 'Zapier'],
@@ -499,7 +527,35 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <button onClick={openModal} className="btn-outline text-sm px-5 py-2">Book Free Demo ➞</button>
+                <button
+                  onClick={openModal}
+                  className="w-full text-sm font-semibold py-3 rounded-full transition-all duration-300 cursor-pointer"
+                  style={{
+                    background: `rgba(${c.btnRgb},0.08)`,
+                    border: `1px solid rgba(${c.btnRgb},0.4)`,
+                    color: c.badgeColor,
+                    boxShadow: `0 0 20px rgba(${c.btnRgb},0.1)`,
+                    minHeight: '44px',
+                    fontFamily: 'var(--font-head)',
+                    letterSpacing: '0.02em',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = `rgba(${c.btnRgb},0.18)`;
+                    el.style.borderColor = `rgba(${c.btnRgb},0.7)`;
+                    el.style.boxShadow = `0 0 32px rgba(${c.btnRgb},0.28), inset 0 0 8px rgba(${c.btnRgb},0.1)`;
+                    el.style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = `rgba(${c.btnRgb},0.08)`;
+                    el.style.borderColor = `rgba(${c.btnRgb},0.4)`;
+                    el.style.boxShadow = `0 0 20px rgba(${c.btnRgb},0.1)`;
+                    el.style.transform = '';
+                  }}
+                >
+                  Book Free Demo ➞
+                </button>
               </>
             );
 
