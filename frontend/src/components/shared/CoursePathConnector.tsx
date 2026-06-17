@@ -124,7 +124,7 @@ export function CoursePathConnector() {
             className="cpc-dot"
           />
 
-          {/* "CHOOSE YOUR TRACK" pill — centered on junction (y=55) */}
+          {/* "CHOOSE YOUR TRACK" pill - centered on junction (y=55) */}
           <rect
             x="246" y="32" width="208" height="32"
             rx="16" ry="16"

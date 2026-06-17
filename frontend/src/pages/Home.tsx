@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useState } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { DemoModal } from '@/components/shared/DemoModal';
 import { CoursePathConnector } from '@/components/shared/CoursePathConnector';
@@ -131,6 +131,19 @@ export default function Home() {
   }, []);
 
   const openModal = useCallback(() => modal.open(), [modal]);
+
+  const [mobileActiveTrack, setMobileActiveTrack] = useState(0);
+  const mobileCarouselRef = useRef<HTMLDivElement>(null);
+  const handleMobileCarouselScroll = useCallback(() => {
+    const el = mobileCarouselRef.current;
+    if (!el) return;
+    setMobileActiveTrack(Math.min(1, Math.max(0, Math.round(el.scrollLeft / el.clientWidth))));
+  }, []);
+  const goToMobileTrack = useCallback((idx: number) => {
+    setMobileActiveTrack(idx);
+    const el = mobileCarouselRef.current;
+    if (el) el.scrollTo({ left: idx * el.clientWidth, behavior: 'smooth' });
+  }, []);
 
   return (
     <>
@@ -486,7 +499,9 @@ export default function Home() {
             </button>
           </div>
 
-          <CoursePathConnector />
+          <div className="hidden md:block w-full">
+            <CoursePathConnector />
+          </div>
 
           {/* Level 2 split */}
           {(() => {
@@ -561,24 +576,95 @@ export default function Home() {
 
             return (
               <>
-                {/* Mobile: horizontal snap-scroll carousel - full cards, swipe to navigate */}
-                <div className="md:hidden overflow-hidden -mx-6 w-screen">
-                  <div
-                    className="no-scrollbar flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory px-6"
-                    style={{ scrollbarWidth: 'none' }}
-                  >
-                    {l2Cards.map((c) => (
-                      <div key={c.title} className="snap-start shrink-0 w-[88vw]">
-                        <div className="glass-card p-5 h-full flex flex-col" style={{ borderTop: `2.5px solid ${c.borderColor}` }}>
-                          <CardContent c={c} />
-                        </div>
-                      </div>
-                    ))}
-                    <div className="shrink-0 w-4" aria-hidden="true" />
+                {/* Mobile: synchronized pathway - junction + tabs + card move as one unit */}
+                <div className="md:hidden flex flex-col items-center w-full">
+
+                  {/* Junction node */}
+                  <div className="flex flex-col items-center mb-5">
+                    <div
+                      className="w-px h-7"
+                      style={{ background: 'linear-gradient(to bottom, var(--electric), rgba(0,212,255,0.45))' }}
+                    />
+                    <div
+                      className="w-3 h-3 rounded-full my-2"
+                      style={{ background: 'var(--electric)', boxShadow: '0 0 12px rgba(0,212,255,0.7), 0 0 24px rgba(0,212,255,0.3)' }}
+                    />
+                    <div
+                      className="text-[10px] font-bold uppercase tracking-[2.5px] px-4 py-1.5 rounded-full"
+                      style={{ color: 'var(--muted)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                    >
+                      Choose Your Track
+                    </div>
                   </div>
-                  <p className="text-center text-xs mt-1" style={{ color: 'var(--muted)' }}>
-                    Swipe left to see AI Developer Program →
-                  </p>
+
+                  {/* Track selector tabs */}
+                  <div className="flex gap-2 w-full mb-0">
+                    {l2Cards.map((c, i) => (
+                      <button
+                        key={c.title}
+                        onClick={() => goToMobileTrack(i)}
+                        className="flex-1 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-300"
+                        style={{
+                          background: mobileActiveTrack === i ? `rgba(${c.btnRgb},0.12)` : 'rgba(255,255,255,0.02)',
+                          border: `1.5px solid ${mobileActiveTrack === i ? `rgba(${c.btnRgb},0.6)` : 'rgba(255,255,255,0.08)'}`,
+                          color: mobileActiveTrack === i ? c.badgeColor : 'var(--muted)',
+                          boxShadow: mobileActiveTrack === i ? `0 0 18px rgba(${c.btnRgb},0.22), inset 0 0 8px rgba(${c.btnRgb},0.06)` : 'none',
+                          fontFamily: 'var(--font-head)',
+                        }}
+                      >
+                        {i === 0 ? 'L2A – Non-Tech' : 'L2B – Tech'}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Connector line: active tab → card top */}
+                  <div
+                    className="w-px transition-all duration-300"
+                    style={{
+                      height: 28,
+                      background: `linear-gradient(to bottom, rgba(${l2Cards[mobileActiveTrack].btnRgb},0.9), rgba(${l2Cards[mobileActiveTrack].btnRgb},0.25))`,
+                      boxShadow: `0 0 8px rgba(${l2Cards[mobileActiveTrack].btnRgb},0.5)`,
+                    }}
+                  />
+
+                  {/* Carousel - card slides are full-width, snap scroll */}
+                  <div className="overflow-hidden w-full">
+                    <div
+                      ref={mobileCarouselRef}
+                      onScroll={handleMobileCarouselScroll}
+                      className="no-scrollbar flex overflow-x-auto snap-x snap-mandatory"
+                      style={{ scrollbarWidth: 'none' }}
+                    >
+                      {l2Cards.map((c) => (
+                        <div key={c.title} className="snap-start shrink-0 w-full">
+                          <div
+                            className="glass-card p-5 flex flex-col transition-all duration-300"
+                            style={{ borderTop: `2.5px solid ${c.borderColor}` }}
+                          >
+                            <CardContent c={c} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Dot indicators - tappable */}
+                  <div className="flex justify-center gap-2 mt-3">
+                    {l2Cards.map((c, i) => (
+                      <button
+                        key={i}
+                        onClick={() => goToMobileTrack(i)}
+                        className="rounded-full cursor-pointer transition-all duration-300"
+                        style={{
+                          width: mobileActiveTrack === i ? 20 : 6,
+                          height: 6,
+                          background: mobileActiveTrack === i ? c.borderColor : 'rgba(255,255,255,0.15)',
+                          boxShadow: mobileActiveTrack === i ? `0 0 8px rgba(${c.btnRgb},0.55)` : 'none',
+                        }}
+                      />
+                    ))}
+                  </div>
+
                 </div>
 
                 {/* Desktop: 2-column grid */}
