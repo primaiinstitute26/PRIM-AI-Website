@@ -79,12 +79,13 @@ export function Navbar() {
           borderBottom: '1px solid var(--border)',
         }}
       >
-        <NavLink
-          to="/"
-          className="text-lg font-bold gradient-text"
-          style={{ fontFamily: 'var(--font-head)' }}
-        >
-          {s.navLogoText}
+        <NavLink to="/" className="flex items-center">
+          <img
+            src="/Asset%2016.svg"
+            alt="PRIM AI Institute"
+            className="h-9 w-auto"
+            style={{ maxHeight: 36 }}
+          />
         </NavLink>
 
         {/* Desktop links */}

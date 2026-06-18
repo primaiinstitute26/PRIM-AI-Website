@@ -136,12 +136,13 @@ export function Footer() {
 
           {/* COL 1 -Brand (always visible) */}
           <div className="flex flex-col gap-4">
-            <Link
-              to="/"
-              className="text-xl font-bold"
-              style={{ fontFamily: 'var(--font-head)', color: 'var(--white)' }}
-            >
-              PRIM <span style={{ color: 'var(--electric)' }}>AI</span> Institute
+            <Link to="/" className="flex items-center">
+              <img
+                src="/Asset%2016.svg"
+                alt="PRIM AI Institute"
+                className="h-8 w-auto"
+                style={{ maxHeight: 32 }}
+              />
             </Link>
             <p className="text-xs font-semibold uppercase tracking-[1.5px]" style={{ color: 'var(--electric)' }}>
               Learn AI. Use AI. Lead with AI.
