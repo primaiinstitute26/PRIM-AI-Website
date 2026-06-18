@@ -1,144 +1,10 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllCourses, getListingPage } from '@/api/courses';
+import { getListingPage } from '@/api/courses';
 import { useModal } from '@/hooks/useModal';
 import { DemoModal } from '@/components/shared/DemoModal';
-import { CoursePathConnector } from '@/components/shared/CoursePathConnector';
-import type { AiCourse, CoursesListingPage } from '@/types';
-
-const LEVEL_SLUG: Record<string, string> = {
-  L1_FOUNDATION: 'l1',
-  L2A_GENERALIST: 'l2a',
-  L2B_DEVELOPER: 'l2b',
-};
-
-const LEVEL_COLOR: Record<string, string> = {
-  L1_FOUNDATION: 'var(--electric)',
-  L2A_GENERALIST: 'var(--orange)',
-  L2B_DEVELOPER: '#a78bfa',
-};
-
-const LEVEL_BTN_RGB: Record<string, string> = {
-  L2A_GENERALIST: '255,107,43',
-  L2B_DEVELOPER: '167,139,250',
-};
-
-function MetaPill({ label }: { label: string }) {
-  return (
-    <span
-      className="text-xs px-3 py-1 rounded-full font-medium"
-      style={{ background: 'rgba(255,255,255,0.06)', color: 'var(--muted)', border: '1px solid var(--border)' }}
-    >
-      {label}
-    </span>
-  );
-}
-
-function CourseCard({ course }: { course: AiCourse }) {
-  const slug = LEVEL_SLUG[course.level];
-  const accentColor = LEVEL_COLOR[course.level];
-  const modal = useModal();
-  const firstTools = course.tools.slice(0, 7);
-  const extraTools = course.tools.length - 7;
-
-  return (
-    <>
-      <div
-        className="glass-card rounded-2xl p-6 md:p-8 flex flex-col gap-5 h-full"
-        style={{ borderTop: `3px solid ${accentColor}` }}
-      >
-        <div>
-          <span
-            className="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3 inline-block"
-            style={{ background: `${accentColor}18`, color: accentColor, border: `1px solid ${accentColor}40` }}
-          >
-            {course.badgeText}
-          </span>
-          <h3
-            className="text-xl md:text-2xl font-bold mt-2"
-            style={{ color: 'var(--white)', fontFamily: 'var(--font-head)' }}
-          >
-            {course.title}
-          </h3>
-          <p className="text-sm mt-1.5 leading-relaxed" style={{ color: 'var(--muted)' }}>
-            {course.tagline}
-          </p>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          <MetaPill label={`⏱ ${course.duration}`} />
-          <MetaPill label={`📍 ${course.mode}`} />
-          <MetaPill label={`🌐 ${course.language}`} />
-          <MetaPill label={`🎓 ${course.levelLabel}`} />
-        </div>
-
-        {course.tools.length > 0 && (
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--muted)' }}>
-              Tools You'll Master
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {firstTools.map((t) => (
-                <span
-                  key={t.id}
-                  className="text-xs px-2.5 py-1 rounded-full"
-                  style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--white)', border: '1px solid var(--border)' }}
-                >
-                  {t.emoji} {t.name}
-                </span>
-              ))}
-              {extraTools > 0 && (
-                <span
-                  className="text-xs px-2.5 py-1 rounded-full"
-                  style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--muted)', border: '1px solid var(--border)' }}
-                >
-                  +{extraTools} more
-                </span>
-              )}
-            </div>
-          </div>
-        )}
-
-        {course.outcomes.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {course.outcomes.slice(0, 4).map((o) => (
-              <div key={o.id} className="flex items-start gap-2">
-                <span className="text-xs mt-0.5 flex-shrink-0" style={{ color: accentColor }}>✓</span>
-                <span className="text-xs leading-relaxed" style={{ color: 'var(--muted)' }}>{o.title}</span>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div className="flex flex-wrap gap-3 mt-auto pt-2">
-          <button onClick={modal.open} className="btn-primary text-sm px-5 py-2.5">
-            {course.ctaDemoText}
-          </button>
-          <Link to={`/courses/${slug}`} className="btn-outline text-sm px-5 py-2.5">
-            View Course ➞
-          </Link>
-        </div>
-      </div>
-      <DemoModal isOpen={modal.isOpen} onClose={modal.close} />
-    </>
-  );
-}
-
-function SkeletonCard() {
-  return (
-    <div className="glass-card rounded-2xl p-6 animate-pulse">
-      <div className="h-4 w-24 rounded mb-3" style={{ background: 'var(--border)' }} />
-      <div className="h-7 w-3/4 rounded mb-2" style={{ background: 'var(--border)' }} />
-      <div className="h-4 w-full rounded mb-1" style={{ background: 'var(--border)' }} />
-      <div className="h-4 w-2/3 rounded mb-6" style={{ background: 'var(--border)' }} />
-      <div className="flex gap-2 flex-wrap mb-4">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="h-7 w-20 rounded-full" style={{ background: 'var(--border)' }} />
-        ))}
-      </div>
-    </div>
-  );
-}
+import { LearningPathway } from '@/components/shared/LearningPathway';
+import type { CoursesListingPage } from '@/types';
 
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);
@@ -156,41 +22,17 @@ function useReveal() {
 }
 
 export default function Courses() {
-  const [courses, setCourses] = useState<AiCourse[]>([]);
   const [page, setPage] = useState<CoursesListingPage | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [mobileActiveTrack, setMobileActiveTrack] = useState(0);
-  const mobileCarouselRef = useRef<HTMLDivElement>(null);
   const modal = useModal();
   const heroRef = useReveal();
   const pathwayRef = useReveal();
   const whoRef = useReveal();
 
   useEffect(() => {
-    Promise.all([getAllCourses(), getListingPage()])
-      .then(([cRes, pRes]) => {
-        setCourses(cRes.data);
-        setPage(pRes.data);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    getListingPage()
+      .then((res) => setPage(res.data))
+      .catch(console.error);
   }, []);
-
-  const handleMobileCarouselScroll = useCallback(() => {
-    const el = mobileCarouselRef.current;
-    if (!el) return;
-    setMobileActiveTrack(Math.min(1, Math.max(0, Math.round(el.scrollLeft / el.clientWidth))));
-  }, []);
-
-  const goToMobileTrack = useCallback((idx: number) => {
-    setMobileActiveTrack(idx);
-    const el = mobileCarouselRef.current;
-    if (el) el.scrollTo({ left: idx * el.clientWidth, behavior: 'smooth' });
-  }, []);
-
-  const l1 = courses.find((c) => c.level === 'L1_FOUNDATION');
-  const l2a = courses.find((c) => c.level === 'L2A_GENERALIST');
-  const l2b = courses.find((c) => c.level === 'L2B_DEVELOPER');
 
   return (
     <div style={{ background: 'var(--navy)', minHeight: '100vh' }}>
@@ -209,146 +51,15 @@ export default function Courses() {
             <span className="gradient-text">{page?.heroHeadingAccent ?? 'Three Levels.'}</span>
           </h1>
           <p className="text-base md:text-lg leading-relaxed" style={{ color: 'var(--muted)' }}>
-            {page?.heroSubtitle ?? 'From absolute beginner to professional AI practitioner -our structured pathway takes you from zero knowledge to job-ready skills at the pace that suits you.'}
+            {page?.heroSubtitle ?? 'From absolute beginner to professional AI practitioner - our structured pathway takes you from zero knowledge to job-ready skills at the pace that suits you.'}
           </p>
         </div>
       </section>
 
-      {/* Pathway */}
+      {/* Pathway - single source of truth */}
       <section className="pb-20 px-4">
         <div ref={pathwayRef} className="reveal max-w-5xl mx-auto">
-          {loading ? (
-            <div className="flex flex-col gap-6">
-              <SkeletonCard />
-              <div className="grid md:grid-cols-2 gap-6">
-                <SkeletonCard />
-                <SkeletonCard />
-              </div>
-            </div>
-          ) : (
-            <>
-              {l1 && <CourseCard course={l1} />}
-
-              <div className="hidden md:block w-full">
-                <CoursePathConnector />
-              </div>
-
-              {/* Mobile: synchronized pathway — junction + tabs + card as one unit */}
-              <div className="md:hidden flex flex-col items-center w-full">
-
-                {/* Junction node */}
-                <div className="flex flex-col items-center mb-5">
-                  <div
-                    className="w-px h-7"
-                    style={{ background: 'linear-gradient(to bottom, var(--electric), rgba(0,212,255,0.45))' }}
-                  />
-                  <div
-                    className="w-3 h-3 rounded-full my-2"
-                    style={{ background: 'var(--electric)', boxShadow: '0 0 12px rgba(0,212,255,0.7), 0 0 24px rgba(0,212,255,0.3)' }}
-                  />
-                  <div
-                    className="text-[10px] font-bold uppercase tracking-[2.5px] px-4 py-1.5 rounded-full"
-                    style={{ color: 'var(--muted)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
-                  >
-                    Choose Your Track
-                  </div>
-                </div>
-
-                {/* Track selector tabs */}
-                {(l2a || l2b) && (
-                  <div className="flex gap-2 w-full mb-0">
-                    {(
-                      [
-                        { level: 'L2A_GENERALIST', label: 'L2A – Non-Tech', idx: 0 },
-                        { level: 'L2B_DEVELOPER',  label: 'L2B – Tech',     idx: 1 },
-                      ] as const
-                    ).map(({ level, label, idx }) => (
-                      <button
-                        key={level}
-                        onClick={() => goToMobileTrack(idx)}
-                        className="flex-1 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-300"
-                        style={{
-                          background: mobileActiveTrack === idx ? `rgba(${LEVEL_BTN_RGB[level]},0.12)` : 'rgba(255,255,255,0.02)',
-                          border: `1.5px solid ${mobileActiveTrack === idx ? `rgba(${LEVEL_BTN_RGB[level]},0.6)` : 'rgba(255,255,255,0.08)'}`,
-                          color: mobileActiveTrack === idx ? LEVEL_COLOR[level] : 'var(--muted)',
-                          boxShadow: mobileActiveTrack === idx ? `0 0 18px rgba(${LEVEL_BTN_RGB[level]},0.22), inset 0 0 8px rgba(${LEVEL_BTN_RGB[level]},0.06)` : 'none',
-                          fontFamily: 'var(--font-head)',
-                        }}
-                      >
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {/* Connector line: active tab → card top */}
-                {(l2a || l2b) && (
-                  <div
-                    className="w-px transition-all duration-300"
-                    style={{
-                      height: 28,
-                      background: `linear-gradient(to bottom, rgba(${LEVEL_BTN_RGB[mobileActiveTrack === 0 ? 'L2A_GENERALIST' : 'L2B_DEVELOPER']},0.9), rgba(${LEVEL_BTN_RGB[mobileActiveTrack === 0 ? 'L2A_GENERALIST' : 'L2B_DEVELOPER']},0.25))`,
-                      boxShadow: `0 0 8px rgba(${LEVEL_BTN_RGB[mobileActiveTrack === 0 ? 'L2A_GENERALIST' : 'L2B_DEVELOPER']},0.5)`,
-                    }}
-                  />
-                )}
-
-                {/* Carousel */}
-                {(l2a || l2b) && (
-                  <div className="overflow-hidden w-full">
-                    <div
-                      ref={mobileCarouselRef}
-                      onScroll={handleMobileCarouselScroll}
-                      className="no-scrollbar flex overflow-x-auto snap-x snap-mandatory"
-                      style={{ scrollbarWidth: 'none' }}
-                    >
-                      {l2a && (
-                        <div className="snap-start shrink-0 w-full">
-                          <CourseCard course={l2a} />
-                        </div>
-                      )}
-                      {l2b && (
-                        <div className="snap-start shrink-0 w-full">
-                          <CourseCard course={l2b} />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Dot indicators — tappable */}
-                {l2a && l2b && (
-                  <div className="flex justify-center gap-2 mt-3">
-                    {(
-                      [
-                        { level: 'L2A_GENERALIST', idx: 0 },
-                        { level: 'L2B_DEVELOPER',  idx: 1 },
-                      ] as const
-                    ).map(({ level, idx }) => (
-                      <button
-                        key={level}
-                        onClick={() => goToMobileTrack(idx)}
-                        className="rounded-full cursor-pointer transition-all duration-300"
-                        style={{
-                          width: mobileActiveTrack === idx ? 20 : 6,
-                          height: 6,
-                          background: mobileActiveTrack === idx ? LEVEL_COLOR[level] : 'rgba(255,255,255,0.15)',
-                          boxShadow: mobileActiveTrack === idx ? `0 0 8px rgba(${LEVEL_BTN_RGB[level]},0.55)` : 'none',
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
-
-              </div>
-
-              {/* Desktop: 2-column grid */}
-              <div className="hidden md:grid md:grid-cols-2 gap-6">
-                {l2a && <CourseCard course={l2a} />}
-                {l2b && <CourseCard course={l2b} />}
-              </div>
-            </>
-          )}
+          <LearningPathway />
         </div>
       </section>
 
