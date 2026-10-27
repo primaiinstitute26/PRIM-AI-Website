@@ -113,6 +113,8 @@ export interface SiteSettings {
   // Tutorial certificate signatory (global, set once in admin)
   signatoryName: string;
   signatoryTitle: string;
+  // Site-wide promo popup (10-Day AI program) - admin on/off switch
+  promoPopupShow: boolean;
 }
 
 const DEFAULTS: SiteSettings = {
@@ -231,6 +233,7 @@ const DEFAULTS: SiteSettings = {
   // Tutorial certificate signatory
   signatoryName: '',
   signatoryTitle: 'Director, PRIM AI Institute',
+  promoPopupShow: true,
 };
 
 interface SettingsState {
@@ -366,6 +369,7 @@ export const useSettingsStore = create<SettingsState>()((set) => ({
           coursePageData: parseCourseData(r.course_page_data),
           signatoryName: r.cert_signatory_name ?? DEFAULTS.signatoryName,
           signatoryTitle: r.cert_signatory_title ?? DEFAULTS.signatoryTitle,
+          promoPopupShow: r.promo_popup_show !== 'false',
         },
       });
     } catch {

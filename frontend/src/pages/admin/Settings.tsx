@@ -151,6 +151,8 @@ interface FormValues {
   // Tutorial certificate signatory
   cert_signatory_name: string;
   cert_signatory_title: string;
+  // Site-wide promo popup (10-Day AI program)
+  promo_popup_show: string;
 }
 
 type FormKey = keyof FormValues;
@@ -282,6 +284,7 @@ const DEFAULTS: FormValues = {
   footer_refund_url: '/refund-policy',
   cert_signatory_name: '',
   cert_signatory_title: 'Director, PRIM AI Institute',
+  promo_popup_show: 'true',
 };
 
 // ─── Section definitions ──────────────────────────────────────────
@@ -546,6 +549,20 @@ const FOOTER_SECTIONS: SectionDef[] = [
     fields: [
       { key: 'footer_wa_float_show', label: 'Show WhatsApp Float Button', type: 'toggle' },
       { key: 'footer_wa_float_number', label: 'WhatsApp Number', hint: 'Digits only with country code -no +, no spaces. e.g. 917573055577. Used by both this button and the Footer CTA WhatsApp button.' },
+    ],
+  },
+  {
+    id: 'promo_popup',
+    icon: '🎁',
+    title: 'Site-Wide Promo Popup',
+    accentColor: '#a78bfa',
+    fields: [
+      {
+        key: 'promo_popup_show',
+        label: 'Show 10-Day AI Program Popup',
+        type: 'toggle',
+        hint: 'Appears 4 seconds after a first-time visitor lands on any public page (not on /program/* or /admin/*), then stays quiet for 7 days once dismissed.',
+      },
     ],
   },
   {

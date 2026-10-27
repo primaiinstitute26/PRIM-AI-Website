@@ -13,6 +13,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { Calendar, GraduationCap, Users, Award, Gift, X, Check } from 'lucide-react';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const PROGRAM_URL = '/program/10-day-ai-v2?source=popup';
 const STORAGE_KEY = 'primai_promo_10day_seen';
@@ -55,6 +56,7 @@ const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
 export function ProgramPromoPopup() {
+  const promoPopupShow = useSettingsStore((state) => state.s.promoPopupShow);
   const [mounted, setMounted] = useState(false);   // in the DOM at all
   const [visible, setVisible] = useState(false);   // driving the transition classes
   const panelRef = useRef<HTMLDivElement>(null);
@@ -67,6 +69,8 @@ export function ProgramPromoPopup() {
 
   // --- schedule the popup once per app load ---
   useEffect(() => {
+    if (!promoPopupShow) return; // admin-disabled in Settings -> Site-Wide Promo Popup
+
     const lastSeen = readLastSeen();
     if (lastSeen !== null) {
       const daysSince = (Date.now() - lastSeen) / (1000 * 60 * 60 * 24);
@@ -83,7 +87,10 @@ export function ProgramPromoPopup() {
     }, SHOW_AFTER_MS);
 
     return () => window.clearTimeout(timer);
-  }, []);
+    // promoPopupShow: the public-settings fetch resolves async after mount,
+    // so this must re-run (and cancel the pending timer) if it flips to
+    // false after the effect already scheduled the popup with its default.
+  }, [promoPopupShow]);
 
   // --- mount -> visible on the next frame, so the CSS transition actually runs ---
   useEffect(() => {
